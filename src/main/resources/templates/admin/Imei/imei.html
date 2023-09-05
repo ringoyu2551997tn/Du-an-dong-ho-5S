@@ -1,0 +1,98 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="admin/fragment/fragments:: page_head"></head>
+<body class="sb-nav-fixed">
+<div th:replace="admin/fragment/navigation:: navbar"></div>
+<div id="layoutSidenav">
+    <div th:replace="admin/fragment/navigation:: menu"></div>
+
+    <div id="layoutSidenav_content">
+        <main style="margin-left: 10px">
+            <div>
+                <h2>Quản lý Imei</h2>
+                <a style="text-decoration: none" th:href="@{/admin/seri/new}">
+                    <i style="color: green" class="fas fa-plus"></i>
+                </a>
+            </div>
+
+            <div th:if="${message != null}" class="alert alert-success text-center">
+                [[${message}]]
+            </div>
+
+
+            <div style="display: flex;">
+                <form th:action="@{/admin/seri/page/0}" class="form-inline m-3">
+                    <div class="d-flex align-items-center">
+                        <label class="sr-only">Tìm Kiếm</label>
+                        <input style="width: 250px; margin-right: 10px" type="search" id="keywordImei" name="keyword" th:value="${keyword}" placeholder="Nhập Imei bạn muốn tìm" class="form-control" />
+                        <input style="margin-right: 10px" type="submit" value="Search" class="btn btn-primary ml-2" />
+                        <input type="button" value="Clear" class="btn btn-secondary ml-2" id = "cleanImei"/>
+                    </div>
+                </form>
+            </div>
+
+            <div class="full-details">
+                <table class="table table-bordered table-striped table-hover table-responsive-xl">
+                    <thead class="thead-dark">
+                    <tr>
+                        <th>ID</th>
+                        <th>Mã Seri</th>
+                        <th>Mã chi tiết sản phẩm</th>
+                        <th>Ngày nhập</th>
+                        <th>Ngày bán</th>
+                        <th>Trạng thái</th>
+                        <Th>Action</Th>
+
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="seri :${listSeri}">
+                        <td>[[${seri.idSeri}]]</td>
+                        <td>[[${seri.idImei}]]</td>
+                        <td>[[${seri.chiTietSanPham.maChiTietSanPham}]]</td>
+                        <td>[[${seri.ngayNhap}]]</td>
+                        <td>[[${seri.ngayBan}]]</td>
+                        <td>
+                            <span th:switch="${seri.trangThai}">
+                                <span th:case="0">Lỗi</span>
+                                <span th:case="1">Chưa bán</span>
+                                <span th:case="2">Đang giao</span>
+                                <span th:case="3">Đã bán</span>
+                                <span th:case="*">Không xác định</span>
+                            </span>
+                        </td>
+                        <td>
+                            <a class="icon-green" style="text-decoration: none" th:href="@{'/admin/seri/edit/' + ${seri.idSeri}}" title="Thay đổi thông tin">
+                                <i style="color: blue" class="fas fa-edit"></i>
+                            </a>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="text-center m-1" th:if="${totalItem > 0}">
+                <span>Hiển thị Imei # [[${startCount}]] to [[${endCount}]] of [[${totalItem}]] </span>
+            </div>
+            <div class="text-center m-1" th:unless="${totalItem > 0}">
+                <span>Không có Imei hiển thị</span>
+            </div>
+
+
+
+
+
+        </main>
+        <div th:replace="admin/fragment/fragments::footer"></div>
+    </div>
+</div>
+</body>
+<script>
+    const imeiInput = document.getElementById("imeiInput");
+    const clearButton = document.getElementById("clearButton");
+    cleanImei.addEventListener("click",()=>{
+        keywordImei.value = "";
+    })
+</script>
+</html>

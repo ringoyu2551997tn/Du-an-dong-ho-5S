@@ -1,0 +1,181 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="admin/fragment/fragments:: page_head"></head>
+<body class="sb-nav-fixed">
+<div th:replace="admin/fragment/navigation:: navbar"></div>
+<div id="layoutSidenav">
+    <div th:replace="admin/fragment/navigation:: menu"></div>
+
+    <div id="layoutSidenav_content">
+        <main style="margin-left: 10px">
+            <div>
+                <h2>Quản lý Imei | [[${pageTitle}]]</h2>
+            </div>
+
+            <form th:action="@{/admin/seri/importExcept}" method="POST" enctype="multipart/form-data"
+                  style="max-width: 500px;margin: 0 auto"
+                  th:object="${seri}" onsubmit="return checkDiscountNameUnique(this)" th:if="${edit==null}">
+                <input type="hidden" th:field="*{idSeri}"/>
+                <div class="border border-secondary rounded p-3">
+
+                    <div class="form-group row">
+                        <label class="col-sm-4 col-form-label">Mã chi tiết sản phẩm:</label>
+                        <div class="col-sm-12">
+                            <input type="text" class="form-control" th:field="*{chiTietSanPham.maChiTietSanPham}"/>
+                        </div>
+                    </div>
+                    <br>
+                    <div style="display: flex; align-items: center;" th:field="*{idSeri}"  th:if="*{idSeri == null}">
+                        <input type="file" name="file"/>
+                    </div>
+
+                    <div class="form-group row">
+                        <label class="col-sm-4 col-form-label">Mã imei:</label>
+                        <div class="col-sm-12">
+                            <input class="form-control"  th:field="*{idImei}" maxlength="256"/>
+                        </div>
+                    </div>
+                    <div th:if="${message != null}" class="alert alert-success text-center">
+                        [[${message}]]
+                    </div>
+                    <div class="text-center">
+                        <input type="submit" value="Save" class="btn btn-primary m-3" id="submitButton"/>
+                        <input type="button" value="Cancel" class="btn btn-secondary" id="buttonCancel">
+                    </div>
+                </div>
+            </form>
+            <form th:action="@{/admin/seri/save}" method="POST" enctype="multipart/form-data"
+                  style="max-width: 500px;margin: 0 auto"
+                  th:object="${seri}" onsubmit="return checkDiscountNameUnique(this)" th:if="${edit}">
+                <h1>đây là edit</h1>
+                <input type="hidden" th:field="*{idSeri}"/>
+                <div class="border border-secondary rounded p-3">
+
+                    <div class="form-group row">
+                        <label class="col-sm-4 col-form-label">Mã chi tiết sản phẩm:</label>
+                        <div class="col-sm-12">
+                            <input type="text" class="form-control" th:field="*{chiTietSanPham.maChiTietSanPham}" disabled/>
+                        </div>
+                    </div>
+                    <br>
+                    <div style="display: flex; align-items: center;" th:field="*{idSeri}"  th:if="*{idSeri == null}">
+                        <input type="file" name="file"/>
+                    </div>
+
+                    <div class="form-group row">
+                        <label class="col-sm-4 col-form-label">Mã imei:</label>
+                        <div class="col-sm-12">
+                            <input class="form-control"  th:field="*{idImei}" maxlength="256"/>
+                        </div>
+                    </div>
+                    <div class="form-group row" th:if="${edit}">
+                        <label class="col-sm-4 col-form-label">Trạng thái:</label>
+                        <div class="col-sm-12">
+                            <select class="form-control" th:field="*{trangThai}">
+                                <option value="0">Lỗi</option>
+                                <option value="1">Chưa bán</option>
+                                <option value="2">Đang giao</option>
+                                <option value="3">Đã bán</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div th:if="${message != null}" class="alert alert-success text-center">
+                        [[${message}]]
+                    </div>
+                    <div class="text-center">
+                        <input type="submit" value="Save" class="btn btn-primary m-3" />
+                        <input type="button" value="Cancel" class="btn btn-secondary" >
+                    </div>
+                </div>
+            </form>
+
+        </main>
+        <div th:replace="admin/fragment/fragments::footer"></div>
+    </div>
+</div>
+
+<div class="modal fade text-center" id="modalDialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="modalTitle">Warning</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <span id="modalBody"></span>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script type="text/javascript">
+    moduleURL = "[[@{/admin/seri}]]";
+
+    // Tự động tạo mã khuyến mãi khi tải form
+    window.onload = function () {
+        if (document.getElementById("makhuyenMaiInput").value === '') {
+            document.getElementById("makhuyenMaiInput").value = generateDiscountCode();
+        }
+    };
+
+    //check date
+    function validateDate() {
+        var startDate = new Date(document.getElementById("ngayBatDauInput").value);
+        var endDate = new Date(document.getElementById("ngayKetThucInput").value);
+        var endDateError = document.getElementById("endDateError");
+
+        if (startDate >= endDate) {
+            endDateError.innerText = "Ngày kết thúc phải lớn hơn ngày bắt đầu";
+            return false;
+        }
+
+        endDateError.innerText = ""; // Xóa thông báo lỗi nếu ngày hợp lệ
+        return true;
+    }
+
+    //check trùng tên
+    function checkDiscountNameUnique(form) {
+        var url = "[[@{/admin/discounts/check_name}]]";
+        var khuyenMaiName = form.tenKhuyenMai.value;
+        var khuyenMaiId = form.idKhuyenMai.value;
+        var csrfValue = $("input[name='_csrf']").val();
+
+        if (!validateDate()) {
+            return false;
+        }
+
+        // Kiểm tra mã khuyến mãi
+        var maKhuyenMai = document.getElementById("makhuyenMaiInput").value;
+        var maKhuyenMaiBanDau = document.getElementById("maKhuyenMaiBanDauInput").value;
+        var params = {
+            maKhuyenMai: maKhuyenMai,
+            maKhuyenMaiBanDau: maKhuyenMaiBanDau,
+            _csrf: csrfValue
+        };
+
+        // Gửi yêu cầu AJAX để kiểm tra mã khuyến mãi
+        $.post(url, params)
+            .done(function (response) {
+                if (response === "OK") {
+                    form.submit();
+                } else if (response === "Duplicated") {
+                    showWarningModal("Mã khuyến mãi đã tồn tại trong cơ sở dữ liệu.");
+                } else {
+                    showErrorModal("Lỗi phản hồi từ server.");
+                }
+            })
+            .fail(function () {
+                showErrorModal("Không thể kết nối đến server.");
+            });
+
+        return false;
+    }
+</script>
+<script th:src="@{/js/index_form.js}"></script>
+
+</body>
+</html>

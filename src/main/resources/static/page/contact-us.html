@@ -1,0 +1,218 @@
+<!-- MAIN-CONTENT-SECTION START -->
+<header class="main-menu-area" ng-controller="homeCtrl">
+	<div class="container">
+		<div class="row">
+			<!-- SHOPPING-CART START -->
+			<div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 pull-right shopingcartarea">
+				<div class="shopping-cart-out pull-right">
+					<div class="shopping-cart">
+						<a class="shop-link" href="#cart" title="View my shopping cart">
+							<i class="fa fa-shopping-cart cart-icon"></i>
+							<b>Giỏ hàng</b>
+							<span class="ajax-cart-quantity">{{totalSp}}</span>
+						</a>
+
+
+						<div class="shipping-cart-overly" style="overflow: scroll">
+							<div ng-if="cart.length == 0" class="text-center">
+								<span>K có sản phẩm nào</span>
+							</div>
+							<div ng-if="cart.length > 0">
+								<div class="shipping-item" ng-repeat="item in cart" ng-init="setTotals(item)">
+                                        <span class="cross-icon" ng-click="removeSP(item)"><i
+												class="fa fa-times-circle"></i></span>
+									<div class="shipping-item-image" style="width: 30%">
+										<a href="#/chitietsanpham/{{item.chiTietSanPham.sanPham.idSanPham}}"><img
+												src="/assets/images/{{item.chiTietSanPham.sanPham.listAnhSanPham[0].link}}"
+												alt="shopping image"/></a>
+									</div>
+									<div class="shipping-item-text" style="width: 60%; float: right">
+                                            <span>{{item.soLuongSanPham}} <span class="pro-quan-x">x</span> <a href="#"
+																											   class="pro-cat">{{item.chiTietSanPham.sanPham.tenSanPham}} </a></span>
+
+										<span class="pro-quality"><a href="#sanpham">{{item.chiTietSanPham.dayDeo.tenDayDeo}},{{item.chiTietSanPham.vatLieu.tenVatLieu}}</a></span>
+										<span class="pro-quality"><a href="#sanpham">{{item.chiTietSanPham.kichCo.tenKichCo}},{{item.chiTietSanPham.mauSac.tenMauSac}}</a></span>
+										<p>{{item.giaBan | number}} đ</p>
+									</div>
+								</div>
+								<div class="shipping-total-bill">
+									<div class="cart-prices">
+										<span class="shipping-cost">0.00 đ</span>
+										<span>Vận chuyển (Tạm tính)</span>
+									</div>
+									<div class="total-shipping-prices">
+										<span class="shipping-total">{{total | number}} đ</span>
+										<span>Tổng</span>
+									</div>
+								</div>
+								<div class="shipping-checkout-btn">
+									<a style="cursor: pointer" ng-click="buycart()">Thanh toán  <i class="fa fa-chevron-right"></i></a>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- SHOPPING-CART END -->
+			<!-- MAINMENU START -->
+			<div class="col-lg-9 col-md-9 col-sm-12 col-xs-12 no-padding-right menuarea">
+				<div class="mainmenu">
+					<nav>
+						<ul class="list-inline mega-menu">
+							<li class="active"><a href="#index">Trang chủ</a> </li>
+							<li> <a href="#sanpham">Sản Phẩm</a></li>
+							<li> <a href="#chinhSach">Chính sách bảo hành và đổi trả</a></li>
+							<li><a href="#contact">Liên hệ</a></li>
+							<li><a href="#about">Về chúng tôi</a></li>
+						</ul>
+					</nav>
+				</div>
+			</div>
+			<!-- MAINMENU END -->
+		</div>
+		<div class="row">
+			<!-- MOBILE MENU START -->
+			<div class="col-sm-12 mobile-menu-area">
+				<div class="mobile-menu hidden-md hidden-lg" id="mob-menu">
+					<span class="mobile-menu-title">MENU</span>
+					<nav>
+						<ul>
+							<li><a href="#">Home</a>
+								<ul>
+									<li><a href="index.html">Home variation 1</a></li>
+									<li><a href="index-2.html">Home variation 2</a></li>
+								</ul>
+							</li>
+							<li><a href="shop-gird.html">Women</a>
+								<ul>
+									<li><a href="shop-gird.html">Tops</a>
+										<ul>
+											<li><a href="shop-gird.html">T-Shirts</a></li>
+											<li><a href="shop-gird.html">Blouses</a></li>
+										</ul>
+									</li>
+									<li><a href="shop-gird.html">Dresses</a>
+										<ul>
+											<li><a href="shop-gird.html">Casual Dresses</a></li>
+											<li><a href="shop-gird.html">Summer Dresses</a></li>
+											<li><a href="shop-gird.html">Evening Dresses</a></li>
+										</ul>
+									</li>
+
+								</ul>
+							</li>
+							<li><a href="shop-gird.html">men</a>
+								<ul>
+									<li><a href="shop-gird.html">Tops</a>
+										<ul>
+											<li><a href="shop-gird.html">Sports</a></li>
+											<li><a href="shop-gird.html">Day</a></li>
+											<li><a href="shop-gird.html">Evening</a></li>
+										</ul>
+									</li>
+									<li><a href="shop-gird.html">Blouses</a>
+										<ul>
+											<li><a href="shop-gird.html">Handbag</a></li>
+											<li><a href="shop-gird.html">Headphone</a></li>
+											<li><a href="shop-gird.html">Houseware</a></li>
+										</ul>
+									</li>
+									<li><a href="shop-gird.html">Accessories</a>
+										<ul>
+											<li><a href="shop-gird.html">Houseware</a></li>
+											<li><a href="shop-gird.html">Home</a></li>
+											<li><a href="shop-gird.html">Health & Beauty</a></li>
+										</ul>
+									</li>
+								</ul>
+							</li>
+							<li><a href="shop-gird.html">clothing</a></li>
+							<li><a href="shop-gird.html">tops</a></li>
+							<li><a href="shop-gird.html">T-shirts</a></li>
+							<li><a href="#">Delivery</a></li>
+							<li><a href="#about">About us</a></li>
+						</ul>
+					</nav>
+				</div>
+			</div>
+			<!-- MOBILE MENU END -->
+		</div>
+	</div>
+</header>
+<section class="main-content-section">
+	<div class="container">
+		<div class="row">
+			<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+				<!-- BSTORE-BREADCRUMB START -->
+				<div class="bstore-breadcrumb">
+					<a href="#index">Trang chủ</a>
+					<span><i class="fa fa-caret-right	"></i></span>
+					<span>Liên hệ</span>
+				</div>
+				<!-- BSTORE-BREADCRUMB END -->
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+				<h2 class="page-title contant-page-title">Dịch vụ khách hàng - Liên hệ chúng tôi</h2>
+			</div>
+			<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+				<!-- CONTACT-US-FORM START -->
+				<div class="contact-us-form">
+					<div class="contact-form-center">
+						<h3 class="contact-subheading">Gửi liên hệ</h3>
+						<!-- CONTACT-FORM START -->
+						<form class="contact-form" id="contactForm" method="post" action="#">
+							<div class="row">
+								<div class="col-lg-3 col-md-3 col-sm-4 col-xs-12">
+									<div class="form-group primary-form-group">
+										<label>Tiêu đề</label>
+										<div class="con-form-select">
+											<select id="conForm" name="conform">
+												<option value="">Customar Service</option>
+												<option value="">Webmaster</option>
+											</select>
+										</div>
+									</div>
+									<div class="form-group primary-form-group">
+										<label>Địa chỉ email</label>
+										<input type="text" class="form-control input-feild" id="contactEmail" name="contactemail" value="">
+									</div>
+									<div class="form-group primary-form-group">
+										<label>Order reference</label>
+										<div class="con-form-select">
+											<select id="orderRef" name="orderref">
+												<option value="">Bootexpert</option>
+												<option value="">Ohter</option>
+											</select>
+										</div>
+									</div>
+									<div class="form-group primary-form-group">
+										<div class="file-uploader">
+											<label>Attach File</label>
+											<input type="file" class="form-control" name="fileUpload">
+											<span class="filename">No file selected</span>
+											<span class="action">Choose File</span>
+										</div>
+									</div>
+									<button type="submit" name="submit" id="sendMessage" class="send-message main-btn">Send <i class="fa fa-chevron-right"></i></button>
+								</div>
+								<div class="col-lg-9 col-md-9 col-sm-8 col-xs-12">
+									<div class="type-of-text">
+										<div class="form-group primary-form-group">
+											<label>Message</label>
+											<textarea class="contact-text" name="ContactMessage"></textarea>
+										</div>
+									</div>
+								</div>
+							</div>
+						</form>
+						<!-- CONTACT-FORM END -->
+					</div>
+				</div>
+				<!-- CONTACT-US-FORM END -->
+			</div>
+		</div>
+	</div>
+</section>
+<!-- MAIN-CONTENT-SECTION END -->

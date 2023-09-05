@@ -1,0 +1,482 @@
+<div>
+	<header class="main-menu-area" ng-controller="homeCtrl">
+		<div class="container">
+			<div class="row">
+				<!-- SHOPPING-CART START -->
+				<div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 pull-right shopingcartarea">
+					<div class="shopping-cart-out pull-right">
+						<div class="shopping-cart">
+							<a class="shop-link" href="#cart" title="View my shopping cart">
+								<i class="fa fa-shopping-cart cart-icon"></i>
+								<b>Giỏ hàng</b>
+								<span class="ajax-cart-quantity">{{totalSp}}</span>
+							</a>
+
+
+							<div class="shipping-cart-overly" style="overflow: scroll">
+								<div ng-if="cart.length == 0" class="text-center">
+									<span>K có sản phẩm nào</span>
+								</div>
+								<div ng-if="cart.length > 0">
+									<div class="shipping-item" ng-repeat="item in cart" ng-init="setTotals(item)">
+                                        <span class="cross-icon" ng-click="removeSP(item)"><i
+												class="fa fa-times-circle"></i></span>
+										<div class="shipping-item-image" style="width: 30%">
+											<a href="#/chitietsanpham/{{item.chiTietSanPham.sanPham.idSanPham}}"><img
+													src="/assets/images/{{item.chiTietSanPham.sanPham.listAnhSanPham[0].link}}"
+													alt="shopping image"/></a>
+										</div>
+										<div class="shipping-item-text" style="width: 60%; float: right">
+                                            <span>{{item.soLuongSanPham}} <span class="pro-quan-x">x</span> <a href="#"
+																											   class="pro-cat">{{item.chiTietSanPham.sanPham.tenSanPham}} </a></span>
+
+											<span class="pro-quality"><a href="#sanpham">{{item.chiTietSanPham.dayDeo.tenDayDeo}},{{item.chiTietSanPham.vatLieu.tenVatLieu}}</a></span>
+											<span class="pro-quality"><a href="#sanpham">{{item.chiTietSanPham.kichCo.tenKichCo}},{{item.chiTietSanPham.mauSac.tenMauSac}}</a></span>
+											<p>{{item.giaBan | number}} đ</p>
+										</div>
+									</div>
+									<div class="shipping-total-bill">
+										<div class="cart-prices">
+											<span class="shipping-cost">0.00 đ</span>
+											<span>Vận chuyển (Tạm tính)</span>
+										</div>
+										<div class="total-shipping-prices">
+											<span class="shipping-total">{{total | number}} đ</span>
+											<span>Tổng</span>
+										</div>
+									</div>
+									<div class="shipping-checkout-btn">
+										<a style="cursor: pointer" ng-click="buycart()">Thanh toán  <i class="fa fa-chevron-right"></i></a>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!-- SHOPPING-CART END -->
+				<!-- MAINMENU START -->
+				<div class="col-lg-9 col-md-9 col-sm-12 col-xs-12 no-padding-right menuarea">
+					<div class="mainmenu">
+						<nav>
+							<ul class="list-inline mega-menu">
+								<li class="active"><a href="#index">Trang chủ</a> </li>
+								<li> <a href="#sanpham">Sản Phẩm</a></li>
+								<li> <a href="#chinhSach">Chính sách bảo hành và đổi trả</a></li>
+								<li><a href="#contact">Liên hệ</a></li>
+								<li><a href="#about">Về chúng tôi</a></li>
+							</ul>
+						</nav>
+					</div>
+				</div>
+				<!-- MAINMENU END -->
+			</div>
+			<div class="row">
+				<!-- MOBILE MENU START -->
+				<div class="col-sm-12 mobile-menu-area">
+					<div class="mobile-menu hidden-md hidden-lg" id="mob-menu">
+						<span class="mobile-menu-title">MENU</span>
+						<nav>
+							<ul>
+								<li><a href="#">Home</a>
+									<ul>
+										<li><a href="index.html">Home variation 1</a></li>
+										<li><a href="index-2.html">Home variation 2</a></li>
+									</ul>
+								</li>
+								<li><a href="shop-gird.html">Women</a>
+									<ul>
+										<li><a href="shop-gird.html">Tops</a>
+											<ul>
+												<li><a href="shop-gird.html">T-Shirts</a></li>
+												<li><a href="shop-gird.html">Blouses</a></li>
+											</ul>
+										</li>
+										<li><a href="shop-gird.html">Dresses</a>
+											<ul>
+												<li><a href="shop-gird.html">Casual Dresses</a></li>
+												<li><a href="shop-gird.html">Summer Dresses</a></li>
+												<li><a href="shop-gird.html">Evening Dresses</a></li>
+											</ul>
+										</li>
+
+									</ul>
+								</li>
+								<li><a href="shop-gird.html">men</a>
+									<ul>
+										<li><a href="shop-gird.html">Tops</a>
+											<ul>
+												<li><a href="shop-gird.html">Sports</a></li>
+												<li><a href="shop-gird.html">Day</a></li>
+												<li><a href="shop-gird.html">Evening</a></li>
+											</ul>
+										</li>
+										<li><a href="shop-gird.html">Blouses</a>
+											<ul>
+												<li><a href="shop-gird.html">Handbag</a></li>
+												<li><a href="shop-gird.html">Headphone</a></li>
+												<li><a href="shop-gird.html">Houseware</a></li>
+											</ul>
+										</li>
+										<li><a href="shop-gird.html">Accessories</a>
+											<ul>
+												<li><a href="shop-gird.html">Houseware</a></li>
+												<li><a href="shop-gird.html">Home</a></li>
+												<li><a href="shop-gird.html">Health & Beauty</a></li>
+											</ul>
+										</li>
+									</ul>
+								</li>
+								<li><a href="shop-gird.html">clothing</a></li>
+								<li><a href="shop-gird.html">tops</a></li>
+								<li><a href="shop-gird.html">T-shirts</a></li>
+								<li><a href="#">Delivery</a></li>
+								<li><a href="#about">About us</a></li>
+							</ul>
+						</nav>
+					</div>
+				</div>
+				<!-- MOBILE MENU END -->
+			</div>
+		</div>
+	</header>
+		<!-- MAIN-CONTENT-SECTION START -->
+		<section class="main-content-section">
+			<div class="container">
+				<div class="row">
+					<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+						<!-- BSTORE-BREADCRUMB START -->
+						<div class="bstore-breadcrumb">
+							<a href="#/index">Trang chủ<span><i class="fa fa-caret-right"></i> </span> </a>
+							<span> <i class="fa fa-caret-right"> </i> </span>
+							<a href="#/sanpham"> {{sanPhamDetail.danhMuc.ten}} </a>
+							<span> {{sanPhamDetail.tenSanPham}} </span>
+						</div>
+						<!-- BSTORE-BREADCRUMB END -->
+					</div>
+				</div>				
+				<div class="row">
+					<div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
+						<!-- SINGLE-PRODUCT-DESCRIPTION START -->
+						<div class="row">
+							<div class="col-lg-5 col-md-5 col-sm-4 col-xs-12">
+								<div class="single-product-view">
+									  <!-- Tab panes -->
+									<div class="tab-content">
+<!--										Todo hiển thị hình ảnh to-->
+										<div class="tab-pane active" id="thumbnail_1">
+											<div class="single-product-image">
+												<img src="/assets/images/{{selectImage}}" alt="single-product-image" />
+												<span ng-if="chiTietSanPham.khuyenMai == null "></span>
+												<span ng-if="chiTietSanPham.khuyenMai != null ">
+                                                    <span ng-if="chiTietSanPham.khuyenMai.enabled == false"></span>
+                                                    <span ng-if="chiTietSanPham.khuyenMai.enabled == true">
+
+                                                        <span ng-if="currentDate >  chiTietSanPham.khuyenMai.ngayKetThuc.toString() "></span>
+                                                        <span ng-if="currentDate < chiTietSanPham.khuyenMai.ngayKetThuc.toString()">
+                                                            <span ng-if="currentDate < chiTietSanPham.khuyenMai.ngayBatDau.toString()"></span>
+                                                            <span ng-if="currentDate > chiTietSanPham.khuyenMai.ngayBatDau.toString()">
+                                                                <a href="#" class="new-mark-box">{{chiTietSanPham.khuyenMai.chietKhau}} %</a>
+                                                            </span>
+                                                        </span>
+                                                    </span>
+                                                </span>
+												<a class="fancybox" href="/assets/images/{{selectImage}}" data-fancybox-group="gallery"><span class="btn large-btn">Xem chi tiết<i class="fa fa-search-plus"></i></span></a>
+											</div>	
+										</div>
+									</div>										
+								</div>
+								<div class="select-product">
+									<!-- Nav tabs -->
+									<ul class="nav nav-tabs select-product-tab bxslider">
+										<!--Todo list ảnh-->
+										<li class="active" ng-repeat="anh in  sanPhamDetail.listAnhSanPham">
+											<a data-toggle="tab"><img src="/assets/images/{{anh.link}}" alt="pro-thumbnail" ng-click="changeImage(anh)" /></a>
+										</li>
+									</ul>										
+								</div>
+							</div>
+							<div class="col-lg-7 col-md-7 col-sm-8 col-xs-12">
+								<div class="single-product-descirption">
+									<h2>{{sanPhamDetail.tenSanPham}}</h2>
+									<div class="single-product-social-share">
+										<ul>
+											<li><a href="#" class="twi-link"><i class="fa fa-twitter"></i>Tweet</a></li>
+											<li><a href="#" class="fb-link"><i class="fa fa-facebook"></i>Share</a></li>
+											<li><a href="#" class="g-plus-link"><i class="fa fa-google-plus"></i>Google+</a></li>
+											<li><a href="#" class="pin-link"><i class="fa fa-pinterest"></i>Pinterest</a></li>
+										</ul>
+									</div>
+									<div class="single-product-review-box">
+										<div class="rating-box">
+											<i class="fa fa-star"></i>
+											<i class="fa fa-star"></i>
+											<i class="fa fa-star"></i>
+											<i class="fa fa-star"></i>
+											<i class="fa fa-star-half-empty"></i>
+										</div>
+										<div class="read-reviews">
+											<a href="#">Đánh giá(1)</a>
+										</div>
+										<div class="write-review">
+											<a href="#">Viết đánh giá</a>
+										</div>		
+									</div>
+									<div ng-if="chiTietSanPham.giaSanPham == getGia()">
+										<div class="single-product-condition">
+											<p>Mã: <span>{{chiTietSanPham.maChiTietSanPham}}</span></p>
+										</div>
+										<div class="single-product-price" >
+											<h2><span ng-bind="getGia() | number"></span>đ</h2>
+										</div>
+									</div>
+									<div ng-if="chiTietSanPham.giaSanPham != getGia()">
+										<div class="single-product-condition">
+											<p>Mã: <span>{{chiTietSanPham.maChiTietSanPham}}</span></p>
+											<!--Todo chiet khau-->
+											<p>Khuyến mại: <span>{{chiTietSanPham.khuyenMai.tenKhuyenMai}}</span></p>
+										</div>
+									<div class="single-product-price">
+										<h2><span ng-bind="getGia() | number "></span> đ</h2>
+										<span class="old-price">{{chiTietSanPham.giaSanPham | number }} đ</span>
+									</div>
+									</div>
+									<div class="single-product-desc">
+<!--										<p>Faded short sleeves t-shirt with high neckline. Soft and stretchy material for a comfortable fit. Accessorize with a straw hat and you're ready for summer!</p>-->
+										<div class="product-in-stock">
+											<p style="color: red"> Còn {{ SeriBySP.get(chiTietSanPham.idChiTietSanPham) }} sản phẩm
+												<span ng-show="SeriBySP.get(chiTietSanPham.idChiTietSanPham) > 0">Còn hàng</span>
+												<span style="background: red" ng-show="SeriBySP.get(chiTietSanPham.idChiTietSanPham) == 0">Hết hàng</span>
+											</p>
+										</div>
+									</div>
+									<div class="single-product-info">
+										<a href="#"><i class="fa fa-envelope"></i></a>
+										<a href="#"><i class="fa fa-print"></i></a>
+										<a href="#"><i class="fa fa-heart"></i></a>
+									</div>
+									<div class="single-product-quantity">
+										<p class="small-title" style=" margin-right: 16px">Số lượng</p>
+										<div class="cart-quantity">
+											<div class="cart-plus-minus-button single-qty-btn">
+												<div class="dec qtybutton" ng-click="giam(item)" style="">-</div>
+												<input class="cart-plus-minus sing-pro-qty" type="text" name="qtybutton" ng-model="soLuong" readonly style="margin: 0;width: 30px; text-align: center">
+												<div class="inc qtybutton"  ng-click="tang(item)"  style="margin: 0">+</div>
+											</div>
+										</div>
+									</div>
+									<div class="single-product-color">
+										<p class="small-title">Dây Đeo </p>
+										<div class="radio-container" ng-repeat="dd in listDayDeo">
+											<input type="radio" name="daydeoOption" id="daydeo{{dd}}" class="custom-radio" ng-model="$parent.selectedDD" ng-value="dd">
+											<label for="daydeo{{dd}}" class="custom-button-radio">{{dd}}</label>
+										</div>
+									</div>
+									<div class="single-product-color">
+										<p class="small-title">Vật liệu </p>
+										<div class="radio-container" ng-repeat="vl in listVatLieu">
+											<input type="radio" name="vatlieuOption" id="vatlieu{{vl}}" class="custom-radio" ng-model="$parent.selectedVL" ng-value="vl" ng-disabled="!setAvaiableVatLieu.has(vl)" >
+											<label for="vatlieu{{vl}}" class="custom-button-radio">{{vl}}</label>
+										</div>
+									</div>
+									<div class="single-product-color">
+										<p class="small-title">Màu sắc </p>
+										<div class="radio-container" ng-repeat="ms in listMauSac">
+											<input type="radio" name="mausacOption" id="mausac{{ms}}" class="custom-radio" ng-model="$parent.selectedMS" ng-value="ms" ng-disabled="!setAvaiableMauSac.has(ms)" >
+											<label for="mausac{{ms}}" class="custom-button-radio">{{ms}}</label>
+										</div>
+									</div>
+									<div class="single-product-size">
+										<p class="small-title">Kích cỡ </p>
+										<div class="radio-container" ng-repeat="kc in listKichCo">
+											<input type="radio" name="kickcoOption" id="kichco{{kc}}" class="custom-radio" ng-model="$parent.selectedKC" ng-value="kc" ng-disabled="!setAvaiableKichCo.has(kc)" >
+											<label for="kichco{{kc}}" class="custom-button-radio">{{kc}}</label>
+										</div>
+									</div>
+									<br>
+									<div class="single-product-add-cart">
+										<button class="add-cart-text" title="Thêm vào giỏ hàng" ng-click="addToCart()" ng-disabled="SeriBySP.get(chiTietSanPham.idChiTietSanPham) == 0 || chiTietSanPham.trangThai == 0" >Thêm vào giỏ hàng</button>
+										<button class="add-cart-text" title="Mua ngay" ng-click="buyNow()"  ng-disabled="SeriBySP.get(chiTietSanPham.idChiTietSanPham) == 0 ||  chiTietSanPham.trangThai == 0" >Mua ngay</button>
+									</div>
+								</div>
+							</div>
+						</div>
+						<!-- SINGLE-PRODUCT-DESCRIPTION END -->
+						<!-- SINGLE-PRODUCT INFO TAB START -->
+						<div class="row">
+							<div class="col-sm-12">
+								<div class="product-more-info-tab">
+									<!-- Nav tabs -->
+<!--									<ul class="nav nav-tabs more-info-tab">-->
+<!--										<li class="active"><a href="#moreinfo" data-toggle="tab">more info</a></li>-->
+<!--										<li><a href="#datasheet" data-toggle="tab">data sheet</a></li>-->
+<!--										<li><a href="#review" data-toggle="tab">reviews</a></li>-->
+<!--									</ul>-->
+									<ul class="nav nav-tabs more-info-tab">
+										<li class="{{moreInfo}}"><a class="btn" ng-click="changeTab(1)" data-toggle="tab">Giới thiệu</a></li>
+										<li class="{{dataSheet}}"><a class="btn" ng-click="changeTab(2)" data-toggle="tab">Thông tin </a></li>
+										<li class="{{review}}"><a class="btn" ng-click="changeTab(3)" data-toggle="tab">Đánh giá</a></li>
+									</ul>
+									  <!-- Tab panes -->
+									<div class="tab-content">
+										<div class="tab-pane {{moreInfo}}" id="moreinfo">
+											<div class="tab-description">
+												<p> {{sanPhamDetail.moTaSanPham}} </p>
+											</div>
+										</div>
+										<div class="tab-pane {{dataSheet}}" id="datasheet">
+											<div class="deta-sheet">
+												<table class="table-data-sheet">			
+													<tbody>
+														<tr class="odd">
+															<td>Thương hiệu</td>
+															<td>{{sanPhamDetail.thuongHieu.tenThuongHieu}}</td>
+														</tr>
+														<tr class="even">
+															<td class="td-bg">Danh mục</td>
+															<td class="td-bg">{{sanPhamDetail.danhMuc.ten}}</td>
+														</tr>
+														<tr class="odd">
+															<td>Chất liệu</td>
+															<td>{{chiTietSanPham.vatLieu.tenVatLieu}}</td>
+														</tr>
+														<tr class="odd">
+															<td>Đường kính</td>
+															<td>{{chiTietSanPham.duongKinhMatDongHo}} mm</td>
+														</tr>
+														<tr class="odd">
+															<td>Độ dày vỏ</td>
+															<td>{{chiTietSanPham.doDayMatDongHo}} mm</td>
+														</tr>
+														<tr class="odd">
+															<td>Chống nước</td>
+															<td>{{chiTietSanPham.doChiuNuoc}} m</td>
+														</tr>
+														<tr class="odd">
+															<td>Chất liệu dây đeo/Vòng tay</td>
+															<td>{{chiTietSanPham.dayDeo.tenDayDeo}}</td>
+														</tr>
+														<tr class="odd">
+															<td>Tình trạng</td>
+															<td>{{chiTietSanPham.trangThai == 1 ? "Đang bán": "Ngưng bán"}}</td>
+														</tr>
+													</tbody>
+												</table>				
+											</div>
+										</div>
+										<div class="tab-pane {{review}}" id="review">
+											<div class="row tab-review-row">
+												<div class="col-xs-7 col-sm-7 col-md-7 col-lg-7 " >
+													<div class="tab-rating-box" ng-repeat="p in Items">
+														<span>{{p.noiDungPhanHoi}}</span>
+														<div star-rating rating-value="p.danhGia" max="5"></div>
+														<div class="review-author-info">
+															<strong>{{p.khachHang.tenKhachHang}} </strong>
+															<span>{{p.thoiGianPhanHoi | date: 'dd/MM/yyyy'}}</span>
+														</div>
+														<br>
+													</div>
+													<div class="text-center" ng-if="pages.length == 0 ">
+														<p>Chưa có phản hồi nào</p>
+													</div>
+													<div ng-if="pages.length > 0 ">
+														<div class="showing-next-prev">
+															<ul class="pagination-bar">
+																<li ng-class="{ 'disabled' : isFirstPage }">
+																	<a  style="cursor: pointer" ng-click="previousPage()"><i class="fa fa-chevron-left "></i>Previous</a >
+																</li>
+																<li ng-class="{ 'active' : page == currentPage }" ng-repeat="page in pages" ng-click="changePage(page)">
+																	<span><a style="cursor: pointer" class="pagi-num" >{{ page }}</a></span>
+																</li>
+																<li ng-class="{ 'disabled' : isLastPage }">
+																	<a style="cursor: pointer" ng-click="nextPage()">Next<i class="fa fa-chevron-right" ></i></a>
+																</li>
+															</ul>
+														</div>
+													</div>
+												</div>
+												<div class="col-xs-5 col-sm-5 col-md-5 col-lg-5 padding-5">
+													<div class="text-center" ng-if="pages.length == 0 ">
+
+													</div>
+													<div ng-if="pages.length > 0 ">
+														<div class="write-your-review">
+															<p><strong>Đánh gía</strong></p>
+															<p>Đánh giá</p>
+															<span class="usefull-comment">Bạn có thấy đánh giá này hữu ích không <span>Có</span><span>Không</span></span>
+														</div>
+													</div>
+
+												</div>
+												<br>
+
+
+											</div>
+										</div>
+									</div>									
+								</div>
+							</div>
+						</div>
+						<!-- SINGLE-PRODUCT INFO TAB END -->
+						<!-- RELATED-PRODUCTS-AREA START -->
+<!--						<div class="row">-->
+<!--							<div class="col-sm-12">-->
+<!--								<div class="left-title-area">-->
+<!--									<h2 class="left-title">related products</h2>-->
+<!--								</div>	-->
+<!--							</div>-->
+<!--&lt;!&ndash;							<div class="related-product-area featured-products-area">&ndash;&gt;-->
+<!--&lt;!&ndash;								<div class="col-sm-12">&ndash;&gt;-->
+<!--&lt;!&ndash;									<div class=" row">&ndash;&gt;-->
+<!--&lt;!&ndash;										&lt;!&ndash; RELATED-CAROUSEL START &ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;										<div class="related-product">&ndash;&gt;-->
+
+<!--&lt;!&ndash;											&lt;!&ndash; SINGLE-PRODUCT-ITEM START &ndash;&gt;								&ndash;&gt;-->
+<!--&lt;!&ndash;										</div>&ndash;&gt;-->
+<!--&lt;!&ndash;										&lt;!&ndash; RELATED-CAROUSEL END &ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;									</div>	&ndash;&gt;-->
+<!--&lt;!&ndash;								</div>&ndash;&gt;-->
+<!--&lt;!&ndash;							</div>	&ndash;&gt;-->
+<!--						</div>-->
+						<!-- RELATED-PRODUCTS-AREA END -->
+					</div>
+					<!-- RIGHT SIDE BAR START -->
+					<div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
+						<!-- SINGLE SIDE BAR START -->
+						<div class="single-product-right-sidebar">
+							<h2 class="left-title">Các sản phẩm cùng thương hiệu</h2>
+							<ul style=" width:100% ">
+								<li ng-repeat="sp in spCungThuongHieu" >
+									<div style="display: flex">
+									<div class="sidebar-product-image" style=" width:64% ">
+										<a href="#/chitietsanpham/{{sp.idSanPham}}"><img
+												src="/assets/images/{{sp.listAnhSanPham[0].link}}"
+												alt="product-image" width="100%"/></a>
+									</div>
+									<a href="#/chitietsanpham/{{sp.idSanPham}}"><p>{{sp.tenSanPham}}</p></a>
+									</div>
+								</li>
+							</ul>
+						</div>	
+						<!-- SINGLE SIDE BAR END -->
+						<!-- SINGLE SIDE BAR START -->
+						<div class="single-product-right-sidebar clearfix">
+							<h2 class="left-title">Tags </h2>
+							<div class="category-tag">
+								<a href="#">{{sanPhamDetail.thuongHieu.tenThuonghieu}}</a>
+								<a href="#">{{sanPhamDetail.danhMuc.ten}}</a>
+							</div>							
+						</div>	
+						<!-- SINGLE SIDE BAR END -->
+						<!-- SINGLE SIDE BAR START -->						
+						<div class="single-product-right-sidebar">
+							<div class="slider-right zoom-img">
+								<a href="#"><img class="img-responsive" src="/assets/img/product/cms11.jpg" alt="sidebar left" /></a>
+							</div>							
+						</div>
+					</div>
+					<!-- SINGLE SIDE BAR END -->				
+				</div>
+			</div>
+		</section>
+		<!-- MAIN-CONTENT-SECTION END -->
+</div>

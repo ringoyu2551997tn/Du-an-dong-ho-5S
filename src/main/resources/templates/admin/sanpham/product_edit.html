@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleft.org" lang="en">
+<head th:replace="admin/fragment/fragments:: page_head"></head>
+<body class="sb-nav-fixed">
+<div th:replace="admin/fragment/navigation:: navbar"></div>
+<div id="layoutSidenav">
+    <div th:replace="admin/fragment/navigation:: menu"></div>
+
+    <div id="layoutSidenav_content">
+        <main style="margin-left: 10px">
+            <div>
+                <h2>Quản lý Sản Phẩm| Update Sản Phẩm</h2>
+            </div>
+
+            <form th:action="@{/admin/products/update}" method="post" onsubmit="return checkUniqueEdit(this)"
+                  enctype="multipart/form-data"
+                  th:object="${sanPham}">
+                <input type="hidden" th:field="*{idSanPham}"/>
+                <input type="hidden" th:field="*{currentMainImage}" th:value="${sanPham.mainImage}" />
+                <div>
+                    <!-- Nav tabs -->
+                    <ul class="nav nav-tabs" id="myTab" role="tablist">
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#overview" type="button" role="tab">OverView</button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link"  data-bs-toggle="tab" data-bs-target="#images" type="button" role="tab">Images</button>
+                        </li>
+                    </ul>
+
+                    <!-- Tab panes -->
+                    <div class="tab-content">
+                        <div class="tab-pane active p-3" id="overview" role="tabpanel">
+
+                            <div class="form-group-row">
+                                <label class="col-sm-2 col-form-label">Mã Sản Phẩm:</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" th:field="*{maSanPham}"  required minlength="3" maxlength="10"/>
+                                </div>
+                            </div>
+
+                            <div class="form-group-row">
+                                <label class="col-sm-2 col-form-label">Tên Sản Phẩm:</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" th:field="*{tenSanPham}" id="tenSanPhamInput" required minlength="3" maxlength="128"/>
+                                </div>
+                            </div>
+
+                            <div class="form-group-row">
+                                <label class="col-sm-2 col-form-label">Mô Tả Sản Phẩm:</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" th:field="*{moTaSanPham}" required minlength="3" maxlength="128"/>
+                                </div>
+                            </div>
+
+
+                            <div class="form-group-row">
+                                <label class="col-sm-2 col-form-label">Thương Hiệu:</label>
+                                <div class="col-sm-10">
+                                    <select th:field="*{thuongHieu}" class="form-control" required="">
+                                        <th:block th:each="brand : ${listThuongHieu}">
+                                            <option th:value="${brand.idThuongHieu}">[[${brand.tenThuongHieu}]]</option>
+                                        </th:block>
+
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="form-group-row">
+                                <label class="col-sm-2 col-form-label">Danh Mục:</label>
+                                <div class="col-sm-10">
+                                    <select th:field="*{danhMuc}" class="form-control" required="">
+                                        <th:block th:each="category : ${listDanhMuc}">
+                                            <option th:value="${category.id}">[[${category.ten}]]</option>
+                                        </th:block>
+
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="form-group-row">
+                                <label class="col-sm-4 col-form-label">Trạng Thái:</label>
+                                <div class="col-sm-12">
+                                    <label class="radio-inline">
+                                        <input type="radio" th:field="*{trangThai}" th:value="1"> Hoạt động
+                                    </label>
+                                    <label class="radio-inline">
+                                        <input type="radio" th:field="*{trangThai}" th:value="0"> Ngưng hoạt động
+                                    </label>
+                                </div>
+                            </div>
+
+
+                        </div>
+                        <div class="tab-pane" id="images" role="tabpanel">
+                            <div class="row">
+
+                                <div class="col border m-3 p-2">
+                                    <div><label>Ảnh Chính</label></div>
+                                </div>
+                                <div class="m-2">
+                                    <img id="thumbnail" alt="Main Image Preview" class="img-fluid"
+                                         th:src="@{${sanPham.getMainImagePath}}"/>
+                                </div>
+                                <div>
+                                    <input type="file" id="fileImage" name="fileImage"
+                                           accept="image/png,image/jpeg"/>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="text-center">
+                    <input type="submit" value="Save" class="btn btn-primary m-3" id="submitButton"/>
+                    <input type="button" value="Cancel" class="btn btn-secondary" id="buttonCancel">
+                </div>
+            </form>
+        </main>
+        <div th:replace="admin/fragment/fragments::footer"></div>
+    </div>
+</div>
+
+<div class="modal fade text-center" id="modalDialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="modalTitle" >Warning</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <span id="modalBody"></span>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script type="text/javascript">
+    moduleURL= "[[@{/admin/products}]]";
+    $("#buttonCancel").on("click", function () {
+        window.location = moduleURL;
+    });
+
+    function checkUniqueEdit(form) {
+        var url = "[[@{/admin/products/check_name_code_id}]]";
+        var sanPhamId = form.idSanPham.value;
+        var sanPhamMa = form.maSanPham.value;
+        var sanPhamName = form.tenSanPham.value;
+        var csrfValue = $("input[name='_csrf']").val();
+        var params = {
+            ten: sanPhamName,
+            ma: sanPhamMa,
+            id: sanPhamId,
+            _csrf: csrfValue
+        };
+
+        $.post(url, params)
+            .done(function(response) {
+                if (response == "OK") {
+                    form.submit();
+                } else if (response == "Duplicated") {
+                    showWarningModal("Mã Hoặc Tên Đã Tồn Tại, Vui Lòng Kiểm Tra");
+                } else {
+                    showErrorModal("Lỗi phản hồi từ server");
+                }
+            })
+            .fail(function() {
+                showWarningModal("Tên đã tồn tại hoặc là Tên này thuộc về id khác");
+            });
+
+        return false;
+
+    }
+
+
+
+</script>
+
+<script th:inline="javascript">
+    function toggleTrangThaiUpdate(checkbox) {
+        if (checkbox.checked) {
+            checkbox.value = 1;
+        } else {
+            checkbox.value = 0;
+        }
+    }
+</script>
+<script th:src="@{/js/index_form.js}"></script>
+</body>
+</html>

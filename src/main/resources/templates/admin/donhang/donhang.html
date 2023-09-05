@@ -1,0 +1,1004 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+
+<head th:replace="admin/fragment/fragments:: page_head"></head>
+
+<style>
+    * {
+        padding: 0;
+        margin: 0;
+        box-sizing: border-box;
+    }
+
+    .nav-item:hover .nav-link {
+        font-weight: bold;
+    }
+
+    .tracking nav ul li a {
+        color: #050505;
+        display: block;
+        font-size: 14px;
+        line-height: 55px;
+        transition: all 300ms ease 0s;
+        text-align: center;
+        text-decoration: none;
+    }
+
+    .tracking nav ul li {
+        /*border-bottom: 2px solid orange;*/
+        display: inline-block;
+        width: 12%;
+
+    }
+
+    .tracking nav ul li a:hover {
+        color: #FF4F4F;
+    }
+
+    .tracking nav ul li a:active {
+        color: #FF4F4F;
+        border-bottom: 2px solid #FF4F4F;
+    }
+
+    .tracking nav ul .active {
+        border-bottom: 2px solid #FF4F4F;
+    }
+
+    .tracking nav ul .active a {
+        color: #FF4F4F;
+    }
+
+    .breadcrumb {
+        background-color: #f2f2f2;
+        padding: 10px;
+        font-size: 14px;
+        display: flex;
+        align-items: center;
+        padding: 5px 20px;
+    }
+
+    .breadcrumb a {
+        color: #666;
+        text-decoration: none;
+        font-weight: bold;
+        margin-right: 10px;
+        margin-left: 10px;
+        font-size: 20px;
+    }
+</style>
+
+<body class="sb-nav-fixed" id="content">
+
+<div th:replace="admin/fragment/navigation:: navbar"></div>
+
+<!-- Article NAV -->
+<div id="layoutSidenav">
+    <div th:replace="admin/fragment/navigation:: menu"></div>
+
+    <!-- aside -->
+    <div id="layoutSidenav_content">
+        <!-- MAIN-CONTENT-SECTION START -->
+        <section class="main-content-section">
+            <div class="row">
+                <div class="breadcrumb">
+                    <a href="#">Đơn hàng</a>
+                </div>
+            </div>
+
+            <!--                    Bắt đầu phần đơn hàng-->
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12"
+                         style="box-shadow: #bbbbc1 -1px 0px 5px 0px; margin-bottom: 30px">
+                        <div class="tracking">
+                            <nav>
+                                <ul class="nav nav-tabs list-tracking" id="myTabs">
+                                    <li class="nav-item"><a class="nav-link active" data-tab-id="tab7" data-api="7" data-toggle="tab" href="#tab7">Tất cả</a></li>
+                                    <li class="nav-item"><a class="nav-link" data-tab-id="tab0" data-api="0" data-toggle="tab" href="#tab0">Chờ xác nhận </a></li>
+                                    <li class="nav-item"><a class="nav-link" data-tab-id="tab1" data-api="1" data-toggle="tab" href="#tab1">Đang chuẩn bị</a></li>
+                                    <li class="nav-item"><a class="nav-link" data-tab-id="tab2" data-api="2" data-toggle="tab" href="#tab2">Đang giao</a></li>
+                                    <li class="nav-item"><a class="nav-link" data-tab-id="tab3" data-api="3" data-toggle="tab" href="#tab3">Hoàn thành</a></li>
+                                    <li class="nav-item"><a class="nav-link" data-tab-id="tab4" data-api="4" data-toggle="tab" href="#tab4">Đã hủy</a></li>
+                                    <li class="nav-item"><a class="nav-link" data-tab-id="tab5" data-api="5" data-toggle="tab" href="#tab5">Trả hàng / Hoàn hiền</a></li>
+                                    <li class="nav-item"><a class="nav-link" data-tab-id="tab6" data-api="6" data-toggle="tab" href="#tab6">Đã hoàn trả</a></li>
+                                </ul>
+                                <div class="tab-content">
+                                    <div class="tab-pane fade show active" id="tab7">
+                                        <p>Tất cả</p>
+                                        <!--Search Tab All-->
+                                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 tab-content">
+                                            <div>
+                                                <div class="shipping-cart">
+                                                    <form method="GET" formaction="/admin/don-hang/search/date" id="formSearch7">
+                                                        <input type = "number" name="status" value ="7" hidden="true">
+                                                        <div class="row">
+                                                            <div class="col-md-5">
+                                                                <label class="sr-only" for="start7">Ngày bắt đầu</label>
+                                                                <div class="input-group mb-2">
+                                                                    <div class="input-group-prepend">
+                                                                        <div class="input-group-text">Ngày bắt đầu</div>
+                                                                    </div>
+                                                                    <input type="date" class="form-control"  name="dateStart" id = "start7">
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-5">
+                                                                <label class="sr-only" for="end7">Ngày kết thúc</label>
+                                                                <div class="input-group mb-2">
+                                                                    <div class="input-group-prepend">
+                                                                        <div class="input-group-text">Ngày kết thúc</div>
+                                                                    </div>
+                                                                    <input type="date" class="form-control"  name="dateEnd" id ="end7">
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-2">
+                                                                <button  type="submit" style="width: 100%" class="btn btn-outline-dark mb-2"
+                                                                        >Tìm kiếm
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                    </form>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                        <table class="table table-bordered table-striped table-hover table-responsive-xl" style="margin-top: 20px">
+                                            <thead class="thead-dark">
+                                            <tr>
+                                                <th>Mã đơn hàng</th>
+                                                <th>Id khách hàng</th>
+                                                <th>Ngày tạo</th>
+                                                <th>Ngày cập nhật</th>
+                                                <th>Địa chỉ</th>
+                                                <th>Trạng thái đơn hàng</th>
+                                                <th>Tổng tiền</th>
+                                                <th>Ghi chú</th>
+                                                <th>Action</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody id="table-body-7">
+                                            </tbody>
+
+                                        </table>
+                                    </div>
+                                    <div class="tab-pane fade" id="tab0">
+                                        <p>Chờ xác nhận</p>
+                                        <!--Search Tab 1-->
+                                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 tab-content">
+                                            <div>
+                                                <div class="shipping-cart">
+                                                    <form method="GET" formaction="/admin/don-hang/search/date" id="formSearch0">
+                                                        <input type = "number" name="status" value ="0" hidden="true">
+                                                        <div class="row">
+                                                            <div class="col-md-5">
+                                                                <label class="sr-only" for="start0">Ngày bắt đầu</label>
+                                                                <div class="input-group mb-2">
+                                                                    <div class="input-group-prepend">
+                                                                        <div class="input-group-text">Ngày bắt đầu</div>
+                                                                    </div>
+                                                                    <input type="date" class="form-control"  name="dateStart" id = "start0">
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-5">
+                                                                <label class="sr-only" for="end0">Ngày kết thúc</label>
+                                                                <div class="input-group mb-2">
+                                                                    <div class="input-group-prepend">
+                                                                        <div class="input-group-text">Ngày kết thúc</div>
+                                                                    </div>
+                                                                    <input type="date" class="form-control"  name="dateEnd" id ="end0">
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-2">
+                                                                <button  type="submit" style="width: 100%" class="btn btn-outline-dark mb-2"
+                                                                >Tìm kiếm
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                    </form>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                        <table class="table table-bordered table-striped table-hover table-responsive-xl" style="margin-top: 20px">
+                                            <thead class="thead-dark">
+                                            <tr>
+                                                <th>Mã đơn hàng</th>
+                                                <th>Id khách hàng</th>
+                                                <th>Ngày tạo</th>
+                                                <th>Địa chỉ</th>
+                                                <th>Trạng thái đơn hàng</th>
+                                                <th>Tổng tiền</th>
+                                                <th>Ghi chú</th>
+                                                <th>Action</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+
+                                            </tbody>
+
+                                        </table>
+                                    </div>
+                                    <div class="tab-pane fade" id="tab1">
+                                        <p>Đang chuẩn bị</p>
+                                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 tab-content">
+                                            <div>
+                                                <div class="shipping-cart">
+                                                    <form method="GET" formaction="/admin/don-hang/search/date" id="formSearch1">
+                                                        <input type = "number" name="status" value ="1" hidden="true">
+                                                        <div class="row">
+                                                            <div class="col-md-5">
+                                                                <label class="sr-only" for="start1">Ngày bắt đầu</label>
+                                                                <div class="input-group mb-2">
+                                                                    <div class="input-group-prepend">
+                                                                        <div class="input-group-text">Ngày bắt đầu</div>
+                                                                    </div>
+                                                                    <input type="date" class="form-control"  name="dateStart" id = "start1">
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-5">
+                                                                <label class="sr-only" for="end1">Ngày kết thúc</label>
+                                                                <div class="input-group mb-2">
+                                                                    <div class="input-group-prepend">
+                                                                        <div class="input-group-text">Ngày kết thúc</div>
+                                                                    </div>
+                                                                    <input type="date" class="form-control"  name="dateEnd" id ="end1">
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-2">
+                                                                <button  type="submit" style="width: 100%" class="btn btn-outline-dark mb-2"
+                                                                >Tìm kiếm
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                    </form>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                        <table class="table table-bordered table-striped table-hover table-responsive-xl" style="margin-top: 20px">
+                                            <thead class="thead-dark">
+                                            <tr>
+                                                <th>Mã đơn hàng</th>
+                                                <th>Id khách hàng</th>
+                                                <th>Ngày tạo</th>
+                                                <th>Ngày cập nhật</th>
+                                                <th>Địa chỉ</th>
+                                                <th>Trạng thái đơn hàng</th>
+                                                <th>Tổng tiền</th>
+                                                <th>Ghi chú</th>
+                                                <th>Action</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+
+                                            </tbody>
+
+                                        </table>
+                                    </div>
+                                    <div class="tab-pane fade" id="tab2">
+                                        <p>Đang giao</p>
+                                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 tab-content">
+                                            <div>
+                                                <div class="shipping-cart">
+                                                    <form method="GET" formaction="/admin/don-hang/search/date" id="formSearch2">
+                                                        <input type = "number" name="status" value ="2" hidden="true">
+                                                        <div class="row">
+                                                            <div class="col-md-5">
+                                                                <label class="sr-only" for="start2">Ngày bắt đầu</label>
+                                                                <div class="input-group mb-2">
+                                                                    <div class="input-group-prepend">
+                                                                        <div class="input-group-text">Ngày bắt đầu</div>
+                                                                    </div>
+                                                                    <input type="date" class="form-control"  name="dateStart" id = "start2">
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-5">
+                                                                <label class="sr-only" for="end2">Ngày kết thúc</label>
+                                                                <div class="input-group mb-2">
+                                                                    <div class="input-group-prepend">
+                                                                        <div class="input-group-text">Ngày kết thúc</div>
+                                                                    </div>
+                                                                    <input type="date" class="form-control"  name="dateEnd" id ="end2">
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-2">
+                                                                <button  type="submit" style="width: 100%" class="btn btn-outline-dark mb-2"
+                                                                >Tìm kiếm
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                    </form>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                        <table class="table table-bordered table-striped table-hover table-responsive-xl" style="margin-top: 20px">
+                                            <thead class="thead-dark">
+                                            <tr>
+                                                <th>Mã đơn hàng</th>
+                                                <th>Id khách hàng</th>
+                                                <th>Ngày tạo</th>
+                                                <th>Ngày cập nhật</th>
+                                                <th>Địa chỉ</th>
+                                                <th>Trạng thái đơn hàng</th>
+                                                <th>Tổng tiền</th>
+                                                <th>Ghi chú</th>
+                                                <th>Action</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+
+                                            </tbody>
+
+                                        </table>
+                                    </div>
+                                    <div class="tab-pane fade" id="tab3">
+                                        <p>ĐHoàn thành</p>
+                                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 tab-content">
+                                            <div>
+                                                <div class="shipping-cart">
+                                                    <form method="GET" formaction="/admin/don-hang/search/date" id="formSearch3">
+                                                        <input type = "number" name="status" value ="3" hidden="true">
+                                                        <div class="row">
+                                                            <div class="col-md-5">
+                                                                <label class="sr-only" for="start3">Ngày bắt đầu</label>
+                                                                <div class="input-group mb-2">
+                                                                    <div class="input-group-prepend">
+                                                                        <div class="input-group-text">Ngày bắt đầu</div>
+                                                                    </div>
+                                                                    <input type="date" class="form-control"  name="dateStart" id = "start3">
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-5">
+                                                                <label class="sr-only" for="end3">Ngày kết thúc</label>
+                                                                <div class="input-group mb-2">
+                                                                    <div class="input-group-prepend">
+                                                                        <div class="input-group-text">Ngày kết thúc</div>
+                                                                    </div>
+                                                                    <input type="date" class="form-control"  name="dateEnd" id ="end3">
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-2">
+                                                                <button  type="submit" style="width: 100%" class="btn btn-outline-dark mb-2"
+                                                                >Tìm kiếm
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                    </form>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                        <table class="table table-bordered table-striped table-hover table-responsive-xl" style="margin-top: 20px">
+                                            <thead class="thead-dark">
+                                            <tr>
+                                                <th>Mã đơn hàng</th>
+                                                <th>Id khách hàng</th>
+                                                <th>Id nhân viên</th>
+                                                <th>Ngày tạo</th>
+                                                <th>Ngày cập nhật</th>
+                                                <th>Địa chỉ</th>
+                                                <th>Trạng thái đơn hàng</th>
+                                                <th>Tổng tiền</th>
+                                                <th>Ghi chú</th>
+                                                <th>Action</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+
+                                            </tbody>
+
+                                        </table>
+                                    </div>
+                                    <div class="tab-pane fade" id="tab4">
+                                        <p>Đã hủy</p>
+                                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 tab-content">
+                                            <div>
+                                                <div class="shipping-cart">
+                                                    <form method="GET" formaction="/admin/don-hang/search/date" id="formSearch4">
+                                                        <input type = "number" name="status" value ="4" hidden="true">
+                                                        <div class="row">
+                                                            <div class="col-md-5">
+                                                                <label class="sr-only" for="start4">Ngày bắt đầu</label>
+                                                                <div class="input-group mb-2">
+                                                                    <div class="input-group-prepend">
+                                                                        <div class="input-group-text">Ngày bắt đầu</div>
+                                                                    </div>
+                                                                    <input type="date" class="form-control"  name="dateStart" id = "start4">
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-5">
+                                                                <label class="sr-only" for="end4">Ngày kết thúc</label>
+                                                                <div class="input-group mb-2">
+                                                                    <div class="input-group-prepend">
+                                                                        <div class="input-group-text">Ngày kết thúc</div>
+                                                                    </div>
+                                                                    <input type="date" class="form-control"  name="dateEnd" id ="end4">
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-2">
+                                                                <button  type="submit" style="width: 100%" class="btn btn-outline-dark mb-2"
+                                                                >Tìm kiếm
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                    </form>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                        <table class="table table-bordered table-striped table-hover table-responsive-xl" style="margin-top: 20px">
+                                            <thead class="thead-dark">
+                                            <tr>
+                                                <th>Mã đơn hàng</th>
+                                                <th>Id khách hàng</th>
+                                                <th>Ngày tạo</th>
+                                                <th>Ngày cập nhật</th>
+                                                <th>Địa chỉ</th>
+                                                <th>Trạng thái đơn hàng</th>
+                                                <th>Tổng tiền</th>
+                                                <th>Lý do</th>
+                                                <th>Action</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+
+                                            </tbody>
+
+                                        </table>
+                                    </div>
+                                    <div class="tab-pane fade" id="tab5">
+                                        <p>yêu Trả hàng/ hoàn tiền</p>
+                                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 tab-content">
+                                            <div>
+                                                <div class="shipping-cart">
+                                                    <form method="GET" formaction="/admin/don-hang/search/date" id="formSearch5">
+                                                        <input type = "number" name="status" value ="5" hidden="true">
+                                                        <div class="row">
+                                                            <div class="col-md-5">
+                                                                <label class="sr-only" for="start5">Ngày bắt đầu</label>
+                                                                <div class="input-group mb-2">
+                                                                    <div class="input-group-prepend">
+                                                                        <div class="input-group-text">Ngày bắt đầu</div>
+                                                                    </div>
+                                                                    <input type="date" class="form-control"  name="dateStart" id = "start5">
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-5">
+                                                                <label class="sr-only" for="end5">Ngày kết thúc</label>
+                                                                <div class="input-group mb-2">
+                                                                    <div class="input-group-prepend">
+                                                                        <div class="input-group-text">Ngày kết thúc</div>
+                                                                    </div>
+                                                                    <input type="date" class="form-control"  name="dateEnd" id ="end5">
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-2">
+                                                                <button  type="submit" style="width: 100%" class="btn btn-outline-dark mb-2"
+                                                                >Tìm kiếm
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                    </form>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                        <table class="table table-bordered table-striped table-hover table-responsive-xl" style="margin-top: 20px">
+                                            <thead class="thead-dark">
+                                            <tr>
+                                                <th>Mã đơn hàng</th>
+                                                <th>Id khách hàng</th>
+                                                <th>Ngày tạo</th>
+                                                <th>Ngày cập nhật</th>
+                                                <th>Địa chỉ</th>
+                                                <th>Trạng thái đơn hàng</th>
+                                                <th>Tổng tiền</th>
+                                                <th>Lý do</th>
+                                                <th>Action</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+
+                                            </tbody>
+
+                                        </table>
+                                    </div>
+                                    <div class="tab-pane fade" id="tab6">
+                                        <p>Đã trả hàng</p>
+                                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 tab-content">
+                                            <div>
+                                                <div class="shipping-cart">
+                                                    <form method="GET" formaction="/admin/don-hang/search/date" id="formSearch6">
+                                                        <input type = "number" name="status" value ="6" hidden="true">
+                                                        <div class="row">
+                                                            <div class="col-md-5">
+                                                                <label class="sr-only" for="start6">Ngày bắt đầu</label>
+                                                                <div class="input-group mb-2">
+                                                                    <div class="input-group-prepend">
+                                                                        <div class="input-group-text">Ngày bắt đầu</div>
+                                                                    </div>
+                                                                    <input type="date" class="form-control"  name="dateStart" id = "start6">
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-5">
+                                                                <label class="sr-only" for="end6">Ngày kết thúc</label>
+                                                                <div class="input-group mb-2">
+                                                                    <div class="input-group-prepend">
+                                                                        <div class="input-group-text">Ngày kết thúc</div>
+                                                                    </div>
+                                                                    <input type="date" class="form-control"  name="dateEnd" id ="end6">
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-2">
+                                                                <button  type="submit" style="width: 100%" class="btn btn-outline-dark mb-2"
+                                                                >Tìm kiếm
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                    </form>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                        <table class="table table-bordered table-striped table-hover table-responsive-xl" style="margin-top: 20px">
+                                            <thead class="thead-dark">
+                                            <tr>
+                                                <th>Mã đơn hàng</th>
+                                                <th>Id khách hàng</th>
+                                                <th>Ngày tạo</th>
+                                                <th>Ngày cập nhật</th>
+                                                <th>Địa chỉ</th>
+                                                <th>Trạng thái đơn hàng</th>
+                                                <th>Tổng tiền</th>
+                                                <th>Lý do</th>
+                                                <th>Action</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+
+                                            </tbody>
+
+                                        </table>
+                                    </div>
+                                </div>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--                    Kết thức đơn hàng-->
+
+            <!--                    </div>-->
+        </section>
+        <!-- MAIN-CONTENT-SECTION END -->
+    </div>
+</div>
+<!-- END article -->
+<!--  Footer      -->
+<div th:replace="admin/fragment/fragments::footer"></div>
+
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        var tabLink = $("#myTabs a[data-api='7']");
+        tabLink.tab("show");
+        var tabContentId = tabLink.attr("href");
+        var table = $(tabContentId).find("table");
+        var api = tabLink.data("api");
+        loadTabContent(api, table);
+    });
+
+
+
+
+    $(document).ready(function () {
+        var today = new Date();
+        var dd = today.getDate();
+        var mm = today.getMonth()+1; // Tháng bắt đầu từ 0
+        var yyyy = today.getFullYear();
+        if(dd<10){
+            dd='0'+dd;
+        }
+        if(mm<10){
+            mm='0'+mm;
+        }
+        var todayFormatted = yyyy+'-'+mm+'-'+dd; // Chuỗi ngày tháng được định dạng theo định dạng của input type="date"
+        $("#myTabs a").click(function (e) {
+            e.preventDefault();
+            $(this).tab("show");
+            var tabContentId = $(this).attr("href");
+            var table = $(tabContentId).find("table");
+            var api = $(this).data("api");
+            loadTabContent(api,table);
+                switch (api) {
+                    case 7:
+                        document.getElementById("start7").value = todayFormatted; // Set giá trị mặc định cho input
+                        document.getElementById("end7").value = todayFormatted;
+                        var searchForm = document.getElementById("formSearch7");
+                        searchAPI(api,searchForm,table)
+
+                        break;
+                    case 0:
+                        document.getElementById("start0").value = todayFormatted; // Set giá trị mặc định cho input
+                        document.getElementById("end0").value = todayFormatted;
+                        var searchForm = document.getElementById("formSearch0");
+                        searchAPI(api,searchForm,table)
+
+                        break;
+                    case 1:
+                        document.getElementById("start1").value = todayFormatted; // Set giá trị mặc định cho input
+                        document.getElementById("end1").value = todayFormatted;
+                        var searchForm = document.getElementById("formSearch1");
+                        searchAPI(api,searchForm,table)
+
+                        break;
+                    case 2:
+                        document.getElementById("start2").value = todayFormatted; // Set giá trị mặc định cho input
+                        document.getElementById("end2").value = todayFormatted;
+                        var searchForm = document.getElementById("formSearch2");
+                        searchAPI(api,searchForm,table)
+
+                        break;
+                    case 3:
+                        document.getElementById("start3").value = todayFormatted; // Set giá trị mặc định cho input
+                        document.getElementById("end3").value = todayFormatted;
+                        var searchForm = document.getElementById("formSearch3");
+                        searchAPI(api,searchForm,table)
+
+                        break;
+                    case 4:
+                        document.getElementById("start4").value = todayFormatted; // Set giá trị mặc định cho input
+                        document.getElementById("end4").value = todayFormatted;
+                        var searchForm = document.getElementById("formSearch4");
+                        searchAPI(api,searchForm,table)
+                        break;
+                    case 5:
+                        document.getElementById("start5").value = todayFormatted; // Set giá trị mặc định cho input
+                        document.getElementById("end5").value = todayFormatted;
+                        var searchForm = document.getElementById("formSearch5");
+                        searchAPI(api,searchForm,table)
+                        break;
+                    case 6:
+                        document.getElementById("start6").value = todayFormatted; // Set giá trị mặc định cho input
+                        document.getElementById("end6").value = todayFormatted;
+                        var searchForm = document.getElementById("formSearch6");
+                        searchAPI(api,searchForm,table)
+                        break;
+                    default:
+                        document.getElementById("start7").value = todayFormatted; // Set giá trị mặc định cho input
+                        document.getElementById("end7").value = todayFormatted;
+                        var searchForm = document.getElementById("formSearch7");
+                        searchAPI(api,searchForm,table)
+                        break;
+                }
+            });
+
+
+
+        });
+
+    function searchAPI (api,searchForm,table){
+        searchForm.addEventListener("submit", function (event) {
+
+            event.preventDefault();
+            var formData = new FormData(searchForm);
+            var queryParams = new URLSearchParams(formData);
+            var url = searchForm.getAttribute("formaction") + "?" + queryParams.toString();
+            console.log(url);
+            fetch(url)
+                .then(response => response.json())
+                .then(data => {
+                    console.log(data);
+
+                    loadItem(api,data,table)
+                })
+                .catch(error => {
+                    console.error("Error calling API: " + error);
+                });
+        });
+    }
+
+    function loadItem(api,data,table){
+        var tbody = table.find('tbody');
+        tbody.empty();
+        if(data.length==0){
+            tbody.append("Không có dữ liệu hiển thị");
+        }else{
+            for (var i = 0; i < data.length; i++) {
+                var item = data[i];
+                switch (api) {
+                    case 7:
+                        var row = generateTableAllRow(item);
+                        break;
+                    case 0:
+                        var row = generateTableChoXacNhacRow(item);
+                        break;
+                    case 1:
+                        var row = generateTableChuanBiRow(item);
+                        break;
+                    case 2:
+                        var row = generateTableDangGiaoRow(item);
+                        break;
+                    case 3:
+                        var row = generateTableHoanThanhRow(item);
+                        break;
+                    case 4:
+                        var row = generateTableDaHuyRow(item);
+                        break;
+                    case 5:
+                        var row = generateTableYCTraHangRow(item);
+                        break;
+                    case 6:
+                        var row = generateTableDaTraRow(item);
+                        break;
+                    default:
+                        var row = generateTableAllRow(item);
+                        break;
+                }
+                tbody.append(row);
+            }
+        }
+    }
+
+        function loadTabContent(api,table) {
+            // Tùy vào giá trị của api, thực hiện gọi API và cập nhật nội dung tương ứng
+                fetch("/admin/don-hang/findByTrangThai/" + api) // Thay thế đường dẫn bằng URL của API thực tế
+                    .then(response => response.json())
+                    .then(data => {
+                        console.log(data);
+                        var tbody = table.find('tbody');
+                        tbody.empty();
+                        if(data.length==0){
+                            tbody.append("Không có dữ liệu hiển thị");
+                        }else{
+                            for (var i = 0; i < data.length; i++) {
+                                var item = data[i];
+                                switch (api) {
+                                    case 7:
+                                        var row = generateTableAllRow(item);
+                                        break;
+                                    case 0:
+                                        var row = generateTableChoXacNhacRow(item);
+                                        break;
+                                    case 1:
+                                        var row = generateTableChuanBiRow(item);
+                                        break;
+                                    case 2:
+                                        var row = generateTableDangGiaoRow(item);
+                                        break;
+                                    case 3:
+                                        var row = generateTableHoanThanhRow(item);
+                                        break;
+                                    case 4:
+                                        var row = generateTableDaHuyRow(item);
+                                        break;
+                                    case 5:
+                                        var row = generateTableYCTraHangRow(item);
+                                        break;
+                                    case 6:
+                                        var row = generateTableDaTraRow(item);
+                                        break;
+                                    default:
+                                        var row = generateTableAllRow(item);
+                                        break;
+                                }
+                                tbody.append(row);
+                            }
+                        }
+                    })
+                    .catch(error => {
+                        console.error("Error calling API: " + error);
+                    });
+        }
+
+        function generateTableAllRow(item) {
+            var row = '<tr>';
+            row += '<td>' + (item.maDonHang) + '</td>';
+            row += '<td style="max-width: 220px">' + item.khachHang.idKhachHang +  '</td>';
+            row += '<td>' + item.ngayTao + '</td>';
+            row += '<td>' + item.ngayCapNhap + '</td>';
+            row += '<td>' + item.diaChi + '</td>';
+            row += '<td>' + setTrangThaiText(item.trangThaiDonHang) + '</td>';
+            row += '<td>' + new Intl.NumberFormat('ja-JP').format(item.tongTien + item.phiVanChuyen)  + 'đ</td>';
+            if(item.ghiChu != null) {
+                row += '<td>' + item.ghiChu + '</td>';
+            }else{
+                row += '<td>' + " " + '</td>';
+            }
+            row += '<td>';
+            row += '<a class="icon-green btn btn-outline-danger" style="text-decoration: none"  href="/admin/hoa-don-chi-tiet/search/' + item.idDonHang+ '">Xem</a>';
+            row += '</td>';
+            row += '</tr>';
+            return row;
+        }
+        function generateTableChoXacNhacRow(item) {
+            var row = '<tr>';
+            row += '<td>' + (item.maDonHang) + '</td>';
+            row += '<td style="max-width: 220px">' + item.khachHang.idKhachHang +  '</td>';
+            row += '<td>' + item.ngayTao + '</td>';
+            row += '<td>' + item.diaChi + '</td>';
+            row += '<td>' + setTrangThaiText(item.trangThaiDonHang) + '</td>';
+            row += '<td>' + new Intl.NumberFormat('ja-JP').format(item.tongTien + item.phiVanChuyen) + 'đ</td>';
+            if(item.ghiChu != null) {
+                row += '<td>' + item.ghiChu + '</td>';
+            }else{
+                row += '<td>' + " " + '</td>';
+            }
+            row += '<td>';
+            row += '<a class="icon-green btn btn-outline-danger" style="text-decoration: none"  href="/admin/hoa-don-chi-tiet/search/' + item.idDonHang+ '">Xem</a>';
+            row += '<a class="icon-green btn btn-outline-danger" style="text-decoration: none"  href="/admin/don-hang/update/' + item.idDonHang+'/trang-thai/1'+ '">Xác nhận</a>';
+            row += '<a class="icon-green btn btn-outline-danger" style="text-decoration: none"  href="/admin/don-hang/update/' + item.idDonHang+'/trang-thai/4'+ '">Hủy</a>';
+            row += '</td>';
+            row += '</tr>';
+            return row;
+        }
+        function generateTableChuanBiRow(item) {
+            var row = '<tr>';
+            row += '<td>' + (item.maDonHang) + '</td>';
+            row += '<td style="max-width: 220px">' + item.khachHang.idKhachHang +  '</td>';
+            row += '<td>' + item.ngayTao + '</td>';
+            row += '<td>' + item.ngayCapNhap + '</td>';
+            row += '<td>' + item.diaChi + '</td>';
+            row += '<td>' + setTrangThaiText(item.trangThaiDonHang) + '</td>';
+            row += '<td>' + new Intl.NumberFormat('ja-JP').format(item.tongTien + item.phiVanChuyen)+ 'đ</td>';
+            if(item.ghiChu != null) {
+                row += '<td>' + item.ghiChu + '</td>';
+            }else{
+                row += '<td>' + " " + '</td>';
+            }
+            row += '<td>';
+            row += '<a class="icon-green btn btn-outline-danger" style="text-decoration: none"  href="/admin/hoa-don-chi-tiet/search/' + item.idDonHang+ '">Xem</a>';
+            row += '<a class="icon-green btn btn-outline-danger" style="text-decoration: none"  href="/admin/don-hang/update/' + item.idDonHang+'/trang-thai/2'+ '">Giao hàng</a>';
+            row += '<a class="icon-green btn btn-outline-danger" style="text-decoration: none"  href="/admin/don-hang/update/' + item.idDonHang+'/trang-thai/4'+ '">Hủy</a>';
+            row += '</td>';
+            row += '</tr>';
+            return row;
+        }
+        function generateTableDangGiaoRow(item) {
+            var row = '<tr>';
+            row += '<td>' + (item.maDonHang) + '</td>';
+            row += '<td style="max-width: 220px">' + item.khachHang.idKhachHang +  '</td>';
+            row += '<td>' + item.ngayTao + '</td>';
+            row += '<td>' + item.ngayCapNhap + '</td>';
+            row += '<td>' + item.diaChi + '</td>';
+            row += '<td>' + setTrangThaiText(item.trangThaiDonHang) + '</td>';
+            row += '<td>' + new Intl.NumberFormat('ja-JP').format(item.tongTien + item.phiVanChuyen) + 'đ</td>';
+            if(item.ghiChu != null) {
+                row += '<td>' + item.ghiChu + '</td>';
+            }else{
+                row += '<td>' + " " + '</td>';
+            }
+            row += '<td>';
+            row += '<a class="icon-green btn btn-outline-danger" style="text-decoration: none"  href="/admin/hoa-don-chi-tiet/search/' + item.idDonHang+ '">Xem</a>';
+            row += '<a class="icon-green btn btn-outline-danger" style="text-decoration: none"  href="/admin/don-hang/update/' + item.idDonHang+'/trang-thai/3'+ '">Hoàn thành</a>';
+            row += '</td>';
+            row += '</tr>';
+            return row;
+        }
+        function generateTableHoanThanhRow(item) {
+            var row = '<tr>';
+            row += '<td>' + (item.maDonHang) + '</td>';
+            row += '<td>' + item.khachHang.idKhachHang +  '</td>';
+            row += '<td>' + setTextNhanVien(item.idNhanVien) +  '</td>';
+            row += '<td>' + item.ngayTao + '</td>';
+            row += '<td>' + item.ngayCapNhap + '</td>';
+            row += '<td>' + item.diaChi + '</td>';
+            row += '<td>' + setTrangThaiText(item.trangThaiDonHang) + '</td>';
+            row += '<td>' +new Intl.NumberFormat('ja-JP').format(item.tongTien + item.phiVanChuyen)+ 'đ</td>';
+            if(item.ghiChu != null) {
+                row += '<td>' + item.ghiChu + '</td>';
+            }else{
+                row += '<td>' + " " + '</td>';
+            }
+            row += '<td>';
+            row += '<a class="icon-green btn btn-outline-danger" style="text-decoration: none"  href="/admin/hoa-don-chi-tiet/search/' + item.idDonHang+ '">Xem</a>';
+            row += '<a class="icon-green btn btn-outline-danger" style="text-decoration: none"  href="/admin/don-hang/update/' + item.idDonHang+'/trang-thai/5'+ '">Trả hàng</a>';
+            row += '</td>';
+            row += '</tr>';
+            return row;
+        }
+        function generateTableDaHuyRow(item) {
+            var row = '<tr>';
+            row += '<td>' + (item.maDonHang) + '</td>';
+            row += '<td style="max-width: 220px">' + item.khachHang.idKhachHang +  '</td>';
+            row += '<td>' + item.ngayTao + '</td>';
+            row += '<td>' + item.ngayCapNhap + '</td>';
+            row += '<td>' + item.diaChi + '</td>';
+            row += '<td>' + setTrangThaiText(item.trangThaiDonHang) + '</td>';
+            row += '<td>' + new Intl.NumberFormat('ja-JP').format(item.tongTien + item.phiVanChuyen) + 'đ</td>';
+            if(item.lyDo != null) {
+                row += '<td>' + item.lyDo + '</td>';
+            }else{
+                row += '<td>' + " " + '</td>';
+            }
+            row += '<td>';
+            row += '<a class="icon-green btn btn-outline-danger" style="text-decoration: none"  href="/admin/hoa-don-chi-tiet/search/' + item.idDonHang+ '">Xem</a>';
+            row += '</td>';
+            row += '</tr>';
+            return row;
+        }
+        function generateTableYCTraHangRow(item) {
+            var row = '<tr>';
+            row += '<td>' + (item.maDonHang) + '</td>';
+            row += '<td style="max-width: 220px">' + item.khachHang.idKhachHang +  '</td>';
+            row += '<td>' + item.ngayTao + '</td>';
+            row += '<td>' + item.ngayCapNhap + '</td>';
+            row += '<td>' + item.diaChi + '</td>';
+            row += '<td>' + setTrangThaiText(item.trangThaiDonHang) + '</td>';
+            row += '<td>' +new Intl.NumberFormat('ja-JP').format(item.tongTien + item.phiVanChuyen) + 'đ</td>';
+            if(item.lyDo != null) {
+                row += '<td>' + item.lyDo + '</td>';
+            }else{
+                row += '<td>' + " " + '</td>';
+            }
+            row += '<td>';
+            row += '<a class="icon-green btn btn-outline-danger" style="text-decoration: none"  href="/admin/hoa-don-chi-tiet/search/' + item.idDonHang+ '">Xem</a>';
+            row += '<a class="icon-green btn btn-outline-danger" style="text-decoration: none"  href="/admin/don-hang/update/' + item.idDonHang+'/trang-thai/6'+ '">Xác nhận</a>';
+            row += '<a class="icon-green btn btn-outline-danger" style="text-decoration: none"  href="/admin/don-hang/update/' + item.idDonHang+'/trang-thai/3'+ '">Hủy</a>';
+            row += '</td>';
+            row += '</tr>';
+            return row;
+        }
+        function generateTableDaTraRow(item) {
+            var row = '<tr>';
+            row += '<td>' + (item.maDonHang) + '</td>';
+            row += '<td style="max-width: 220px">' + item.khachHang.idKhachHang +  '</td>';
+            row += '<td>' + item.ngayTao + '</td>';
+            row += '<td>' + item.ngayCapNhap + '</td>';
+            row += '<td>' + item.diaChi + '</td>';
+            row += '<td>' + setTrangThaiText(item.trangThaiDonHang) + '</td>';
+            row += '<td>' + new Intl.NumberFormat('ja-JP').format(item.tongTien + item.phiVanChuyen) + 'đ</td>';
+            if(item.ghiChu != null) {
+                row += '<td>' + item.ghiChu + '</td>';
+            }else{
+                row += '<td>' + " " + '</td>';
+            }
+            row += '<td>';
+            row += '<a class="icon-green btn btn-outline-danger" style="text-decoration: none"  href="/admin/hoa-don-chi-tiet/search/' + item.idDonHang+ '">Xem</a>';
+            row += '</td>';
+            row += '</tr>';
+            return row;
+        }
+
+        function setTrangThaiText(trangThai){
+            switch (trangThai) {
+                case 0:
+                    return 'Chờ xác nhận';
+                    break;
+                case 1:
+                    return 'Đang chuẩn bị';
+                    break;
+                case 2:
+                    return 'Đang giao';
+                    break;
+                case 3:
+                    return 'Hoàn thành';
+                    break;
+                case 4:
+                    return 'Đã hủy';
+                    break;
+                case 5:
+                    return 'Trả hàng / Hoàn tiền';
+                    break;
+                case 6:
+                    return 'Đã hoàn trả';
+                    break;
+                case 8:
+                    return 'Chờ thanh toán';
+                    break;
+
+                default:
+                    return '';
+            }
+        }
+    function setTextNhanVien(trangThai){
+        if(trangThai != null ){
+            return trangThai;
+        }else{
+            return "";
+        }
+    }
+</script>
+</body>
+</html>

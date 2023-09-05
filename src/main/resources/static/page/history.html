@@ -1,0 +1,395 @@
+<!-- MAIN-CONTENT-SECTION START -->
+
+<section class="main-content-section" ng-controller="historyCtrl">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <!-- BSTORE-BREADCRUMB START -->
+                <div class="bstore-breadcrumb">
+                    <a href="#">Trang</a>
+                    <span><i class="fa fa-caret-right	"></i></span>
+                    <span>My account</span>
+                </div>
+                <!-- BSTORE-BREADCRUMB END -->
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <h2 class="page-title">My account</h2>
+            </div>
+            <div class="account-info-text">
+                Welcome to your account. Here you can manage all of your personal information and orders.
+            </div>
+            <!-- ACCOUNT-INFO-TEXT START -->
+            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
+                <div class="account-info">
+                    <div class="single-account-info">
+                        <ul>
+                            <li style="height: 45px"><a href="#"><i class="fa fa-building"></i><span style="font-size: 10px">Add my first address</span>	</a></li>
+                            <li style="height: 45px"><a href="#history"><i class="fa fa-list-ol"></i><span style="font-size: 10px">Order history and details</span>	</a></li>
+                            <li style="height: 45px"><a href="#"><i class="fa fa-file-o"></i><span style="font-size: 10px">My credit slips</span>	</a></li>
+                            <li style="height: 45px"><a href="address.html"><i class="fa fa-building"></i><span style="font-size: 10px">My addresses</span>	</a></li>
+                            <li style="height: 45px"><a href="#my-info"><i class="fa fa-user"></i><span style="font-size: 10px">My personal information</span>	</a></li>
+                            <li style="height: 45px"><a href="wishlist.html"><i class="fa fa-heart"></i><span style="font-size: 10px">My wishlists</span>	</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-10 col-md-10 col-sm-10 col-xs-12" style="   box-shadow: #bbbbc1 -1px 0px 5px 0px;">
+                <div class="tracking">
+                    <nav>
+                        <ul class="list-tracking" >
+                            <li class="{{all}}"><a href="#history" ng-click="changeTab(0)" data-toggle="tab">Tất cả</a> </li>
+                            <li class="{{choXacNhan}}"><a   ng-click="changeTab(1)" data-toggle="tab">Chờ xác nhận </a> </li>
+                            <li class="{{DangGiao}}"> <a  ng-click="changeTab(2)" data-toggle="tab">Đang giao hàng</a> </li>
+                            <li class="{{HoanThanh}}"> <a  ng-click="changeTab(3)" data-toggle="tab">Hoàn thành</a></li>
+                            <li class="{{DaHuy}}"> <a   ng-click="changeTab(4)" data-toggle="tab">Đã hủy</a></li>
+                            <li class="{{HoanTien}}"> <a  ng-click="changeTab(5)" data-toggle="tab">Trả hàng/hoàn hiền</a> </li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+
+            <div class=" col-lg-10 col-md-10 col-sm-10 col-xs-12 tab-content" >
+                <div class="tab-pane {{all}}" id="all">
+                    <div ng-if="donHang.length == 0"    >
+                    <div style="text-align: center; margin-top: 100px;">
+                        <img src="/assets/images/nothing-to-show.png" width="15%" alt=""></div>
+                    <div style="text-align: center; margin: 10px 0">Chưa có đơn hàng </div>
+                </div>
+                    <div ng-if="donHang.length > 0">
+                    <div class="shipping-cart" >
+                        <div ng-repeat="item in donHang ">
+                            <br>
+                            <div style="font-size: medium">
+                                <div >Mã đơn hàng : {{item.idDonHang}}</div>
+                                <div >Ngày Tạo : {{item.ngayTao}}</div>
+                                <div>Địa Chỉ : {{item.diaChiGiaoHang}}</div>
+                            </div>
+                        <div class="shipping-item"  ng-repeat="h in item.hoaDonChiTiets" >
+<!--                            <span class="cross-icon" ng-click="removeSP(item)"><i class="fa fa-times-circle"></i></span>-->
+                            <div class=" shipping-item-image" style="width: 10%">
+                                <a href="#/chitietsanpham/{{h.chiTietSanPham.sanPham.idSanPham}}"><img src="/assets/images/{{h.chiTietSanPham.sanPham.listAnhSanPham[0].link}}" width="100%" alt="shopping image" /></a>
+                            </div>
+                            <div class="shipping-item-text"  style="width: 87%; float: right">
+                                 <a href="#" class="pro-cat">{{h.chiTietSanPham.sanPham.tenSanPham}} </a>
+                                <div>{{h.soLuong}} <span class="pro-quan-x">x</span></div>
+                                <span class="pro-quality"><a href="#sanpham">Phân loại : {{h.chiTietSanPham.kichCo.tenKichCo}},{{h.chiTietSanPham.mauSac.tenMauSac}}</a></span>
+                                <ul class="price text-right">
+                                    <li class="price special-price"> {{h.giaBan * h.soLuong | number}} </li>
+                                    <span ng-if="h.giaBan == h.chiTietSanPham.giaSanPham"></span>
+                                    <span ng-if="h.giaBan != h.chiTietSanPham.giaSanPham">
+										<li class="price-percent-reduction small">&nbsp;{{h.chiTietSanPham.khuyenMai.chietKhau *  h.soLuong}}%&nbsp;</li>
+									     <li class="old-price">{{h.chiTietSanPham.giaSanPham | number}} đ</li>
+                                     </span>
+                                </ul>
+                            </div>
+                        </div>
+
+                            <div style="width: 30%;margin-left: 650px  ">
+                                <div class="shipping-total-bill" >
+                            <div class="cart-prices" style="border: none">
+                                <span class="shipping-cost">{{item.phiVanChuyen}}</span>
+                                <span>Shipping</span>
+                            </div>
+                            <div class="total-shipping-prices" >
+                                <span class="shipping-total">{{item.tongTien}}</span>
+                                <span>Total</span>
+                            </div>
+                        </div>
+                                <div class="shipping-checkout-btn">
+                            <a href="#checkout"  style="background: #FF4F4F">Yêu cầu <i class="fa fa-chevron-right"></i></a>
+                            <a href="#checkout"  style="background: #FF4F4F">Hủy<i class="fa fa-chevron-right"></i></a>
+                        </div>
+                            </div>
+                        </div>
+                    </div>
+                    </div>
+                </div>
+                <div class="tab-pane {{choXacNhan}}" id="choXacNhan">
+                    <div ng-if="donHang.length == 0" >
+                        <div style="text-align: center; margin-top: 100px;">
+                            <img src="/assets/images/nothing-to-show.png" width="15%" alt=""></div>
+                        <div style="text-align: center; margin: 10px 0">Chưa có đơn hàng </div>
+                    </div>
+                    <div ng-if="donHang.length > 0">
+                        <div class="shipping-cart" >
+                            <div ng-repeat="item in donHang ">
+                                <br>
+                                <div style="font-size: medium">
+                                    <div >Mã đơn hàng : {{item.idDonHang}}</div>
+                                    <div >Ngày Tạo : {{item.ngayTao}}</div>
+                                    <div>Địa Chỉ : {{item.diaChiGiaoHang}}</div>
+                                </div>
+                                <div class="shipping-item"  ng-repeat="h in item.hoaDonChiTiets" >
+                                    <!--                            <span class="cross-icon" ng-click="removeSP(item)"><i class="fa fa-times-circle"></i></span>-->
+                                    <div class=" shipping-item-image" style="width: 10%">
+                                        <a href="#/chitietsanpham/{{h.chiTietSanPham.sanPham.idSanPham}}"><img src="/assets/images/{{h.chiTietSanPham.sanPham.listAnhSanPham[0].link}}" width="100%" alt="shopping image" /></a>
+                                    </div>
+                                    <div class="shipping-item-text"  style="width: 87%; float: right">
+                                        <a href="#" class="pro-cat">{{h.chiTietSanPham.sanPham.tenSanPham}} </a>
+                                        <div>{{h.soLuong}} <span class="pro-quan-x">x</span></div>
+                                        <span class="pro-quality"><a href="#sanpham">Phân loại : {{h.chiTietSanPham.kichCo.tenKichCo}},{{h.chiTietSanPham.mauSac.tenMauSac}}</a></span>
+                                        <ul class="price text-right">
+                                            <li class="price special-price"> {{h.giaBan * h.soLuong | number}} </li>
+                                            <span ng-if="h.giaBan == h.chiTietSanPham.giaSanPham"></span>
+                                            <span ng-if="h.giaBan != h.chiTietSanPham.giaSanPham">
+										<li class="price-percent-reduction small">&nbsp;{{h.chiTietSanPham.khuyenMai.chietKhau *  h.soLuong}}%&nbsp;</li>
+									     <li class="old-price">{{h.chiTietSanPham.giaSanPham | number}} đ</li>
+                                     </span>
+                                        </ul>
+                                    </div>
+                                </div>
+
+                                <div style="width: 30%;margin-left: 650px  ">
+                                    <div class="shipping-total-bill" >
+                                        <div class="cart-prices" style="border: none">
+                                            <span class="shipping-cost">{{item.phiVanChuyen}}</span>
+                                            <span>Shipping</span>
+                                        </div>
+                                        <div class="total-shipping-prices" >
+                                            <span class="shipping-total">{{item.tongTien}}</span>
+                                            <span>Total</span>
+                                        </div>
+                                    </div>
+                                    <div class="shipping-checkout-btn">
+                                        <a href="#checkout"  style="background: #FF4F4F">Hủy<i class="fa fa-chevron-right"></i></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane {{DangGiao}}" id="DangGiao">
+                    <div ng-if="donHang.length == 0" >
+                        <div style="text-align: center; margin-top: 100px;">
+                            <img src="/assets/images/nothing-to-show.png" width="15%" alt=""></div>
+                        <div style="text-align: center; margin: 10px 0">Chưa có đơn hàng </div>
+                    </div>
+                    <div ng-if="donHang.length > 0">
+                        <div class="shipping-cart" >
+                            <div ng-repeat="item in donHang ">
+                                <br>
+                                <div style="font-size: medium">
+                                    <div >Mã đơn hàng : {{item.idDonHang}}</div>
+                                    <div >Ngày Tạo : {{item.ngayTao}}</div>
+                                    <div>Địa Chỉ : {{item.diaChiGiaoHang}}</div>
+                                </div>
+                                <div class="shipping-item"  ng-repeat="h in item.hoaDonChiTiets" >
+                                    <!--                            <span class="cross-icon" ng-click="removeSP(item)"><i class="fa fa-times-circle"></i></span>-->
+                                    <div class=" shipping-item-image" style="width: 10%">
+                                        <a href="#/chitietsanpham/{{h.chiTietSanPham.sanPham.idSanPham}}"><img src="/assets/images/{{h.chiTietSanPham.sanPham.listAnhSanPham[0].link}}" width="100%" alt="shopping image" /></a>
+                                    </div>
+                                    <div class="shipping-item-text"  style="width: 87%; float: right">
+                                        <a href="#" class="pro-cat">{{h.chiTietSanPham.sanPham.tenSanPham}} </a>
+                                        <div>{{h.soLuong}} <span class="pro-quan-x">x</span></div>
+                                        <span class="pro-quality"><a href="#sanpham">Phân loại : {{h.chiTietSanPham.kichCo.tenKichCo}},{{h.chiTietSanPham.mauSac.tenMauSac}}</a></span>
+                                        <ul class="price text-right">
+                                            <li class="price special-price"> {{h.giaBan * h.soLuong | number}} </li>
+                                            <span ng-if="h.giaBan == h.chiTietSanPham.giaSanPham"></span>
+                                            <span ng-if="h.giaBan != h.chiTietSanPham.giaSanPham">
+										<li class="price-percent-reduction small">&nbsp;{{h.chiTietSanPham.khuyenMai.chietKhau *  h.soLuong}}%&nbsp;</li>
+									     <li class="old-price">{{h.chiTietSanPham.giaSanPham | number}} đ</li>
+                                     </span>
+                                        </ul>
+                                    </div>
+                                </div>
+
+                                <div style="width: 30%;margin-left: 650px  ">
+                                    <div class="shipping-total-bill" >
+                                        <div class="cart-prices" style="border: none">
+                                            <span class="shipping-cost">{{item.phiVanChuyen}}</span>
+                                            <span>Shipping</span>
+                                        </div>
+                                        <div class="total-shipping-prices" >
+                                            <span class="shipping-total">{{item.tongTien}}</span>
+                                            <span>Total</span>
+                                        </div>
+                                    </div>
+                                    <div class="shipping-checkout-btn">
+                                        <a href="#checkout"  style="background: #FF4F4F">Đã nhận được hàng <i class="fa fa-chevron-right"></i></a>
+                                        <a href="#checkout"  style="background: #9e9e9e">Yêu cầu hoàn trả</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane {{HoanThanh}}" id="HoanThanh">
+                    <div ng-if="donHang.length == 0" >
+                        <div style="text-align: center; margin-top: 100px;">
+                            <img src="/assets/images/nothing-to-show.png" width="15%" alt=""></div>
+                        <div style="text-align: center; margin: 10px 0">Chưa có đơn hàng </div>
+                    </div>
+                    <div ng-if="donHang.length > 0">
+                        <div class="shipping-cart" >
+                            <div ng-repeat="item in donHang ">
+                                <br>
+                                <div style="font-size: medium">
+                                    <div >Mã đơn hàng : {{item.idDonHang}}</div>
+                                    <div >Ngày Tạo : {{item.ngayTao}}</div>
+                                    <div>Địa Chỉ : {{item.diaChiGiaoHang}}</div>
+                                </div>
+                                <div class="shipping-item"  ng-repeat="h in item.hoaDonChiTiets" >
+                                    <!--                            <span class="cross-icon" ng-click="removeSP(item)"><i class="fa fa-times-circle"></i></span>-->
+                                    <div class=" shipping-item-image" style="width: 10%">
+                                        <a href="#/chitietsanpham/{{h.chiTietSanPham.sanPham.idSanPham}}"><img src="/assets/images/{{h.chiTietSanPham.sanPham.listAnhSanPham[0].link}}" width="100%" alt="shopping image" /></a>
+                                    </div>
+                                    <div class="shipping-item-text"  style="width: 87%; float: right">
+                                        <a href="#" class="pro-cat">{{h.chiTietSanPham.sanPham.tenSanPham}} </a>
+                                        <div>{{h.soLuong}} <span class="pro-quan-x">x</span></div>
+                                        <span class="pro-quality"><a href="#sanpham">Phân loại : {{h.chiTietSanPham.kichCo.tenKichCo}},{{h.chiTietSanPham.mauSac.tenMauSac}}</a></span>
+                                        <ul class="price text-right">
+                                            <li class="price special-price"> {{h.giaBan * h.soLuong | number}} </li>
+                                            <span ng-if="h.giaBan == h.chiTietSanPham.giaSanPham"></span>
+                                            <span ng-if="h.giaBan != h.chiTietSanPham.giaSanPham">
+										<li class="price-percent-reduction small">&nbsp;{{h.chiTietSanPham.khuyenMai.chietKhau *  h.soLuong}}%&nbsp;</li>
+									     <li class="old-price">{{h.chiTietSanPham.giaSanPham | number}} đ</li>
+                                     </span>
+                                        </ul>
+                                    </div>
+                                </div>
+
+                                <div style="width: 30%;margin-left: 650px  ">
+                                    <div class="shipping-total-bill" >
+                                        <div class="cart-prices" style="border: none">
+                                            <span class="shipping-cost">{{item.phiVanChuyen}}</span>
+                                            <span>Shipping</span>
+                                        </div>
+                                        <div class="total-shipping-prices" >
+                                            <span class="shipping-total">{{item.tongTien}}</span>
+                                            <span>Total</span>
+                                        </div>
+                                    </div>
+                                    <div class="shipping-checkout-btn">
+                                        <a href="#checkout"  style="background: #FF4F4F">Mua lại<i class="fa fa-chevron-right"></i></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane {{DaHuy}}" id="DaHuy">
+                    <div ng-if="donHang.length == 0" >
+                       <div style="text-align: center; margin-top: 100px;">
+                           <img src="/assets/images/nothing-to-show.png" width="15%" alt=""></div>
+                        <div style="text-align: center; margin: 10px 0">Chưa có đơn hàng </div>
+                    </div>
+                    <div ng-if="donHang.length > 0">
+                        <div class="shipping-cart" >
+                            <div ng-repeat="item in donHang ">
+                                <br>
+                                <div style="font-size: medium">
+                                    <div >Mã đơn hàng : {{item.idDonHang}}</div>
+                                    <div >Ngày Tạo : {{item.ngayTao}}</div>
+                                    <div>Địa Chỉ : {{item.diaChiGiaoHang}}</div>
+                                </div>
+                                <div class="shipping-item"  ng-repeat="h in item.hoaDonChiTiets" >
+                                    <!--                            <span class="cross-icon" ng-click="removeSP(item)"><i class="fa fa-times-circle"></i></span>-->
+                                    <div class=" shipping-item-image" style="width: 10%">
+                                        <a href="#/chitietsanpham/{{h.chiTietSanPham.sanPham.idSanPham}}"><img src="/assets/images/{{h.chiTietSanPham.sanPham.listAnhSanPham[0].link}}" width="100%" alt="shopping image" /></a>
+                                    </div>
+                                    <div class="shipping-item-text"  style="width: 87%; float: right">
+                                        <a href="#" class="pro-cat">{{h.chiTietSanPham.sanPham.tenSanPham}} </a>
+                                        <div>{{h.soLuong}} <span class="pro-quan-x">x</span></div>
+                                        <span class="pro-quality"><a href="#sanpham">Phân loại : {{h.chiTietSanPham.kichCo.tenKichCo}},{{h.chiTietSanPham.mauSac.tenMauSac}}</a></span>
+                                        <ul class="price text-right">
+                                            <li class="price special-price"> {{h.giaBan * h.soLuong | number}} </li>
+                                            <span ng-if="h.giaBan == h.chiTietSanPham.giaSanPham"></span>
+                                            <span ng-if="h.giaBan != h.chiTietSanPham.giaSanPham">
+										<li class="price-percent-reduction small">&nbsp;{{h.chiTietSanPham.khuyenMai.chietKhau *  h.soLuong}}%&nbsp;</li>
+									     <li class="old-price">{{h.chiTietSanPham.giaSanPham | number}} đ</li>
+                                     </span>
+                                        </ul>
+                                    </div>
+                                </div>
+
+                                <div style="width: 30%;margin-left: 650px  ">
+                                    <div class="shipping-total-bill" >
+                                        <div class="cart-prices" style="border: none">
+                                            <span class="shipping-cost">{{item.phiVanChuyen}}</span>
+                                            <span>Shipping</span>
+                                        </div>
+                                        <div class="total-shipping-prices" >
+                                            <span class="shipping-total">{{item.tongTien}}</span>
+                                            <span>Total</span>
+                                        </div>
+                                    </div>
+                                    <div class="shipping-checkout-btn">
+                                        <a href="#checkout"  style="background: #FF4F4F">Mua lại<i class="fa fa-chevron-right"></i></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane {{HoanTien}}" id="HoanTien">
+                    <div ng-if="donHang.length == 0" >
+                        <div style="text-align: center; margin-top: 100px;">
+                            <img src="/assets/images/nothing-to-show.png" width="15%" alt=""></div>
+                        <div style="text-align: center; margin: 10px 0">Bạn không có yêu cầu hoàn trả nào </div>
+                    </div>
+                    <div ng-if="donHang.length > 0">
+                        <div class="shipping-cart" >
+                            <div ng-repeat="item in donHang ">
+                                <br>
+                                <div style="font-size: medium">
+                                    <div >Mã đơn hàng : {{item.idDonHang}}</div>
+                                    <div >Ngày Tạo : {{item.ngayTao}}</div>
+                                    <div>Địa Chỉ : {{item.diaChiGiaoHang}}</div>
+                                </div>
+                                <div class="shipping-item"  ng-repeat="h in item.hoaDonChiTiets" >
+                                    <!--                            <span class="cross-icon" ng-click="removeSP(item)"><i class="fa fa-times-circle"></i></span>-->
+                                    <div class=" shipping-item-image" style="width: 10%">
+                                        <a href="#/chitietsanpham/{{h.chiTietSanPham.sanPham.idSanPham}}"><img src="/assets/images/{{h.chiTietSanPham.sanPham.listAnhSanPham[0].link}}" width="100%" alt="shopping image" /></a>
+                                    </div>
+                                    <div class="shipping-item-text"  style="width: 87%; float: right">
+                                        <a href="#" class="pro-cat">{{h.chiTietSanPham.sanPham.tenSanPham}} </a>
+                                        <div>{{h.soLuong}} <span class="pro-quan-x">x</span></div>
+                                        <span class="pro-quality"><a href="#sanpham">Phân loại : {{h.chiTietSanPham.kichCo.tenKichCo}},{{h.chiTietSanPham.mauSac.tenMauSac}}</a></span>
+                                        <ul class="price text-right">
+                                            <li class="price special-price"> {{h.giaBan * h.soLuong | number}} </li>
+                                            <span ng-if="h.giaBan == h.chiTietSanPham.giaSanPham"></span>
+                                            <span ng-if="h.giaBan != h.chiTietSanPham.giaSanPham">
+										<li class="price-percent-reduction small">&nbsp;{{h.chiTietSanPham.khuyenMai.chietKhau *  h.soLuong}}%&nbsp;</li>
+									     <li class="old-price">{{h.chiTietSanPham.giaSanPham | number}} đ</li>
+                                     </span>
+                                        </ul>
+                                    </div>
+                                </div>
+
+                                <div style="width: 30%;margin-left: 650px  ">
+                                    <div class="shipping-total-bill" >
+                                        <div class="cart-prices" style="border: none">
+                                            <span class="shipping-cost">{{item.phiVanChuyen}}</span>
+                                            <span>Shipping</span>
+                                        </div>
+                                        <div class="total-shipping-prices" >
+                                            <span class="shipping-total">{{item.tongTien}}</span>
+                                            <span>Total</span>
+                                        </div>
+                                    </div>
+                                    <div class="shipping-checkout-btn">
+                                        <a href="#checkout"  style="background: #FF4F4F">Mua lại<i class="fa fa-chevron-right"></i></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <!-- ACCOUNT-INFO-TEXT END -->
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <!-- BACK TO HOME START -->
+                <div class="home-link-menu">
+                    <ul>
+                        <li><a href="#index"><i class="fa fa-chevron-left"></i> Home</a></li>
+                    </ul>
+                </div>
+                <!-- BACK TO HOME END -->
+            </div>
+        </div>
+    </div>
+</section>
+<!-- MAIN-CONTENT-SECTION END -->

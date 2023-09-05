@@ -1,0 +1,168 @@
+<div th:fragment="reportStatus">
+    <div id="layoutSidenav_content">
+
+        <main style="margin-left: -329px">
+            <div class="row justify-content-center">
+                <div class="col-sm-2">
+                    <div class="card">
+                        <div class="card-header">
+                            <b>Tổng đơn hàng</b>
+                        </div>
+                        <div class="card-body">
+                            <span class="h3" >[[${sumAll}]]</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-sm-3">
+                    <div class="card">
+                        <div class="card-header">
+                            <b>Đơn hàng hoàn thành</b>
+                        </div>
+                        <div class="card-body">
+                            <span class="h3" >[[${sumDHDone}]]</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-sm-3">
+                    <div class="card">
+                        <div class="card-header">
+                            <b>Đơn hàng đang giao</b>
+                        </div>
+                        <div class="card-body">
+                            <span class="h3" >[[${sumDHShipping}]]</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-sm-2">
+                    <div class="card">
+                        <div class="card-header">
+                            <b>Đơn hàng đã hủy</b>
+                        </div>
+                        <div class="card-body">
+                            <span class="h3" >[[${sumDHCancel}]]</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-sm-2">
+                    <div class="card">
+                        <div class="card-header">
+                            <b>Đơn hàng đã hoàn trả</b>
+                        </div>
+                        <div class="card-body">
+                            <span class="h3" >[[${sumDHReturn}]]</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div style="display: flex;
+    justify-content: space-between;">
+                <form th:action="@{/admin/statisticals/page/1}" class="form-inline m-3">
+                    <div class="d-flex align-items-center">
+                        <input type="hidden" name="sortField" th:value="${sortField}" />
+                        <input type="hidden" name="sortDir" th:value="${sortDir}" />
+                        <label class="sr-only">Tìm Kiếm</label>
+                        <input style="width: 250px; margin-right: 10px" type="search" name="keyword" th:value="${keyword}" placeholder="nhập từ khóa tìm kiếm" class="form-control"  />
+                        <input style="margin-right: 10px" type="submit" value="Search" class="btn btn-primary ml-2" />
+                        <input type="button" value="Clear" class="btn btn-secondary ml-2" onclick="clearFilter()"/>
+                    </div>
+                </form>
+                <select style=" height: 42px; width: 219px; margin-top: 15px;border-radius: 5px" onchange="location = '/admin/statisticals/page/' + this.value + '/1?sortField=ngayTao&sortDir=desc&keyword=';">
+                    <option value="10">Tất cả</option>
+                    <option th:each="statusValue : ${statusValues}"
+                            th:value="${statusValue.value}"
+                            th:text="${statusValue.label}"
+                            th:selected="${statusValue.value == selectedStatus}"></option>
+                </select>
+
+
+            </div>
+
+            <div class="full-details">
+                <table class="table table-bordered table-striped table-hover table-responsive-xl">
+                    <thead class="thead-dark">
+                    <tr>
+                        <th th:replace="admin/fragment/fragments::thongke_link('maDonHang', 'Mã')"></th>
+                        <th th:replace="admin/fragment/fragments::thongke_link('nhanVien', 'Tên nhân viên')"></th>
+                        <th th:replace="admin/fragment/fragments::thongke_link('khachHang', 'Tên Khách Hàng')"></th>
+                        <th th:replace="admin/fragment/fragments::thongke_link('diaChi', 'Địa chỉ')"></th>
+                        <th th:replace="admin/fragment/fragments::thongke_link('lyDo', 'Lý do hủy')"></th>
+                        <th th:replace="admin/fragment/fragments::thongke_link('trangThaiDonHang', 'Trạng thái Đơn')"></th>
+                        <th th:replace="admin/fragment/fragments::thongke_link('phiVanChuyen', 'Phí vận chuyển')"></th>
+                        <th th:replace="admin/fragment/fragments::thongke_link('tongTien', 'Tổng tiền')"></th>
+                        <th th:replace="admin/fragment/fragments::thongke_link('phuongThuc', 'Phương thức thanh toán')"></th>
+                        <th th:replace="admin/fragment/fragments::thongke_link('ngayTao', 'Ngày tạo')"></th>
+                        <th th:replace="admin/fragment/fragments::thongke_link('ngayCapNhap', 'Ngày Cập nhập')"></th>
+                        <th th:replace="admin/fragment/fragments::thongke_link('ngayGiaoHang', 'Ngày Giao Hàng')"></th>
+                                                <Th>Action</Th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="dh :${listDonHang}">
+                        <td style="width: 100px">[[${dh.maDonHang}]]</td>
+                        <td>[[${dh.nhanVien == null ? "" : dh.nhanVien.ten}]] </td>
+                        <td>[[${dh.khachHang.tenKhachHang}]]</td>
+                        <td>[[${dh.diaChi}]]</td>
+                        <td>[[${dh.lyDo}]]</td>
+                        <td>[[${dh.trangThaiDonHang == 0 ? "Chờ xác nhận" : dh.trangThaiDonHang == 1 ? "Đang chuẩn bị" :
+                            dh.trangThaiDonHang == 2 ? "Đang giao hàng" : dh.trangThaiDonHang == 3 ? "Hoàn thành" :
+                            dh.trangThaiDonHang == 4 ? "Đã hủy" : dh.trangThaiDonHang == 5 ? "Yêu cầu hoàn trả" :
+                            "Đã Hoàn Trả"}]]</td>
+                        <td>
+                            <span th:if="${dh.phiVanChuyen != null}" th:text="${#numbers.formatDecimal(dh.phiVanChuyen, 0, 'COMMA', 0, 'POINT')} + ' đ'"></span>
+                            <span th:if="${dh.phiVanChuyen == null}" th:text="${#numbers.formatDecimal(0, 0, 'COMMA', 0, 'POINT')} + ' đ'"></span>
+                        </td>
+                        <td style="width: 120px" th:text="${#numbers.formatDecimal(dh.tongTien, 0, 'COMMA', 0, 'POINT')} +
+                         ' đ'"></td>
+                        <td>[[${dh.phuongThuc == 0 ? "Trả sau" : dh.phuongThuc == 1 ? "VN Pay" : ""}]]</td>
+                        <td>[[${dh.ngayTao}]]</td>
+                        <td>[[${dh.ngayCapNhap}]]</td>
+                        <td>[[${dh.ngayGiaoHang}]]</td>
+                        <td>
+                            <a class="btn btn-outline-danger" th:href="@{/admin/hoa-don-chi-tiet/search/{id}(id=${dh.idDonHang})}">
+                                Xem
+                            </a>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="text-center m-1" th:if="${totalItem > 0}">
+                <span>Hiển thị Đơn Hàng # [[${startCount}]] to [[${endCount}]] of [[${totalItem}]] </span>
+            </div>
+            <div class="text-center m-1" th:unless="${totalItem > 0}">
+                <span>Không có Đơn Hàng trang này</span>
+            </div>
+
+            <div th:if="${totalPages > 1}">
+                <nav>
+                    <ul class="pagination justify-content-center">
+                        <li th:class="${currentPage > 1 ?'page-item' : 'page-item disabled'}">
+                            <a th:replace="admin/fragment/fragments::pagedonhangreport_link(1, 'Trang Đầu')" ></a>
+                        </li>
+                        <li th:class="${currentPage > 1 ?'page-item' : 'page-item disabled'}">
+                            <a th:replace="admin/fragment/fragments::pagedonhangreport_link(${currentPage - 1}, Trước)"></a>
+                        </li>
+                        <li th:class="${currentPage != i ? 'page-item': 'page-item active' }"
+                            th:each="i : ${#numbers.sequence(1,totalPages)}">
+                            <a th:replace="admin/fragment/fragments::pagedonhangreport_link(${i}, ${i})"></a>
+                        </li>
+
+                        <li th:class="${currentPage < totalPages ? 'page-item' : 'page-item disabled'}">
+                            <a th:replace="admin/fragment/fragments::pagedonhangreport_link(${currentPage + 1}, Sau)"></a>
+                        </li>
+                        <li th:class="${currentPage < totalPages ? 'page-item' : 'page-item disabled'}">
+                            <a th:replace="admin/fragment/fragments::pagedonhangreport_link(${totalPages}, 'Trang Cuối')"></a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </main>
+    </div>
+</div>

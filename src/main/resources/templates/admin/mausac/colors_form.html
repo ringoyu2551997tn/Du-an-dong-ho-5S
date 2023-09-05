@@ -1,0 +1,178 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+
+<head th:replace="admin/fragment/fragments:: page_head"></head>
+
+<style>
+    * {
+        padding: 0;
+        margin: 0;
+        box-sizing: border-box;
+    }
+
+    .thong-tin-hoa-don>div{
+        padding-bottom: 5px;
+    }
+
+    .nav-item:hover .nav-link {
+        font-weight: bold;
+    }
+    .tracking nav ul li a {
+        color: #050505;
+        display: block;
+        font-size: 14px;
+        line-height: 55px;
+        transition: all 300ms ease 0s;
+        text-align: center;
+        text-decoration: none;
+    }
+
+    .tracking nav ul li {
+        /*border-bottom: 2px solid orange;*/
+        display: inline-block;
+        width: 16%;
+
+    }
+    .tracking nav ul li a:hover {
+        color: #FF4F4F;
+    }
+    .tracking nav ul li a:active {
+        color: #FF4F4F;
+        border-bottom: 2px solid #FF4F4F;
+    }
+    .tracking nav ul .active{
+        border-bottom: 2px solid #FF4F4F;
+    }
+    .tracking nav ul .active a{
+        color: #FF4F4F;
+    }
+
+    .breadcrumb {
+        background-color: #f2f2f2;
+        padding: 10px;
+        font-size: 14px;
+        display: flex;
+        align-items: center;
+        padding: 5px 20px;
+    }
+
+    .breadcrumb a {
+        color: #666;
+        text-decoration: none;
+        font-weight: bold;
+        margin-right: 10px;
+        margin-left: 10px;
+        font-size: 20px;
+    }
+</style>
+
+<body class="sb-nav-fixed" id="content">
+<div th:replace="admin/fragment/navigation:: navbar"></div>
+<!-- Article NAV -->
+<div id="layoutSidenav">
+    <div th:replace="admin/fragment/navigation:: menu"></div>
+
+    <!-- aside -->
+    <div id="layoutSidenav_content">
+        <!-- MAIN-CONTENT-SECTION START -->
+        <section class="main-content-section">
+            <div class="row">
+                <div class="breadcrumb">
+                    <a th:href="@{'/admin/colors'}">Màu sắc</a> >
+                    <a href="#">[[${pageTitle}]]</a>
+                </div>
+            </div>
+            <div style="max-width: 90%;margin: auto;">
+                <div class="row">
+                    <form th:action="@{/admin/colors/save}" method="post" style="max-width: 500px;margin: 0 auto;border-radius: 5px"
+                          th:object="${mauSac}" onsubmit="return checkCategoryNameUnique(this);">
+                        <input type="hidden" th:field="*{idMauSac}"/>
+                        <div class="border border-secondary rounded p-3">
+                            <div class="form-group-row">
+                                <label class="col-sm-4 col-form-label">Màu sắc:</label>
+                                <div class="col-sm-12">
+                                    <input type="text" class="form-control" th:field="*{tenMauSac}" id="tenMauSacInput" required minlength="3" maxlength="128"/>
+                                </div>
+                            </div>
+
+                            <div class="form-group-row">
+                                <label class="col-sm-4 col-form-label">Trạng Thái:</label>
+                                <div class="col-sm-12">
+                                    <input type="checkbox" th:field="*{enabled}">
+                                </div>
+                            </div>
+
+                            <div class="text-center">
+                                <input type="submit" value="Xác nhận" class="btn btn-outline-primary m-3" id="submitButton"/>
+                                <input type="button" value="Hủy" class="btn btn-outline-secondary" id="buttonCancel">
+                            </div>
+                        </div>
+                    </form>
+
+                    <div class="modal fade text-center" id="modalDialog">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h4 class="modal-title" id="modalTitle" >Warning</h4>
+                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                </div>
+                                <div class="modal-body">
+                                    <span id="modalBody"></span>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-danger" data-dismiss="modal">Hủy</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- MAIN-CONTENT-SECTION END -->
+
+    </div>
+</div>
+
+<!-- END article -->
+
+<!--  Footer      -->
+<div th:replace="admin/fragment/fragments::footer"></div>
+
+<script type="text/javascript">
+    moduleURL= "[[@{/admin/colors}]]";
+
+    function checkCategoryNameUnique(form) {
+        var url = "[[@{/admin/colors/check_name}]]";
+        var danhMucName = form.ten.value;
+        var danhMucId = form.id.value;
+        var csrfValue = $("input[name='_csrf']").val();
+        var params = {
+            id: danhMucId,
+            ten: danhMucName,
+            _csrf: csrfValue
+        };
+
+        $.post(url, params)
+            .done(function(response) {
+                if (response == "OK") {
+                    form.submit();
+                } else if (response == "Duplicated") {
+                    showWarningModal("Tên đã tồn tại hoặc là Tên này thuộc về id khác");
+                } else {
+                    showErrorModal("Lỗi phản hồi từ server");
+                }
+            })
+            .fail(function() {
+                showErrorModal("Không thể kết nối đến server");
+            });
+
+        return false;
+
+    }
+
+
+</script>
+<script th:src="@{/js/index_form.js}"></script>
+</body>
+</html>

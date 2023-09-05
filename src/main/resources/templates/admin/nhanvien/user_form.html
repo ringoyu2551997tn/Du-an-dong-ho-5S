@@ -1,0 +1,166 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="admin/fragment/fragments:: page_head"></head>
+<body class="sb-nav-fixed">
+<div th:replace="admin/fragment/navigation:: navbar"></div>
+<div id="layoutSidenav">
+    <div th:replace="admin/fragment/navigation:: menu"></div>
+
+    <div id="layoutSidenav_content">
+        <main style="margin-left: 10px">
+    <div>
+        <h2>Quản lý nhân viên | [[${pageTitle}]]</h2>
+    </div>
+
+    <form th:action="@{/admin/users/save}" method="post" style="max-width: 700px;margin: 0 auto"
+          enctype="multipart/form-data"
+        th:object="${nhanVien}" onsubmit="return checkEmailUnique(this);">
+        <input type="hidden" th:field="*{id}"/>
+        <div class="border border-secondary rounded p-3">
+            <div class="form-group-row">
+                <label class="col-sm-4 col-form-label">E-mail:</label>
+                <div class="col-sm-12">
+                    <input type="email" class="form-control" th:field="*{email}" id="email" required minlength="8" maxlength="128"/>
+                </div>
+            </div>
+
+            <div class="form-group-row">
+                <label class="col-sm-4 col-form-label">Họ:</label>
+                <div class="col-sm-12">
+                    <input type="text" class="form-control" th:field="*{ho}" required minlength="2" maxlength="45"/>
+                </div>
+            </div>
+
+            <div class="form-group-row">
+                <label class="col-sm-4 col-form-label">Tên:</label>
+                <div class="col-sm-12">
+                    <input type="text" class="form-control" th:field="*{ten}" required minlength="2" maxlength="45"/>
+                </div>
+            </div>
+
+            <div class="form-group-row">
+                <label class="col-sm-4 col-form-label">Mật Khẩu:</label>
+                <div class="col-sm-12">
+                    <input th:if="${nhanVien.id == null}" type="password" class="form-control"
+                           th:field="*{matKhau}" required minlength="8" maxlength="20"/>
+                    <input th:if="${nhanVien.id != null}" type="password" class="form-control"
+                           th:field="*{matKhau}"  minlength="8" maxlength="20"/>
+                </div>
+            </div>
+
+            <div class="form-group-row">
+                <label class="col-sm-4 col-form-label">Địa Chỉ:</label>
+                <div class="col-sm-12">
+                    <input type="text" class="form-control" th:field="*{diaChi}" required minlength="8" maxlength="128"/>
+                </div>
+            </div>
+
+            <div class="form-group-row">
+                <label class="col-sm-4 col-form-label">Số Điện Thoại:</label>
+                <div class="col-sm-12">
+                    <input type="number" class="form-control" th:field="*{soDienThoai}" required minlength="10" maxlength="12"/>
+                </div>
+            </div>
+
+            <div class="form-group-row">
+                <label class="col-sm-4 col-form-label">Chức Vụ:</label>
+                <div class="col-sm-12">
+                    <th:block th:each="chucvu : ${listChucVu}">
+                        <th:block th:if="${chucvu.tenChucVu eq 'ADMIN' or chucvu.tenChucVu eq 'STAFF'}">
+                        <input type="checkbox" th:field="*{chucVu}"
+                               th:text="${chucvu.tenChucVu}"
+                               th:value="${chucvu.idChucVu}"
+                               class="m-2"
+                        />
+                        - <small>[[${chucvu.mota}]]</small>
+                        <br/>
+                    </th:block>
+                    </th:block>
+                </div>
+            </div>
+
+            <div class="form-group-row">
+                <label class="col-sm-4 col-form-label">Trạng Thái:</label>
+                <div class="col-sm-12">
+                    <input type="checkbox" th:field="*{enabled}">
+                </div>
+            </div>
+
+            <div class="form-group-row">
+                <label class="col-sm-4 col-form-label">Ảnh:</label>
+                <div class="col-sm-12">
+                    <input type="hidden" th:field="*{anh}">
+                    <input type="file" id="fileImage" name="image" accept="image/png, images/jpeg"
+                        class="mb-2"
+                    />
+                    <img id="thumbnail" alt="Photo priview" th:src="@{${nhanVien.getPhotoImagesPath}}"
+                        class="img-fluid"
+                    />
+
+                </div>
+            </div>
+
+            <div class="text-center">
+                <input type="submit" value="Save" class="btn btn-primary m-3" id="submitButton"/>
+                <input type="button" value="Cancel" class="btn btn-secondary" id="buttonCancel">
+            </div>
+        </div>
+    </form>
+        </main>
+        <div th:replace="admin/fragment/fragments::footer"></div>
+    </div>
+</div>
+<div class="modal fade text-center" id="modalDialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="modalTitle">Warning</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <span id="modalBody"></span>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script type="text/javascript">
+    moduleURL= "[[@{/admin/users}]]";
+    $(document).ready(function (){
+        $("#buttonCancel").on("click",function (){
+            window.location = "[[@{/admin/users}]]";
+        });
+    });
+
+
+    function checkEmailUnique(form) {
+        url = "[[@{/admin/users/check_email}]]";
+        nhanVienEmail = $("#email").val();
+        nhanVienId = $("#id").val();
+        csrfValue = $("input[name='_csrf']").val();
+        params = {id: nhanVienId , email : nhanVienEmail, _csrf :csrfValue};
+
+        $.post(url,params, function (response){
+            if(response == "OK"){
+                form.submit();
+            }else if (response == "Duplicated"){
+                showWarningModal("Email đã tồn tại hoặc là email này thuộc về id khác " )
+            }else{
+                showErrorModal("lỗi phản hồi từ server");
+            }
+        }).fail(function() {
+            showErrorModal("không thể kết nối đến server");
+        });
+
+
+        return false;
+    }
+</script>
+
+
+</body>
+</html>

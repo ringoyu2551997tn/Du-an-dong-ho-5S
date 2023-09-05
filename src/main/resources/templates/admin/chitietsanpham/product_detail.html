@@ -1,0 +1,130 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="admin/fragment/fragments:: page_head"></head>
+
+<body class="sb-nav-fixed">
+
+<div th:replace="admin/fragment/navigation:: navbar"></div>
+<div id="layoutSidenav">
+    <div th:replace="admin/fragment/navigation:: menu"></div>
+
+    <div id="layoutSidenav_content">
+        <main style="margin-left: 10px">
+            <div>
+                <h2>Quản lý Chi Tiết Sản Phẩm</h2>
+                <a style="text-decoration: none" th:href="@{/admin/productDetails/new}">
+                    <i style="color: green" class="fas fa-user-plus"></i>
+                </a>
+                &nbsp;|&nbsp;
+                <a style="text-decoration: none" th:href="@{/admin/productDetails/export/excel}">
+                    <i class="far fa-file-excel"></i>
+                </a>
+            </div>
+
+            <div th:if="${message != null}" class="alert alert-success text-center">
+                [[${message}]]
+            </div>
+
+            <div>
+                <form th:action="@{/admin/productDetails/page/1}" class="form-inline m-3" id="searchForm">
+                    <div class="d-flex align-items-center">
+                        <input type="hidden" name="sortField" th:value="${sortField}" />
+                        <input type="hidden" name="sortDir" th:value="${sortDir}" />
+
+                        <label class="sr-only">Tìm Kiếm</label>
+                        <input style="width: 250px; margin-right: 10px" type="search" name="keyword" th:value="${keyword}" placeholder="nhập từ khóa tìm kiếm" class="form-control" required />
+                        <input style="width: 250px; margin-right: 10px" type="search" name="productName" th:value="${productName}" placeholder="nhập tên sản phẩm" class="form-control" />
+                        <input style="margin-right: 10px" type="submit" value="Search" class="btn btn-primary ml-2" />
+                        <input type="button" value="Clear" class="btn btn-secondary ml-2" onclick="clearFilter()"/>
+                    </div>
+
+                </form>
+
+            </div>
+
+            <div>
+                <table class="table table-bordered table-striped table-hover table-responsive-xl">
+                    <thead class="thead-dark">
+                    <tr>
+                        <th th:replace="admin/fragment/fragments::productDetails_link('idChiTietSanPham', 'ID')"></th>
+                        <th th:replace="admin/fragment/fragments::productDetails_link('maChiTietSanPham', 'Mã')"></th>
+                        <th th:replace="admin/fragment/fragments::productDetails_link('sanPham', 'SảnPhẩm')"></th>
+                        <th th:replace="admin/fragment/fragments::productDetails_link('dayDeo', 'DâyĐeo')"></th>
+                        <th th:replace="admin/fragment/fragments::productDetails_link('khuyenMai', 'KhuyếnMãi')"></th>
+                        <th th:replace="admin/fragment/fragments::productDetails_link('mauSac', 'MàuSắc')"></th>
+                        <th>Vật Liệu</th>
+                        <th>Kích Cỡ</th>
+                        <th>Giá</th>
+                        <th>Trạng Thái</th>
+                        <Th>Action</Th>
+
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="ctsp :${listChiTietSanPham}">
+                        <td>[[${ctsp.idChiTietSanPham}]]</td>
+                        <td>[[${ctsp.maChiTietSanPham}]]</td>
+                        <td>[[${ctsp.sanPham.tenSanPham}]]</td>
+                        <td>[[${ctsp.dayDeo.tenDayDeo}]]</td>
+                        <td >[[${ctsp.khuyenMai == null ? "" : ctsp.khuyenMai.enabled == false ? "" : ctsp.khuyenMai.tenKhuyenMai}]]</td>
+                        <td>[[${ctsp.mauSac.tenMauSac}]]</td>
+                        <td>[[${ctsp.vatLieu.tenVatLieu}]]</td>
+                        <td>[[${ctsp.kichCo.tenKichCo}]]</td>
+                        <td th:text="${#numbers.formatDecimal(ctsp.giaSanPham, 0, 'COMMA', 0, 'POINT')} +
+                         ' đ'">[[${ctsp.giaSanPham}]]</td>
+                        <td>
+                            [[${ctsp.trangThai == 1 ? 'Hoạt động' : 'Không hoạt động'}]]
+                        </td>
+
+                        <td>
+                            <a style="text-decoration: none" th:href="@{'/admin/productDetails/edit/' + ${ctsp.idChiTietSanPham}}" title="Thay đổi thông tin">
+                                <i style="color: blue" class="fas fa-edit"></i>
+                            </a>
+
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="text-center m-1">
+                <span th:if="${totalItem > 0}">Hiển thị Chi Tiết Sản Phẩm # [[${startCount}]] đến [[${endCount}]] trong tổng số [[${totalItem}]] </span>
+                <span th:unless="${totalItem > 0}">Không có Chi Tiết Sản Phẩm trong trang này</span>
+            </div>
+
+            <div th:if="${totalPages > 1}">
+                <nav>
+                    <ul class="pagination justify-content-center">
+                        <li th:class="${currentPage > 1 ? 'page-item' : 'page-item disabled'}">
+                            <a th:replace="admin/fragment/fragments::pageproductDetail_link(1, 'Trang Đầu')"></a>
+                        </li>
+                        <li th:class="${currentPage > 1 ? 'page-item' : 'page-item disabled'}">
+                            <a th:replace="admin/fragment/fragments::pageproductDetail_link(${currentPage - 1}, 'Trước')"></a>
+                        </li>
+                        <li th:class="${currentPage != i ? 'page-item' : 'page-item active'}" th:each="i : ${#numbers.sequence(1, totalPages)}">
+                            <a th:replace="admin/fragment/fragments::pageproductDetail_link(${i}, ${i})"></a>
+                        </li>
+                        <li th:class="${currentPage < totalPages ? 'page-item' : 'page-item disabled'}">
+                            <a th:replace="admin/fragment/fragments::pageproductDetail_link(${currentPage + 1}, 'Sau')"></a>
+                        </li>
+                        <li th:class="${currentPage < totalPages ? 'page-item' : 'page-item disabled'}">
+                            <a th:replace="admin/fragment/fragments::pageproductDetail_link(${totalPages}, 'Trang Cuối')"></a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+
+        </main>
+        <div th:replace="admin/fragment/fragments::footer"></div>
+    </div>
+</div>
+
+<script type="text/javascript">
+
+    $("#dropdownBrand").on("change",function (){
+        $("#searchForm").submit();
+    })
+</script>
+</body>
+</html>

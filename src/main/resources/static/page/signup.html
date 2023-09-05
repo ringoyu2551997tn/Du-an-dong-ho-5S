@@ -1,0 +1,357 @@
+<header class="main-menu-area" ng-controller="homeCtrl">
+	<div class="container">
+		<div class="row">
+			<!-- SHOPPING-CART START -->
+			<div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 pull-right shopingcartarea">
+				<div class="shopping-cart-out pull-right">
+					<div class="shopping-cart">
+						<a class="shop-link" href="#cart" title="View my shopping cart">
+							<i class="fa fa-shopping-cart cart-icon"></i>
+							<b>My Cart</b>
+							<span class="ajax-cart-quantity">{{totalSp}}</span>
+						</a>
+
+
+						<div class="shipping-cart-overly" style="overflow: scroll">
+							<div ng-if="cart.length == 0" class="text-center">
+								<span>K có sản phẩm nào</span>
+							</div>
+							<div ng-if="cart.length > 0">
+								<div class="shipping-item" ng-repeat="item in cart" ng-init="setTotals(item)">
+                                        <span class="cross-icon" ng-click="removeSP(item)"><i
+												class="fa fa-times-circle"></i></span>
+									<div class="shipping-item-image" style="width: 30%">
+										<a href="#/chitietsanpham/{{item.chiTietSanPham.sanPham.idSanPham}}"><img
+												src="/assets/images/{{item.chiTietSanPham.sanPham.listAnhSanPham[0].link}}"
+												alt="shopping image"/></a>
+									</div>
+									<div class="shipping-item-text" style="width: 60%; float: right">
+                                            <span>{{item.soLuongSanPham}} <span class="pro-quan-x">x</span> <a href="#"
+																											   class="pro-cat">{{item.chiTietSanPham.sanPham.tenSanPham}} </a></span>
+										<span class="pro-quality"><a href="#sanpham">{{item.chiTietSanPham.kichCo.tenKichCo}},{{item.chiTietSanPham.mauSac.tenMauSac}}</a></span>
+										<p>{{item.giaBan}}</p>
+									</div>
+								</div>
+								<div class="shipping-total-bill">
+									<div class="cart-prices">
+										<span class="shipping-cost">0.00</span>
+										<span>Vận chuyển (Tạm tính)</span>
+									</div>
+									<div class="total-shipping-prices">
+										<span class="shipping-total">{{total}}</span>
+										<span>Tổng</span>
+									</div>
+								</div>
+								<div class="shipping-checkout-btn">
+									<a style="cursor: pointer" ng-click="buycart()">Thanh toán  <i class="fa fa-chevron-right"></i></a>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- SHOPPING-CART END -->
+			<!-- MAINMENU START -->
+			<div class="col-lg-9 col-md-9 col-sm-12 col-xs-12 no-padding-right menuarea">
+				<div class="mainmenu">
+					<nav>
+						<ul class="list-inline mega-menu">
+							<li class="active"><a href="#index">Trang chủ</a> </li>
+							<li> <a href="#sanpham">Sản Phẩm</a></li>
+							<li> <a href="#chinhSach">Chính sách bảo hành và đổi trả</a></li>
+							<li><a href="#contact">Liên hệ</a></li>
+							<li><a href="#about">Về chúng tôi</a></li>
+						</ul>
+					</nav>
+				</div>
+			</div>
+			<!-- MAINMENU END -->
+		</div>
+		<div class="row">
+			<!-- MOBILE MENU START -->
+			<div class="col-sm-12 mobile-menu-area">
+				<div class="mobile-menu hidden-md hidden-lg" id="mob-menu">
+					<span class="mobile-menu-title">MENU</span>
+					<nav>
+						<ul>
+							<li><a href="#">Home</a>
+								<ul>
+									<li><a href="index.html">Home variation 1</a></li>
+									<li><a href="index-2.html">Home variation 2</a></li>
+								</ul>
+							</li>
+							<li><a href="shop-gird.html">Women</a>
+								<ul>
+									<li><a href="shop-gird.html">Tops</a>
+										<ul>
+											<li><a href="shop-gird.html">T-Shirts</a></li>
+											<li><a href="shop-gird.html">Blouses</a></li>
+										</ul>
+									</li>
+									<li><a href="shop-gird.html">Dresses</a>
+										<ul>
+											<li><a href="shop-gird.html">Casual Dresses</a></li>
+											<li><a href="shop-gird.html">Summer Dresses</a></li>
+											<li><a href="shop-gird.html">Evening Dresses</a></li>
+										</ul>
+									</li>
+
+								</ul>
+							</li>
+							<li><a href="shop-gird.html">men</a>
+								<ul>
+									<li><a href="shop-gird.html">Tops</a>
+										<ul>
+											<li><a href="shop-gird.html">Sports</a></li>
+											<li><a href="shop-gird.html">Day</a></li>
+											<li><a href="shop-gird.html">Evening</a></li>
+										</ul>
+									</li>
+									<li><a href="shop-gird.html">Blouses</a>
+										<ul>
+											<li><a href="shop-gird.html">Handbag</a></li>
+											<li><a href="shop-gird.html">Headphone</a></li>
+											<li><a href="shop-gird.html">Houseware</a></li>
+										</ul>
+									</li>
+									<li><a href="shop-gird.html">Accessories</a>
+										<ul>
+											<li><a href="shop-gird.html">Houseware</a></li>
+											<li><a href="shop-gird.html">Home</a></li>
+											<li><a href="shop-gird.html">Health & Beauty</a></li>
+										</ul>
+									</li>
+								</ul>
+							</li>
+							<li><a href="shop-gird.html">clothing</a></li>
+							<li><a href="shop-gird.html">tops</a></li>
+							<li><a href="shop-gird.html">T-shirts</a></li>
+							<li><a href="#">Delivery</a></li>
+							<li><a href="#about">About us</a></li>
+						</ul>
+					</nav>
+				</div>
+			</div>
+			<!-- MOBILE MENU END -->
+		</div>
+	</div>
+</header>
+		<!-- MAIN-CONTENT-SECTION START -->
+		<section class="main-content-section" ng-controller="registerCtrl">
+			<div class="container">
+				<div class="row">
+					<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+						<!-- BSTORE-BREADCRUMB START -->
+						<div class="bstore-breadcrumb">
+							<a href="#index">Trang chủ</a>
+							<span><i class="fa fa-caret-right	"></i></span>
+							<span>Đăng ký</span>
+						</div>
+						<!-- BSTORE-BREADCRUMB END -->
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+						<h2 class="page-title">Tạo tài khoản</h2>
+					</div>	
+					<div class="col-lg-8 col-md-6 col-sm-6 col-xs-12">
+						<!-- PERSONAL-INFOMATION START -->
+						<div class="personal-infomation">
+							<form class="primari-box personal-info-box" id="personalinfo" method="post"  novalidate name="formRegister">
+								<h3 class="box-subheading">Thông tin của bạn</h3>
+								<div class="personal-info-content">
+
+									<div class="form-group primary-form-group p-info-group">
+										<label for="firstname"> Tên đầy đủ <sup>*</sup></label>
+										<input type="text"
+											   name="txtTen"
+											   ng-model="user.tenKhachHang"
+											   maxlength="60"
+											   required id="firstname" class="form-control input-feild">
+										<small
+												id="fullnae"
+												ng-show="formRegister.txtTen.$error.required"
+												class="form-text text-danger"
+										>Vui lòng nhập họ tên đầy đủ</small
+										>
+										<small
+												id="fullne"
+												ng-show="formRegister.txtTen.$error.maxlength"
+												class="form-text text-danger"
+										>Vui lòng không nhập quá 60 kí tự</small
+										>
+									</div>
+									<div class="form-group primary-form-group p-info-group">
+										<label>Gender</label>
+										<span class="radio-box">
+											<input id="radio1" type="radio"
+												   name="gender"
+												   id="inlineRadio2"
+												   ng-value="0"
+												   ng-model="user.gioiTinh" ng-required="!user.gioiTinh">
+											<label for="radio1">Nam</label>
+										</span>
+										<span class="radio-box">
+											<input id="radio2" type="radio"
+												   name="gender"
+												   id="inlineRadio"
+												   value="1"
+												   ng-model="user.gioiTinh"
+												   ng-value="1" ng-required="!user.gioiTinh">
+
+											<label for="radio2">Nữ</label>
+										</span>
+									</div>
+									<div class="form-group primary-form-group p-info-group">
+										<label>Ngày sinh<sup>*</sup></label>
+										<input type="date" value=""
+											   name="ngaySinh"
+											   ng-model="user.ngaySinh"
+											   ng-value="0"
+											   required class="form-control input-feild">
+										<small
+												ng-show="formRegister.ngaySinh.$error.required"
+												class="form-text text-danger"
+										>Vui lòng nhập ngày sinh</small
+										>
+									</div>
+									<div class="form-group primary-form-group p-info-group" style="display: flex">
+										<div class="col-4">
+											<label>Phường xã <sup>*</sup></label>
+											<select id="inputPX" class="form-select" ng-model="user.idPhuongXa" name="phuongXa">
+												<option selected>Choose...</option>
+												<option ng-repeat ="(key,value) in pxMap" ng-value="key">
+													{{value}}
+												</option>
+											</select>
+										</div>
+										<div class="col-4">
+											<label >Quận huyện <sup>*</sup></label>
+											<select id="inputQH" class="form-select"  name="quanHuyen" ng-model="user.idQuanHuyen">
+												<option selected>Choose...</option>
+												<option ng-repeat ="(key,value) in qhMap" ng-value="key">
+													{{value}}
+												</option>
+											</select>
+										</div>
+										<div class="col-3">
+											<label>Thành Phố <sup>*</sup></label>
+											<select id="inputTP" class="form-select" name="thanhPho" ng-model="user.idTinhThanh">
+												<option selected>Thành phố</option>
+												<option ng-repeat ="(key,value) in tpMap" ng-value="key">
+													{{value}}
+												</option>
+											</select>
+										</div>
+									</div>
+									<div class="form-group primary-form-group p-info-group">
+										<label for="firstname"> Địa chỉ cụ thể  <sup>*</sup></label>
+										<input type="text"
+											   name="diaChi"
+											   ng-model="user.diaChi"
+											   required id="diaChi" class="form-control input-feild">
+										<small
+												id="diaci"
+												ng-show="formRegister.diaChi.$error.required"
+												class="form-text text-danger"
+										>Vui lòng nhập địa chỉ
+										</small>
+									</div>
+									<div class="form-group primary-form-group p-info-group">
+										<label for="firstname"> Số điện thoại <sup>*</sup></label>
+										<input type="text"
+											   name="txtSdt"
+											   ng-model="user.soDienThoai"
+											   ng-pattern="/^[0-9]*$/"
+											   required id="dt" class="form-control input-feild">
+										<small
+												id="sdt"
+												ng-show="formRegister.txtSdt.$error.required"
+												class="form-text text-danger"
+										>Vui lòng nhập SĐT</small
+										>
+										<small ng-show=
+													   "formRegister.txtSdt.$error.pattern"
+											   class="form-text text-danger"
+										>
+											Số điện thoại là các số
+										</small>
+									</div>
+
+									<div class="form-group primary-form-group p-info-group">
+										<label for="email">Email<sup>*</sup></label>
+										<input type="email" name="txtemail"
+											   ng-model="user.email"
+											   required id="email" class="form-control input-feild">
+										<small
+												id="emaila"
+												ng-show="formRegister.txtemail.$error.required"
+												class="form-text text-danger"
+										>Vui lòng nhập địa chỉ
+										</small>
+									</div>
+									<div class="form-group primary-form-group p-info-group">
+										<label for="password">Mật khẩu <sup>*</sup></label>
+										<input type="password" name="txtPass"
+											   ng-model="user.password"
+											   ng-maxlength="30"
+											   ng-minlength="4"
+											   required id="password" class="form-control input-feild">
+										<small
+												id="passwrd"
+												ng-show="formRegister.txtPass.$error.required"
+												class="form-text text-danger"
+										>Vui lòng nhập pass</small
+										>
+										<small
+												id="passrd"
+												ng-show="formRegister.txtPass.$error.maxlength"
+												class="form-text text-danger"
+										>Không nhập mật khẩu quá 30 kí tự</small
+										>
+										<small
+												id="pasword"
+												ng-show="formRegister.txtPass.$error.minlength"
+												class="form-text text-danger"
+										>Không nhập mật khẩu ít hơn 4 kí tự</small
+										>
+									</div>
+									<span class="text-danger">{{errorMessage}}</span>
+									<div class="submit-button p-info-submit-button"  ng-click="registerClient()">
+										<p id="SubmitCreate" class="btn main-btn">
+											<span>
+												Đăng ký
+												<i class="fa fa-chevron-right"></i>
+											</span>											
+										</p>
+										<span class="required-field"><sup>*</sup>Yêu cầu điền đầy đủ</span>
+									</div>
+								</div>
+							</form>							
+						</div>
+						<!-- PERSONAL-INFOMATION END -->
+					</div>
+					<div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+						<!-- CREATE-NEW-ACCOUNT START -->
+						<div class="create-new-account">
+							<form class="new-account-box primari-box" id="create-new-account">
+								<h3 class="box-subheading">Đăng nhập</h3>
+								<div class="form-content">
+									<p>Hãy đăng nhập nếu bạn có tài khoản rồi nhé!</p>
+									<div class="submit-button">
+										<a href="#login" id="SubmitCreate" class="btn main-btn">
+											<span>
+												<i class="fa fa-user submit-icon"></i>
+												Đăng nhập
+											</span>
+										</a>
+									</div>
+								</div>
+							</form>
+						</div>
+						<!-- CREATE-NEW-ACCOUNT END -->
+					</div>
+				</div>
+			</div>
+		</section>
+		<!-- MAIN-CONTENT-SECTION END -->

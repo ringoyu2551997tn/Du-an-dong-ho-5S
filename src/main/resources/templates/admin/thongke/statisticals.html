@@ -1,0 +1,100 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="admin/fragment/fragments:: page_head"></head>
+<body class="sb-nav-fixed">
+<nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark" style="background: linear-gradient(to right, #555555, #2ecc71, #3498db);">
+    <!-- Navbar Brand-->
+    <a class="navbar-brand ps-3" href="/">Đồng Hồ 5S</a>
+    <!-- Sidebar Toggle-->
+    <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i class="fas fa-bars"></i></button>
+    <!-- Navbar Search-->
+
+    <!-- Navbar-->
+    <ul class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4">
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-user fa-fw"></i></a>
+            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                <li><a class="dropdown-item" href="#!">Settings</a></li>
+                <li><a class="dropdown-item" href="#!">Activity Log</a></li>
+                <li><hr class="dropdown-divider" /></li>
+                <li><a class="dropdown-item"  th:href="@{/admin/logout}">Logout</a></li>
+            </ul>
+        </li>
+    </ul>
+</nav>
+<div id="layoutSidenav">
+    <div th:replace="admin/fragment/navigation:: menu"></div>
+    <div><h2>Thống kê</h2></div>
+    <div id="layoutSidenav_content">
+        <main>
+            <ul class="nav nav-tabs" id="reportTab" role="tablist">
+                <li class="nav-item">
+                    <a class="nav-link active" data-bs-toggle="tab" href="#orderdetail" role="tab">Thống kê Hóa đơn</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-bs-toggle="tab" href="#date" role="tab">Thống kê theo Ngày</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-bs-toggle="tab" href="#category" role="tab">Thống kê theo Danh Mục</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-bs-toggle="tab" href="#product" role="tab">Thống kê theo Sản Phẩm</a>
+                </li>
+            </ul>
+
+            <div class="tab-content">
+                <div class="tab-pane active p-3" id="orderdetail" role="tabpanel">
+
+                    <div th:replace="admin/thongke/sales_report_by_status::reportStatus"></div>
+                </div>
+                <div class="tab-pane p-3" id="date" role="tabpanel">
+                    <div th:replace="admin/thongke/sales_report_by_date::content('_date')"></div>
+                </div>
+                <div class="tab-pane p-3" id="category" role="tabpanel">
+                    <div
+                            th:replace="admin/thongke/sales_report_by_date::content('_category')"></div>
+                </div>
+                <div class="tab-pane p-3" id="product" role="tabpanel">
+                    <div
+                            th:replace="admin/thongke/sales_report_by_date::content('_product')"></div>
+                </div>
+            </div>
+        </main>
+        <div th:replace="admin/fragment/fragments::footer"></div>
+    </div>
+</div>
+
+
+</div>
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<script type="text/javascript">
+    contextPath = "[[@{/}]]";
+    currencySymbol = "[[${CURRENCY_SYMBOL}]]";
+    thousandsPointType = "[[${THOUSANDS_POINT_TYPE == 'COMMA' ? ',' : '.'}]]";
+    decimalPointType = "[[${DECIMAL_POINT_TYPE == 'COMMA' ? ',' : '.'}]]";
+    currencySymbolPosition = "[[${CURRENCY_SYMBOL_POSITION}]]";
+    decimalDigits = "[[${DECIMAL_DIGITS}]]";
+
+    prefixCurrencySymbol = currencySymbolPosition == 'Before price' ? currencySymbol : '';
+    suffixCurrencySymbol = currencySymbolPosition == 'After price' ? currencySymbol : '';
+
+    $(document).ready(function () {
+        google.charts.load('current', {'packages': ['corechart', 'table']});
+        google.charts.setOnLoadCallback(loadSalesReportByDateForOrderDetail());
+    });
+
+</script>
+<script type="text/javascript" th:src="@{/jquery.number.min.js}"></script>
+<script type="text/javascript" th:src="@{/sales_report_common.js}"></script>
+<script type="text/javascript"
+        th:src="@{/sales_report_by_orderdetail.js}"></script>
+<script type="text/javascript" th:src="@{/sale_report_by_date.js}"></script>
+
+<script type="text/javascript"
+        th:src="@{/sales_report_by_category.js}"></script>
+<script type="text/javascript"
+        th:src="@{/sales_report_by_product.js}"></script>
+
+</body>
+</html>

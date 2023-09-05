@@ -1,0 +1,163 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+
+<head th:replace="admin/fragment/fragments:: page_head"></head>
+
+<style>
+    * {
+        padding: 0;
+        margin: 0;
+        box-sizing: border-box;
+    }
+
+    .thong-tin-hoa-don>div{
+        padding-bottom: 5px;
+    }
+
+    .nav-item:hover .nav-link {
+        font-weight: bold;
+    }
+    .tracking nav ul li a {
+        color: #050505;
+        display: block;
+        font-size: 14px;
+        line-height: 55px;
+        transition: all 300ms ease 0s;
+        text-align: center;
+        text-decoration: none;
+    }
+
+    .tracking nav ul li {
+        /*border-bottom: 2px solid orange;*/
+        display: inline-block;
+        width: 16%;
+
+    }
+    .tracking nav ul li a:hover {
+        color: #FF4F4F;
+    }
+    .tracking nav ul li a:active {
+        color: #FF4F4F;
+        border-bottom: 2px solid #FF4F4F;
+    }
+    .tracking nav ul .active{
+        border-bottom: 2px solid #FF4F4F;
+    }
+    .tracking nav ul .active a{
+        color: #FF4F4F;
+    }
+
+    .breadcrumb {
+        background-color: #f2f2f2;
+        padding: 10px;
+        font-size: 14px;
+        display: flex;
+        align-items: center;
+        padding: 5px 20px;
+    }
+
+    .breadcrumb a {
+        color: #666;
+        text-decoration: none;
+        font-weight: bold;
+        margin-right: 10px;
+        margin-left: 10px;
+        font-size: 20px;
+    }
+</style>
+
+<body class="sb-nav-fixed" id="content">
+<div th:replace="admin/fragment/navigation:: navbar"></div>
+<!-- Article NAV -->
+<div id="layoutSidenav">
+    <div th:replace="admin/fragment/navigation:: menu"></div>
+
+    <!-- aside -->
+    <div id="layoutSidenav_content">
+        <!-- MAIN-CONTENT-SECTION START -->
+        <section class="main-content-section">
+            <div class="row">
+                <div class="breadcrumb">
+                    <a href="#">Màu sắc</a>
+                </div>
+            </div>
+            <div style="max-width: 90%;margin: auto;">
+                <div class="row">
+                    <div th:if="${message != null}" class="alert alert-success text-center">
+                        [[${message}]]
+                    </div>
+
+                    <div class="full-details">
+                        <div>
+                            <form th:action="@{/admin/colors/page/1}" class="form-inline m-3">
+                                <div class="d-flex align-items-center">
+                                    <input type="hidden" name="sortField" th:value="${sortField}" />
+                                    <input type="hidden" name="sortDir" th:value="${sortDir}" />
+                                    <label class="sr-only">Tìm Kiếm</label>
+                                    <input style="width: 250px; margin-right: 10px" type="search" name="keyword" th:value="${keyword}" placeholder="Tìm kiếm" class="form-control" required />
+                                    <input style="margin-right: 10px" type="submit" value="Tìm kiếm" class="btn btn-outline-info ml-2" />
+                                    <a style="text-decoration: none; margin-right: 5px" class="btn btn-outline-secondary" th:href="@{/admin/colors}">Tất cả</a>
+                                    <a style="text-decoration: none" class="btn btn-outline-primary" th:href="@{/admin/colors/new}">Tạo mới</a>
+                                </div>
+                            </form>
+
+                        </div>
+                        <table class="table table-bordered table-striped table-hover table-responsive-xl">
+                            <thead class="thead-dark">
+                            <tr>
+                                <th>Tên</th>
+                                <th>Trạng thái</th>
+                                <Th>Chức năng</Th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr th:each="cat :${listMauSac}">
+                                <td>[[${cat.tenMauSac}]]</td>
+                                <td>[[${cat.enabled}]]</td>
+                                <td>
+                                    <a class="icon-green btn btn-outline-danger" style="text-decoration: none" th:href="@{'/admin/colors/edit/' + ${cat.idMauSac}}"
+                                       title="Thay đổi thông tin">Cập nhật</a>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                        <div th:if="${totalPages > 1}">
+                            <nav>
+                                <ul class="pagination justify-content-center">
+                                    <li th:class="${currentPage > 1 ?'page-item' : 'page-item disabled'}">
+                                        <a th:replace="admin/fragment/fragments::mausac_link(1, 'Trang Đầu')" ></a>
+                                    </li>
+                                    <li th:class="${currentPage > 1 ?'page-item' : 'page-item disabled'}">
+                                        <a th:replace="admin/fragment/fragments::mausac_link(${currentPage - 1}, Trước)"></a>
+                                    </li>
+
+                                    <li th:class="${currentPage != i ? 'page-item': 'page-item disabled' }"
+                                        th:each="i : ${#numbers.sequence(currentPage == 1 ? currentPage : (currentPage - 1), (currentPage + 1) < totalPages ? (currentPage + 1) : totalPages )}">
+                                        <a th:replace="admin/fragment/fragments::mausac_link(${i}, ${i})"></a>
+                                    </li>
+
+                                    <li th:class="${currentPage < totalPages ? 'page-item' : 'page-item disabled'}">
+                                        <a th:replace="admin/fragment/fragments::mausac_link(${currentPage + 1}, Sau)"></a>
+                                    </li>
+                                    <li th:class="${currentPage < totalPages ? 'page-item' : 'page-item disabled'}">
+                                        <a th:replace="admin/fragment/fragments::mausac_link(${totalPages}, 'Trang Cuối')"></a>
+                                    </li>
+                                </ul>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- MAIN-CONTENT-SECTION END -->
+
+    </div>
+</div>
+
+<!-- END article -->
+
+<!--  Footer      -->
+<div th:replace="admin/fragment/fragments::footer"></div>
+</body>
+</html>

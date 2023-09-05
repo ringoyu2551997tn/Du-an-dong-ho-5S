@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="admin/fragment/fragments:: page_head"></head>
+
+<body class="sb-nav-fixed">
+<div th:replace="admin/fragment/navigation:: navbar"></div>
+<div id="layoutSidenav">
+    <div th:replace="admin/fragment/navigation:: menu"></div>
+
+
+    <div id="layoutSidenav_content">
+        <main>
+            <div>
+                <h2>Thông Tin Khách Hàng</h2>
+            </div>
+
+            <div th:if="${message != null}" class="alert alert-success text-center">
+                [[${message}]]
+            </div>
+
+
+            <div>
+                <form th:action="@{/admin/customers/page/1}" class="form-inline m-3">
+                    <div class="d-flex align-items-center">
+                        <input type="hidden" name="sortField" th:value="${sortField}" />
+                        <input type="hidden" name="sortDir" th:value="${sortDir}" />
+                        <label class="sr-only">Tìm Kiếm</label>
+                        <input style="width: 250px; margin-right: 10px" type="search" name="keyword" th:value="${keyword}" placeholder="nhập từ khóa tìm kiếm" class="form-control" required />
+                        <input style="margin-right: 10px" type="submit" value="Search" class="btn btn-primary ml-2" />
+                        <input type="button" value="Clear" class="btn btn-secondary ml-2" onclick="clearFilter()"/>
+                    </div>
+                </form>
+
+            </div>
+
+            <div class="full-details">
+                <table class="table table-bordered table-striped table-hover table-responsive-xl">
+                    <thead class="thead-dark">
+                    <tr>
+                        <th th:replace="admin/fragment/fragments::khachhang_link('idKhachHang', 'ID')"></th>
+                        <th th:replace="admin/fragment/fragments::khachhang_link('tenKhachHang', 'Tên')"></th>
+                        <th th:replace="admin/fragment/fragments::khachhang_link('listDiaChi', 'Địa Chỉ')"></th>
+                        <th th:replace="admin/fragment/fragments::khachhang_link('soDienThoai', 'Số Điện Thoại')"></th>
+                        <th th:replace="admin/fragment/fragments::khachhang_link('email', 'Email')"></th>
+                        <th th:replace="admin/fragment/fragments::khachhang_link('ngaySinh', 'Ngày Sinh')"></th>
+                        <th th:replace="admin/fragment/fragments::khachhang_link('gioiTinh', 'Giới Tính')"></th>
+                        <th th:replace="admin/fragment/fragments::khachhang_link('thoiGianTaoTaiKhoan', 'Thời gian tạo tài khoản')"></th>
+                        <th th:replace="admin/fragment/fragments::khachhang_link('ngaySua', 'Ngày Sửa')"></th>
+                        <th th:replace="admin/fragment/fragments::khachhang_link('enabled', 'Enabled')"></th>
+<!--                        <Th>Action</Th>-->
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="kh :${listKhachHang}">
+                        <td>[[${kh.idKhachHang}]]</td>
+                        <td>[[${kh.tenKhachHang}]]</td>
+                        <td>
+                            <ul>
+                                <li th:each="diaChi : ${kh.listDiaChi}">
+                                    <span th:text="${diaChi.diaChi}"></span>
+                                </li>
+                            </ul>
+                        </td>
+                        <td>[[${kh.soDienThoai}]]</td>
+                        <td>[[${kh.email}]]</td>
+                        <td>[[${kh.ngaySinh}]]</td>
+                        <td>
+                            <span th:if="${kh.gioiTinh == 0}">Nam</span>
+                            <span th:if="${kh.gioiTinh == 1}">Nữ</span>
+                            <span th:unless="${kh.gioiTinh == 1 or kh.gioiTinh == 0}">Không Xác Định</span>
+                        </td>
+<!--                        <td>[[${kh.gioiTinh}]]</td>-->
+                        <td>[[${kh.thoiGianTaoTaiKhoan}]]</td>
+                        <td>[[${kh.ngaySua}]]</td>
+                        <td>[[${kh.enabled}]]</td>
+<!--                        <td>-->
+<!--                            <a class="icon-green" style="text-decoration: none" th:href="@{'/admin/customers/edit/' + ${kh.idKhachHang}}"-->
+<!--                               title="Thay đổi thông tin">Update</a>-->
+<!--                        </td>-->
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="text-center m-1" th:if="${totalItem > 0}">
+                <span>Hiển thị Khách Hàng # [[${startCount}]] to [[${endCount}]] of [[${totalItem}]] </span>
+            </div>
+            <div class="text-center m-1" th:unless="${totalItem > 0}">
+                <span>Không có Khách Hàng trang này</span>
+            </div>
+
+            <div th:if="${totalPages > 1}">
+                <nav>
+                    <ul class="pagination justify-content-center">
+                        <li th:class="${currentPage > 1 ?'page-item' : 'page-item disabled'}">
+                            <a th:replace="admin/fragment/fragments::pagecustomer_link(1, 'Trang Đầu')" ></a>
+                        </li>
+                        <li th:class="${currentPage > 1 ?'page-item' : 'page-item disabled'}">
+                            <a th:replace="admin/fragment/fragments::pagecustomer_link(${currentPage - 1}, Trước)"></a>
+                        </li>
+                        <li th:class="${currentPage != i ? 'page-item': 'page-item active' }"
+                            th:each="i : ${#numbers.sequence(1,totalPages)}">
+                            <a th:replace="admin/fragment/fragments::pagecustomer_link(${i}, ${i})"></a>
+                        </li>
+
+                        <li th:class="${currentPage < totalPages ? 'page-item' : 'page-item disabled'}">
+                            <a th:replace="admin/fragment/fragments::pagecustomer_link(${currentPage + 1}, Sau)"></a>
+                        </li>
+                        <li th:class="${currentPage < totalPages ? 'page-item' : 'page-item disabled'}">
+                            <a th:replace="admin/fragment/fragments::pagecustomer_link(${totalPages}, 'Trang Cuối')"></a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </main>
+        <div th:replace="admin/fragment/fragments::footer"></div>
+    </div>
+</div>
+</body>
+</html>

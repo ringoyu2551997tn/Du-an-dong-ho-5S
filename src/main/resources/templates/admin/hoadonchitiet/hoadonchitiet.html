@@ -1,0 +1,258 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+
+<head th:replace="admin/fragment/fragments:: page_head"></head>
+
+<style>
+    * {
+        padding: 0;
+        margin: 0;
+        box-sizing: border-box;
+    }
+
+    .nav-item:hover .nav-link {
+        font-weight: bold;
+    }
+    .tracking nav ul li a {
+        color: #050505;
+        display: block;
+        font-size: 14px;
+        line-height: 55px;
+        transition: all 300ms ease 0s;
+        text-align: center;
+        text-decoration: none;
+    }
+
+    .tracking nav ul li {
+        /*border-bottom: 2px solid orange;*/
+        display: inline-block;
+        width: 147px;
+
+    }
+    .tracking nav ul li a:hover {
+        color: #FF4F4F;
+    }
+    .tracking nav ul li a:active {
+        color: #FF4F4F;
+        border-bottom: 2px solid #FF4F4F;
+    }
+    .tracking nav ul .active{
+        border-bottom: 2px solid #FF4F4F;
+    }
+    .tracking nav ul .active a{
+        color: #FF4F4F;
+    }
+
+    .breadcrumb {
+        background-color: #f2f2f2;
+        padding: 10px;
+        font-size: 14px;
+        display: flex;
+        align-items: center;
+        padding: 5px 20px;
+    }
+
+    .breadcrumb a {
+        color: #666;
+        text-decoration: none;
+        font-weight: bold;
+        margin-right: 10px;
+        margin-left: 10px;
+        font-size: 20px;
+    }
+</style>
+
+<body class="sb-nav-fixed">
+
+<!-- NAV -->
+
+<nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
+    <!-- Navbar Brand-->
+    <a class="navbar-brand ps-3" href="/">Đồng Hồ 5S</a>
+    <!-- Sidebar Toggle-->
+    <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i class="fas fa-bars"></i></button>
+    <!-- Navbar Search-->
+
+    <!-- Navbar-->
+    <ul class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4">
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-user fa-fw"></i></a>
+            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                <li><a class="dropdown-item" href="#!">Settings</a></li>
+                <li><a class="dropdown-item" href="#!">Activity Log</a></li>
+                <li><hr class="dropdown-divider" /></li>
+                <li><a class="dropdown-item"  th:href="@{/admin/logout}">Logout</a></li>
+            </ul>
+        </li>
+    </ul>
+</nav>
+<!-- END NAV -->
+
+<!-- Article NAV -->
+<div id="layoutSidenav">
+    <div th:replace="admin/fragment/navigation:: menu"></div>
+
+    <!-- aside -->
+    <div id="layoutSidenav_content">
+        <!-- MAIN-CONTENT-SECTION START -->
+        <section class="main-content-section">
+            <div class="row">
+                <div class="breadcrumb">
+                    <a th:href="@{'/admin/don-hang'}">Đơn hàng</a> >
+                    <a href="#">Chi tiết</a>
+                </div>
+            </div>
+            <div class="container">
+                <div style="color: #655959">Đơn hàng: [[${donHang.maDonHang}]]</div>
+                <div class="row">
+                    <div class="col-md-6 bg-body-tertiary p-3">
+                        <!--Sản phẩm đã mua-->
+                        <div class="card mb-3"
+                             style="max-width: 100%;border: none !important;"
+                        >
+                            <div class="row overflow-auto scrollbar scrollbar-dark"
+                                 style="max-height: 600px">
+                                <div class="row g-0" th:each="cat :${lstHDCT}" style="padding: 20px 10px;">
+
+                                    <div class="col-md-5" style="width: 17% ;height: 40%">
+                                        <img th:src="@{'/assets/images/'+ ${cat.chiTietSanPham.sanPham.listAnhSanPham[0].link}}" class="img-fluid rounded-start" alt="Image">
+                                    </div>
+                                    <div class="col-md-8">
+                                        <div class="card-body">
+                                            <h3 class="card-title">[[${cat.chiTietSanPham.sanPham.tenSanPham}]]</h3>
+                                            <p class="card-text">[[${cat.chiTietSanPham.vatLieu.tenVatLieu}]],[[${cat.chiTietSanPham.mauSac.tenMauSac}]],[[${cat.chiTietSanPham.dayDeo.tenDayDeo}]],[[${cat.chiTietSanPham.kichCo.tenKichCo}]]</p>
+                                            <h5 class="card-text" th:text="${#numbers.formatDecimal(cat.giaBan, 0, 'COMMA', 0, 'POINT')} +
+                         ' đ'">Giá: [[${cat.giaBan}]]</h5>
+                                            <p class="card-text">Số lượng: x [[${cat.soLuong}]]</p>
+                                            <div>
+                                                <p th:each="seri :${cat.getListSeri()}">[[${seri.idImei}]]</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <hr>
+
+                                </div>
+                            </div>
+                            <!--            TỔNG TIỀN-->
+                            <div class="row g-0" style="padding: 20px 10px;">
+                                <div class="row" th:if="${donHang.diaChi != null}">
+                                    <div class="col-md-6">
+                                        <h5>Địa chỉ </h5>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <h5 style="padding-left: 15px">
+                                            [[${donHang.diaChi}]]
+                                        </h5>
+                                    </div>
+                                </div>
+
+                                <div class="row" >
+                                    <div class="col-md-6">
+                                        <h5>Tổng tiền các sản phẩm </h5>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <h5 style="padding-left: 15px" th:text="${#numbers.formatDecimal(donHang.tongTien, 0, 'COMMA', 0, 'POINT')} +
+                         ' đ'">[[${donHang.tongTien}]]</h5>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <h5>Phí vận chuyển </h5>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <h5 style="padding-left: 15px" th:text="${#numbers.formatDecimal( (donHang.phiVanChuyen== null ? 0 : donHang.phiVanChuyen), 0, 'COMMA', 0, 'POINT')} +
+                         ' đ'">[[${donHang.phiVanChuyen== null ? 0 : donHang.phiVanChuyen}]]</h5>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <h3>Tổng tiền </h3>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <h3 style="color: #e71616;padding-left: 15px" th:text="${#numbers.formatDecimal(donHang.tongTien +( donHang.phiVanChuyen== null ? 0 : donHang.phiVanChuyen ), 0, 'COMMA', 0, 'POINT')} +
+                         ' đ'">[[${donHang.tongTien +(donHang.phiVanChuyen== null ? 0 : donHang.phiVanChuyen)}]]</h3>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="col-md-6">
+                        <!--    export            -->
+                        <div class="card border-danger mb-3" style="max-width: 100%;">
+                            <div class="card-header bg-transparent border-danger" style="text-align: center">
+                                <h4 style="font-weight: bold;">Đồng hồ 5S</h4>
+                                <p th:if="${donHang.idQuanHuyen != null && donHang.idPhuongXa != null && donHang.idTinhThanh != null}"><small>
+                                    [[${donHang.diaChi == null ? "" : donHang.diaChi}]],
+                                    [[${diaChiAPI.callGetPhuongXaAPI(donHang.idQuanHuyen).get(donHang.idPhuongXa)}]],
+                                    [[${diaChiAPI.callGetQuanHuyenAPI(donHang.idTinhThanh).get(donHang.idQuanHuyen)}]],
+                                    [[${diaChiCache.hashMapTinhThanh.get(donHang.idTinhThanh)}]]
+                                </small></p>
+                                <p th:if="${donHang.idQuanHuyen == null || donHang.idPhuongXa == null || donHang.idTinhThanh == null}"></p>
+                                <h5 style="font-weight: bold;">Hóa đơn thanh toán</h5>
+                            </div>
+                            <div class="card-body text-success">
+                                <!--                        <h5 class="card-title">Success card title</h5>-->
+                                <table class="table overflow-auto scrollbar scrollbar-dark" style="max-height: 500px;display: inline-block">
+                                    <thead style="position: sticky;top: 0;">
+                                    <tr>
+                                        <th>#</th>
+                                        <th scope="col">Tên sản phẩm</th>
+                                        <th scope="col">Số lượng</th>
+                                        <th scope="col" style="width: 21%">Đơn giá</th>
+                                        <th scope="col" style="width: 21%">Thành tiền</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr th:each="cat,iterStat :${lstHDCT}">
+                                        <td th:text="${__${iterStat.index + 1}__}">1</td>
+                                        <td>
+                                            <span style="font-weight: 500"> [[${cat.chiTietSanPham.sanPham.tenSanPham}]]</span>
+                                            <span>Phân loại : [[${cat.chiTietSanPham.vatLieu.tenVatLieu}]], [[${cat.chiTietSanPham.mauSac.tenMauSac}]]</span>
+                                        </td>
+                                        <td>x[[${cat.soLuong}]]</td>
+                                        <td th:text="${#numbers.formatDecimal(cat.giaBan, 0, 'COMMA', 0, 'POINT')} +
+                         ' đ'">[[${cat.giaBan}]]đ</td>
+                                        <td th:text="${#numbers.formatDecimal(cat.giaBan*cat.soLuong, 0, 'COMMA', 0, 'POINT')} +
+                         ' đ'">[[${cat.giaBan*cat.soLuong}]]</td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                                <div class="row">
+                                    <div class="col-md-6" style="padding-left: 10px;color:black">Đơn giá các sản phẩm</div>
+                                    <div class="col-md-6" style="text-align: center;color:black" th:text="${#numbers.formatDecimal(donHang.tongTien, 0, 'COMMA', 0, 'POINT')} +
+                         ' đ'">[[${donHang.tongTien}]]</div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6" style="padding-left: 10px;color:black">Phí vận chuyển</div>
+                                    <div class="col-md-6" style="text-align: center;color:black" th:text="${#numbers.formatDecimal((donHang.phiVanChuyen== null ? 0 : donHang.phiVanChuyen), 0, 'COMMA', 0, 'POINT')} +
+                         ' đ'">[[${(donHang.phiVanChuyen== null ? 0 : donHang.phiVanChuyen)}]]</div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6" style="padding-left: 10px;color:black" >Tổng tiền</div>
+                                    <div class="col-md-6" style="text-align: center;color:red" th:text="${#numbers.formatDecimal(donHang.tongTien + (donHang.phiVanChuyen== null ? 0 : donHang.phiVanChuyen), 0, 'COMMA', 0, 'POINT')} +
+                         ' đ'">[[${donHang.tongTien + (donHang.phiVanChuyen== null ? 0 : donHang.phiVanChuyen)}]]</div>
+                                </div>
+                            </div>
+                            <div class="card-footer bg-transparent border-danger" style="text-align: center">Chúc quý khách vui vẻ! Hẹn gặp lại!</div>
+                        </div>
+                        <div class="d-grid gap-2">
+                            <a class="btn btn-danger" style="text-decoration: none"
+                               th:href="@{'/admin/hoa-don-chi-tiet/export'}"
+                               title="Chi tiết">Xuất hóa đơn</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    </section>
+    <!-- MAIN-CONTENT-SECTION END -->
+</div>
+</div>
+<!-- END article -->
+<!--  Footer      -->
+<div th:replace="admin/fragment/fragments::footer"></div>
+</body>
+</html>

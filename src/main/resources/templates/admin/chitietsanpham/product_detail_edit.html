@@ -1,0 +1,232 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="admin/fragment/fragments:: page_head"></head>
+<body class="sb-nav-fixed">
+<div th:replace="admin/fragment/navigation:: navbar"></div>
+<div id="layoutSidenav">
+    <div th:replace="admin/fragment/navigation:: menu"></div>
+
+    <div id="layoutSidenav_content">
+        <main style="margin-left: 10px">
+            <div>
+                <h2>Update Chi Tiết Sản Phẩm</h2>
+            </div>
+            <div th:if="${thongbaoTrung} != null">
+                <h3 class="alert alert-danger" th:text="${thongbaoTrung}"></h3>
+            </div>
+            <form th:action="@{/admin/productDetails/update}" method="post" style="max-width: 500px;margin: 0 auto"
+                  th:object="${chiTietSanPham}" onsubmit="return checkUniqueUpdateDetail(this);">
+                <input type="hidden" th:field="*{idChiTietSanPham}"/>
+                <div class="border border-secondary rounded p-3">
+                    <div class="form-group-row">
+                        <label class="col-sm-2 col-form-label">Mã Chi Tiết Sản Phẩm:</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" th:field="*{maChiTietSanPham}" name="maChiTietSanPham" readonly="readonly" minlength="3" maxlength="12"/>
+                        </div>
+                    </div>
+
+                    <div class="form-group-row">
+                        <label class="col-sm-2 col-form-label">Sản Phẩm:</label>
+                        <div class="col-sm-10">
+                            <select th:field="*{sanPham}" class="form-control" required="" name="sanPham">
+                                <th:block th:each="sp : ${listSanPham}">
+                                    <option th:value="${sp.idSanPham}">[[${sp.tenSanPham}]]</option>
+                                </th:block>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group-row">
+                        <label class="col-sm-2 col-form-label">Dây Đeo:</label>
+                        <div class="col-sm-10">
+                            <select th:field="*{dayDeo}" class="form-control" required="" name="dayDeo">
+                                <th:block th:each="daydeo : ${listDayDeo}">
+                                    <th:block th:if="${daydeo.enabled == true}">
+                                        <option th:value="${daydeo.idDayDeo}">[[${daydeo.tenDayDeo}]]</option>
+                                    </th:block>
+                                </th:block>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group-row">
+                        <label class="col-sm-2 col-form-label">Khuyến Mãi:</label>
+                        <div class="col-sm-10">
+                            <select th:field="*{khuyenMai}" class="form-control"  name="khuyenMai">
+                                <option value="">-- Không có khuyến mãi --</option>
+                                <th:block th:each="kmai : ${listKhuyenMai}">
+                                    <option th:value="${kmai.idKhuyenMai}">[[${kmai.tenKhuyenMai}]]</option>
+                                </th:block>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group-row">
+                        <label class="col-sm-2 col-form-label">Màu Sắc:</label>
+                        <div class="col-sm-10">
+                            <select th:field="*{mauSac}" class="form-control" required="" name="mauSac">
+                                <th:block th:each="msac : ${listMauSac}">
+                                    <th:block th:if="${msac.enabled == true}">
+                                        <option th:value="${msac.idMauSac}">[[${msac.tenMauSac}]]</option>
+                                    </th:block>
+                                </th:block>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group-row">
+                        <label class="col-sm-2 col-form-label">Kích Cỡ:</label>
+                        <div class="col-sm-10">
+                            <select th:field="*{kichCo}" class="form-control" required="" name="kichCo">
+                                <th:block th:each="kco : ${listKichCo}">
+                                    <th:block th:if="${kco.enabled == true}">
+                                        <option th:value="${kco.idKichCo}">[[${kco.tenKichCo}]]</option>
+                                    </th:block>
+                                </th:block>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group-row">
+                        <label class="col-sm-2 col-form-label">Vật Liệu:</label>
+                        <div class="col-sm-10">
+                            <select th:field="*{vatLieu}" class="form-control" required="" name="vatLieu">
+                                <th:block th:each="vlieu : ${listVatLieu}">
+                                    <th:block th:if="${vlieu.enabled == true}">
+                                        <option th:value="${vlieu.idVatLieu}">[[${vlieu.tenVatLieu}]]</option>
+                                    </th:block>
+                                </th:block>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label class="col-sm-4 col-form-label">Chiều Dài Dây Đeo:</label>
+                        <div class="col-sm-12">
+                            <input type="number" class="form-control" th:field="*{chieuDaiDayDeo}"  required min="100" maxlength="220"/>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label class="col-sm-4 col-form-label">Đường Kính Mặt Đồng Hồ:</label>
+                        <div class="col-sm-12">
+                            <input type="number" class="form-control" th:field="*{duongKinhMatDongHo}"  required min="20" max="60"/>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label class="col-sm-4 col-form-label">Độ Dày Mặt Đồng Hồ:</label>
+                        <div class="col-sm-12">
+                            <input type="number" class="form-control" th:field="*{doDayMatDongHo}"  required min="4" max="20"/>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label class="col-sm-4 col-form-label">Độ Chịu Nước:</label>
+                        <div class="col-sm-12">
+                            <input type="number" class="form-control" th:field="*{doChiuNuoc}"  required min="0" max="1000"/>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label class="col-sm-4 col-form-label">Giá Bán:</label>
+                        <div class="col-sm-12">
+                            <input type="number" class="form-control" th:field="*{giaSanPham}"  required min="100000" max="1000000000"/>
+                        </div>
+                    </div>
+
+                    <div class="form-group-row">
+                        <label class="col-sm-4 col-form-label">Trạng Thái:</label>
+                        <div class="col-sm-12">
+                            <label class="radio-inline">
+                                <input type="radio" th:field="*{trangThai}" th:value="1"> Hoạt động
+                            </label>
+                            <label class="radio-inline">
+                                <input type="radio" th:field="*{trangThai}" th:value="0"> Ngưng hoạt động
+                            </label>
+                        </div>
+                    </div>
+
+
+                    <div class="text-center">
+                        <input type="submit" value="Save" class="btn btn-primary m-3" id="submitButton"/>
+                        <input type="button" value="Cancel" class="btn btn-secondary" id="buttonCancel">
+                    </div>
+                </div>
+            </form>
+
+        </main>
+        <div th:replace="admin/fragment/fragments::footer"></div>
+    </div>
+</div>
+
+<div class="modal fade text-center" id="modalDialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="modalTitle">Warning</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <span id="modalBody"></span>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script type="text/javascript">
+    moduleURL= "[[@{/admin/productDetails}]]";
+
+    $("#buttonCancel").on("click", function () {
+        window.location = moduleURL;
+    });
+
+
+    // function checkUniqueUpdateDetail(form) {
+    //     var url = "[[@{/admin/productDetails/check_details_unique}]]";
+    //     var selectedSanPham = form.sanPham.options[form.sanPham.selectedIndex].text;
+    //     var selectedDayDeo = form.dayDeo.options[form.dayDeo.selectedIndex].text;
+    //     var selectedMauSac = form.mauSac.options[form.mauSac.selectedIndex].text;
+    //     var selectedVatLieu = form.vatLieu.options[form.vatLieu.selectedIndex].text;
+    //     var selectedKichCo = form.kichCo.options[form.kichCo.selectedIndex].text;
+    //     var idChiTietSanPhamValue = form.idChiTietSanPham.value;
+    //     var maChiTietSanPhamValue = form.maChiTietSanPham.value;
+    //     var csrfValue = $("input[name='_csrf']").val();
+    //
+    //     var params = {
+    //         idChiTietSanPham: idChiTietSanPhamValue,
+    //         maChiTietSanPham: maChiTietSanPhamValue,
+    //         tenSanPham: selectedSanPham,
+    //         tenDayDeo: selectedDayDeo,
+    //         tenMauSac: selectedMauSac,
+    //         tenKichCo: selectedKichCo,
+    //         tenVatLieu: selectedVatLieu,
+    //         _csrf: csrfValue
+    //     };
+    //
+    //     $.post(url, params)
+    //         .done(function(response) {
+    //             if (response == "OK") {
+    //                 form.submit();
+    //             } else if (response == "Duplicated") {
+    //                 showWarningModal("Mã Hoặc Thông tin chi tiết sản phẩm đã tồn tại Hãy Kiểm Tra Mã và Các Trường Tên Sản Phẩm ,Tên Dây Đeo, Tên Vật Liệu, Tên Màu Sắc, Tên Kích Cỡ Không Được Đồng Thời Giống Nhau.");
+    //             } else {
+    //                 showErrorModal("Lỗi phản hồi từ server");
+    //             }
+    //         })
+    //         .fail(function() {
+    //             showErrorModal("Không thể kết nối đến server");
+    //         });
+    //
+    //     return false;
+    // }
+
+
+</script>
+<script th:src="@{/js/index_form.js}"></script>
+</body>
+</html>

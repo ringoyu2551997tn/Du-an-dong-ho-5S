@@ -1,0 +1,36 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <link th:href="@{/css/styles.css}" rel="stylesheet" />
+    <script th:src="@{https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.5/umd/popper.min.js}"></script>
+    <script th:src="@{https://use.fontawesome.com/releases/v6.3.0/js/all.js}" crossorigin="anonymous"></script>
+    <script th:src="@{/webjars/jquery/jquery.min.js}"></script>
+    <script th:src="@{/js/scripts.js}"></script>
+    <script th:src="@{/js/datatables-simple-demo.js}"></script>
+</head>
+<body>
+<div class="container-fluid text-center">
+
+    <div>
+        <img style="margin-top: 20px" th:src="@{/images/5SAdminBig.png}">
+    </div>
+    <h2>Bạn đã nhập sai mật khẩu , vui lòng bấm vào  nút dưới đây để quay lại trang đăng nhập</h2>
+    <button type="button" onclick="redirectToLoginAdmin()">Quay lại trang đăng nhập</button>
+
+    <div class="text-center">
+        <p>5S Watch Control Pannel - copyright &copy; 5S</p>
+    </div>
+
+</div>
+
+<script type="text/javascript">
+    function redirectToLoginAdmin() {
+        window.location.href = "/redirect-to-login"; // Đường dẫn đến controller để thực hiện chuyển hướng
+    }
+</script>
+</body>
+</html>

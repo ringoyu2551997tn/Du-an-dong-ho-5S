@@ -1,0 +1,270 @@
+<!-- MAIN-CONTENT-SECTION START -->
+<header class="main-menu-area" ng-controller="homeCtrl">
+    <div class="container">
+        <div class="row">
+            <!-- SHOPPING-CART START -->
+            <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 pull-right shopingcartarea">
+                <div class="shopping-cart-out pull-right">
+                    <div class="shopping-cart">
+                        <a class="shop-link" href="#cart" title="View my shopping cart">
+                            <i class="fa fa-shopping-cart cart-icon"></i>
+                            <b>Giỏ hàng</b>
+                            <span class="ajax-cart-quantity">{{totalSp}}</span>
+                        </a>
+
+
+                        <div class="shipping-cart-overly" style="overflow: scroll">
+                            <div ng-if="cart.length == 0" class="text-center">
+                                <span>K có sản phẩm nào</span>
+                            </div>
+                            <div ng-if="cart.length > 0">
+                                <div class="shipping-item" ng-repeat="item in cart" ng-init="setTotals(item)">
+                                        <span class="cross-icon" ng-click="removeSP(item)"><i
+                                                class="fa fa-times-circle"></i></span>
+                                    <div class="shipping-item-image" style="width: 30%">
+                                        <a href="#/chitietsanpham/{{item.chiTietSanPham.sanPham.idSanPham}}"><img
+                                                src="/assets/images/{{item.chiTietSanPham.sanPham.listAnhSanPham[0].link}}"
+                                                alt="shopping image"/></a>
+                                    </div>
+                                    <div class="shipping-item-text" style="width: 60%; float: right">
+                                            <span>{{item.soLuongSanPham}} <span class="pro-quan-x">x</span> <a href="#"
+                                                                                                               class="pro-cat">{{item.chiTietSanPham.sanPham.tenSanPham}} </a></span>
+
+                                        <span class="pro-quality"><a href="#sanpham">{{item.chiTietSanPham.dayDeo.tenDayDeo}},{{item.chiTietSanPham.vatLieu.tenVatLieu}}</a></span>
+                                        <span class="pro-quality"><a href="#sanpham">{{item.chiTietSanPham.kichCo.tenKichCo}},{{item.chiTietSanPham.mauSac.tenMauSac}}</a></span>
+                                        <p>{{item.giaBan | number}} đ</p>
+                                    </div>
+                                </div>
+                                <div class="shipping-total-bill">
+                                    <div class="cart-prices">
+                                        <span class="shipping-cost">0.00 đ</span>
+                                        <span>Vận chuyển (Tạm tính)</span>
+                                    </div>
+                                    <div class="total-shipping-prices">
+                                        <span class="shipping-total">{{total | number}} đ</span>
+                                        <span>Tổng</span>
+                                    </div>
+                                </div>
+                                <div class="shipping-checkout-btn">
+                                    <a style="cursor: pointer" ng-click="buycart()">Thanh toán  <i class="fa fa-chevron-right"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- SHOPPING-CART END -->
+            <!-- MAINMENU START -->
+            <div class="col-lg-9 col-md-9 col-sm-12 col-xs-12 no-padding-right menuarea">
+                <div class="mainmenu">
+                    <nav>
+                        <ul class="list-inline mega-menu">
+                            <li class="active"><a href="#index">Trang chủ</a> </li>
+                            <li> <a href="#sanpham">Sản Phẩm</a></li>
+                            <li> <a href="#chinhSach">Chính sách bảo hành và đổi trả</a></li>
+                            <li><a href="#contact">Liên hệ</a></li>
+                            <li><a href="#about">Về chúng tôi</a></li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+            <!-- MAINMENU END -->
+        </div>
+        <div class="row">
+            <!-- MOBILE MENU START -->
+            <div class="col-sm-12 mobile-menu-area">
+                <div class="mobile-menu hidden-md hidden-lg" id="mob-menu">
+                    <span class="mobile-menu-title">MENU</span>
+                    <nav>
+                        <ul>
+                            <li><a href="#">Home</a>
+                                <ul>
+                                    <li><a href="index.html">Home variation 1</a></li>
+                                    <li><a href="index-2.html">Home variation 2</a></li>
+                                </ul>
+                            </li>
+                            <li><a href="shop-gird.html">Women</a>
+                                <ul>
+                                    <li><a href="shop-gird.html">Tops</a>
+                                        <ul>
+                                            <li><a href="shop-gird.html">T-Shirts</a></li>
+                                            <li><a href="shop-gird.html">Blouses</a></li>
+                                        </ul>
+                                    </li>
+                                    <li><a href="shop-gird.html">Dresses</a>
+                                        <ul>
+                                            <li><a href="shop-gird.html">Casual Dresses</a></li>
+                                            <li><a href="shop-gird.html">Summer Dresses</a></li>
+                                            <li><a href="shop-gird.html">Evening Dresses</a></li>
+                                        </ul>
+                                    </li>
+
+                                </ul>
+                            </li>
+                            <li><a href="shop-gird.html">men</a>
+                                <ul>
+                                    <li><a href="shop-gird.html">Tops</a>
+                                        <ul>
+                                            <li><a href="shop-gird.html">Sports</a></li>
+                                            <li><a href="shop-gird.html">Day</a></li>
+                                            <li><a href="shop-gird.html">Evening</a></li>
+                                        </ul>
+                                    </li>
+                                    <li><a href="shop-gird.html">Blouses</a>
+                                        <ul>
+                                            <li><a href="shop-gird.html">Handbag</a></li>
+                                            <li><a href="shop-gird.html">Headphone</a></li>
+                                            <li><a href="shop-gird.html">Houseware</a></li>
+                                        </ul>
+                                    </li>
+                                    <li><a href="shop-gird.html">Accessories</a>
+                                        <ul>
+                                            <li><a href="shop-gird.html">Houseware</a></li>
+                                            <li><a href="shop-gird.html">Home</a></li>
+                                            <li><a href="shop-gird.html">Health & Beauty</a></li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li><a href="shop-gird.html">clothing</a></li>
+                            <li><a href="shop-gird.html">tops</a></li>
+                            <li><a href="shop-gird.html">T-shirts</a></li>
+                            <li><a href="#">Delivery</a></li>
+                            <li><a href="#about">About us</a></li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+            <!-- MOBILE MENU END -->
+        </div>
+    </div>
+</header>
+<section class="main-content-section" ng-controller="historyCtrl">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <!-- BSTORE-BREADCRUMB START -->
+                <div class="bstore-breadcrumb">
+                    <a href="#">Trang chủ</a>
+                    <span><i class="fa fa-caret-right	"></i></span>
+                    <span>Đơn hàng</span>
+                </div>
+                <!-- BSTORE-BREADCRUMB END -->
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <h2 class="page-title">Đơn hàng</h2>
+            </div>
+            <div class="account-info-text">
+                Chào mừng , ở đây bạn có thể quản lý tất cả thông tin cá nhân và đơn hàng của bạn
+            </div>
+            <!-- ACCOUNT-INFO-TEXT START -->
+            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
+                <div class="account-info">
+                    <div class="single-account-info">
+                        <ul>
+                            <li style="height: 45px"><a href="#changePass"><i class="fa fa-building"></i><span style="font-size: 10px">Đổi mật khẩu</span>	</a></li>
+                            <li style="height: 45px"><a href="#history/all"><i class="fa fa-list-ol"></i><span style="font-size: 10px">Đơn hàng</span>	</a></li>
+                            <li style="height: 45px"><a href="#"><i class="fa fa-file-o"></i><span style="font-size: 10px">Thẻ của tôi</span>	</a></li>
+                            <li style="height: 45px"><a href="#my-address"><i class="fa fa-building"></i><span style="font-size: 10px">Địa chỉ</span>	</a></li>
+                            <li style="height: 45px"><a href="#my-info"><i class="fa fa-user"></i><span style="font-size: 10px">Thông tin</span>	</a></li>
+                            <li style="height: 45px"><a href="#wishlist"><i class="fa fa-heart"></i><span style="font-size: 10px">Yêu thích</span>	</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-10 col-md-10 col-sm-10 col-xs-12" style="   box-shadow: #bbbbc1 -1px 0px 5px 0px;">
+                <div class="tracking">
+                    <nav>
+                        <ul class="list-tracking" >
+                            <li class="active"><a href="#history/all"  data-toggle="tab">Tất cả</a> </li>
+                            <li><a href="#history/0"  data-toggle="tab">Chờ xác nhận </a> </li>
+                            <li><a href="#history/1"  data-toggle="tab">Đang chuẩn bị </a> </li>
+                            <li > <a href="#history/2"  data-toggle="tab">Đang giao hàng</a> </li>
+                            <li> <a href="#history/3" data-toggle="tab">Hoàn thành</a></li>
+                            <li > <a href="#history/4" data-toggle="tab">Đã hủy</a></li>
+                            <li > <a href="#history/5"  data-toggle="tab">Trả hàng/hoàn hiền</a> </li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+
+            <div class=" col-lg-10 col-md-10 col-sm-10 col-xs-12 tab-content" >
+                    <div ng-if="donHang.length == 0"    >
+                    <div style="text-align: center; margin-top: 100px;">
+                        <img src="/assets/images/nothing-to-show.png" width="15%" alt=""></div>
+                    <div style="text-align: center; margin: 10px 0">Chưa có đơn hàng </div>
+                </div>
+                    <div ng-if="donHang.length > 0">
+                    <div class="shipping-cart"  when-scrolled="more()" style=" height:550px; color: red; overflow-x:auto;">
+                        <div ng-repeat="item in donHang " style="padding: 10px 0; margin: 20px 0; box-shadow: black 1px 1px 4px;">
+                            <br>
+                            <div style="font-size: medium; padding: 0 10px;position: relative">
+                                <div >Mã đơn hàng : {{item.maDonHang}}</div>
+                                <div >Ngày Tạo : {{item.ngayTao | date : "short"}}</div>
+                                <div ng-show="item.diaChi != null">Địa Chỉ : {{item.diaChi}}, {{item.phuongXa}} - {{item.quanHuyen}} -  {{item.tinhThanh}}</div>
+                                <span ng-if="item.trangThaiDonHang == 0" style="position: absolute; right: 32px;top: 10px;color: #3ab19c;text-transform: uppercase;">Đơn hàng chờ xác nhận</span>
+                                <span ng-if="item.trangThaiDonHang == 1" style="position: absolute; right: 32px;top: 10px;color: #3ab19c;text-transform: uppercase;">Người bán đang chuẩn bị đơn hàng</span>
+                                <span ng-if="item.trangThaiDonHang == 2" style="position: absolute; right: 32px;top: 10px;color: #3ab19c;text-transform: uppercase;">Đan hàng đang giao</span>
+                                <span ng-if="item.trangThaiDonHang == 3" style="position: absolute; right: 32px;top: 10px;color: #3ab19c;text-transform: uppercase;">Đơn hàng giao thành công</span>
+                                <span ng-if="item.trangThaiDonHang == 4" style="position: absolute; right: 32px;top: 10px;color: red;text-transform: uppercase;">Đơn hàng đã hủy</span>
+                                <span ng-if="item.trangThaiDonHang == 5" style="position: absolute; right: 32px;top: 10px;color: red;text-transform: uppercase;">Yêu cầu trả hàng  hoàn tiền</span>
+                                <span ng-if="item.trangThaiDonHang == 6" style="position: absolute; right: 32px;top: 10px;color: red;text-transform: uppercase;">Đơn đã hoàn tiền</span>
+                            </div>
+                        <div class="shipping-item"  ng-repeat="h in item.hoaDonChiTiets" style="line-height: 22px; padding: 10px;">
+                            <div class=" shipping-item-image" style="width: 10%">
+                                <a href="#/chitietsanpham/{{h.chiTietSanPham.sanPham.idSanPham}}"><img src="/assets/images/{{h.chiTietSanPham.sanPham.listAnhSanPham[0].link}}" width="100%" alt="shopping image" /></a>
+                            </div>
+                            <div class="shipping-item-text"  style="width: 87%; float: right">
+                                 <a href="#/chitietsanpham/{{h.chiTietSanPham.sanPham.idSanPham}}" class="pro-cat" style="font-size: 17px">{{h.chiTietSanPham.sanPham.tenSanPham}} </a>
+                                <div>{{h.soLuong}} <span class="pro-quan-x">x</span></div>
+                                <span class="pro-quality"><a href="#sanpham">Phân loại : {{h.chiTietSanPham.kichCo.tenKichCo}},{{h.chiTietSanPham.mauSac.tenMauSac}},{{h.chiTietSanPham.dayDeo.tenDayDeo}},{{h.chiTietSanPham.vatLieu.tenVatLieu}}</a></span>
+                                <ul class="price text-right" style="    position: absolute; right: 20px;top: 7px; " >
+                                    <li class="price special-price"> {{h.giaBan * h.soLuong | number}} đ </li>
+                                    <span ng-if="h.chietKhau == null"></span>
+                                    <span ng-if="h.chietKhau != null">
+										<li class="price-percent-reduction small">&nbsp;{{h.chietKhau}} %</li>
+									     <li class="old-price">{{h.giaBan * 100 /(100- h.chietKhau) | number}} đ/1sp</li>
+                                     </span>
+                                </ul>
+                            </div>
+                        </div>
+
+                            <div style="width: 30%;margin-left: 650px  ">
+                                <div class="shipping-total-bill" >
+                                    <div class="cart-prices" style="border: none">
+                                        <span class="shipping-cost" ng-show="item.phiVanChuyen != null">{{item.phiVanChuyen | number}} đ</span>
+                                        <span class="shipping-cost" ng-show="item.phiVanChuyen == null">0 đ</span>
+                                        <span>Vận chuyển</span>
+                                    </div>
+                                    <div class="total-shipping-prices" >
+                                        <span class="shipping-total" ng-show="item.phiVanChuyen != null">{{item.tongTien + item.phiVanChuyen | number}} đ</span>
+                                        <span class="shipping-cost" ng-show="item.phiVanChuyen == null">{{item.tongTien | number}} đ</span>
+
+                                        <span>Tổng</span>
+                                    </div>
+                                </div>
+<!--                                <div class="shipping-checkout-btn" style="    padding: 0 10px 20px; background: none">-->
+<!--                            <a href="#checkout"  style="background: #FF4F4F">Xem Chi tiết</a>-->
+<!--                        </div>-->
+                            </div>
+                        </div>
+                    </div>
+                    </div>
+
+            </div>
+            <!-- ACCOUNT-INFO-TEXT END -->
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <!-- BACK TO HOME START -->
+                <div class="home-link-menu">
+                    <ul>
+                        <li><a href="#index"><i class="fa fa-chevron-left"></i> Trang chủ</a></li>
+                    </ul>
+                </div>
+                <!-- BACK TO HOME END -->
+            </div>
+        </div>
+    </div>
+</section>
+<!-- MAIN-CONTENT-SECTION END -->

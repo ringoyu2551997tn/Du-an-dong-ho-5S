@@ -1,0 +1,223 @@
+<header class="main-menu-area" ng-controller="homeCtrl">
+	<div class="container">
+		<div class="row">
+			<!-- SHOPPING-CART START -->
+			<div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 pull-right shopingcartarea">
+				<div class="shopping-cart-out pull-right">
+					<div class="shopping-cart">
+						<a class="shop-link" href="#cart" title="View my shopping cart">
+							<i class="fa fa-shopping-cart cart-icon"></i>
+							<b>Giỏ hàng</b>
+							<span class="ajax-cart-quantity">{{totalSp}}</span>
+						</a>
+
+
+						<div class="shipping-cart-overly" style="overflow: scroll">
+							<div ng-if="cart.length == 0" class="text-center">
+								<span>K có sản phẩm nào</span>
+							</div>
+							<div ng-if="cart.length > 0">
+								<div class="shipping-item" ng-repeat="item in cart" ng-init="setTotals(item)">
+                                        <span class="cross-icon" ng-click="removeSP(item)"><i
+												class="fa fa-times-circle"></i></span>
+									<div class="shipping-item-image" style="width: 30%">
+										<a href="#/chitietsanpham/{{item.chiTietSanPham.sanPham.idSanPham}}"><img
+												src="/assets/images/{{item.chiTietSanPham.sanPham.listAnhSanPham[0].link}}"
+												alt="shopping image"/></a>
+									</div>
+									<div class="shipping-item-text" style="width: 60%; float: right">
+                                            <span>{{item.soLuongSanPham}} <span class="pro-quan-x">x</span> <a href="#"
+																											   class="pro-cat">{{item.chiTietSanPham.sanPham.tenSanPham}} </a></span>
+
+										<span class="pro-quality"><a href="#sanpham">{{item.chiTietSanPham.dayDeo.tenDayDeo}},{{item.chiTietSanPham.vatLieu.tenVatLieu}}</a></span>
+										<span class="pro-quality"><a href="#sanpham">{{item.chiTietSanPham.kichCo.tenKichCo}},{{item.chiTietSanPham.mauSac.tenMauSac}}</a></span>
+										<p>{{item.giaBan | number}} đ</p>
+									</div>
+								</div>
+								<div class="shipping-total-bill">
+									<div class="cart-prices">
+										<span class="shipping-cost">0.00 đ</span>
+										<span>Vận chuyển (Tạm tính)</span>
+									</div>
+									<div class="total-shipping-prices">
+										<span class="shipping-total">{{total | number}} đ</span>
+										<span>Tổng</span>
+									</div>
+								</div>
+								<div class="shipping-checkout-btn">
+									<a style="cursor: pointer" ng-click="buycart()">Thanh toán  <i class="fa fa-chevron-right"></i></a>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- SHOPPING-CART END -->
+			<!-- MAINMENU START -->
+			<div class="col-lg-9 col-md-9 col-sm-12 col-xs-12 no-padding-right menuarea">
+				<div class="mainmenu">
+					<nav>
+						<ul class="list-inline mega-menu">
+							<li class="active"><a href="#index">Trang chủ</a> </li>
+							<li> <a href="#sanpham">Sản Phẩm</a></li>
+							<li> <a href="#chinhSach">Chính sách bảo hành và đổi trả</a></li>
+							<li><a href="#contact">Liên hệ</a></li>
+							<li><a href="#about">Về chúng tôi</a></li>
+						</ul>
+					</nav>
+				</div>
+			</div>
+			<!-- MAINMENU END -->
+		</div>
+		<div class="row">
+			<!-- MOBILE MENU START -->
+			<div class="col-sm-12 mobile-menu-area">
+				<div class="mobile-menu hidden-md hidden-lg" id="mob-menu">
+					<span class="mobile-menu-title">MENU</span>
+					<nav>
+						<ul>
+							<li><a href="#">Home</a>
+								<ul>
+									<li><a href="index.html">Home variation 1</a></li>
+									<li><a href="index-2.html">Home variation 2</a></li>
+								</ul>
+							</li>
+							<li><a href="shop-gird.html">Women</a>
+								<ul>
+									<li><a href="shop-gird.html">Tops</a>
+										<ul>
+											<li><a href="shop-gird.html">T-Shirts</a></li>
+											<li><a href="shop-gird.html">Blouses</a></li>
+										</ul>
+									</li>
+									<li><a href="shop-gird.html">Dresses</a>
+										<ul>
+											<li><a href="shop-gird.html">Casual Dresses</a></li>
+											<li><a href="shop-gird.html">Summer Dresses</a></li>
+											<li><a href="shop-gird.html">Evening Dresses</a></li>
+										</ul>
+									</li>
+
+								</ul>
+							</li>
+							<li><a href="shop-gird.html">men</a>
+								<ul>
+									<li><a href="shop-gird.html">Tops</a>
+										<ul>
+											<li><a href="shop-gird.html">Sports</a></li>
+											<li><a href="shop-gird.html">Day</a></li>
+											<li><a href="shop-gird.html">Evening</a></li>
+										</ul>
+									</li>
+									<li><a href="shop-gird.html">Blouses</a>
+										<ul>
+											<li><a href="shop-gird.html">Handbag</a></li>
+											<li><a href="shop-gird.html">Headphone</a></li>
+											<li><a href="shop-gird.html">Houseware</a></li>
+										</ul>
+									</li>
+									<li><a href="shop-gird.html">Accessories</a>
+										<ul>
+											<li><a href="shop-gird.html">Houseware</a></li>
+											<li><a href="shop-gird.html">Home</a></li>
+											<li><a href="shop-gird.html">Health & Beauty</a></li>
+										</ul>
+									</li>
+								</ul>
+							</li>
+							<li><a href="shop-gird.html">clothing</a></li>
+							<li><a href="shop-gird.html">tops</a></li>
+							<li><a href="shop-gird.html">T-shirts</a></li>
+							<li><a href="#">Delivery</a></li>
+							<li><a href="#about">About us</a></li>
+						</ul>
+					</nav>
+				</div>
+			</div>
+			<!-- MOBILE MENU END -->
+		</div>
+	</div>
+</header>
+<!-- MAIN-CONTENT-SECTION START -->
+<section class="main-content-section">
+
+	<div class="container">
+		<div class="row">
+			<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+				<!-- BSTORE-BREADCRUMB START -->
+				<div class="bstore-breadcrumb">
+					<a href="#index">HOMe</a>
+					<span><i class="fa fa-caret-right	"></i></span>
+					<span>About us</span>
+				</div>
+				<!-- BSTORE-BREADCRUMB END -->
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+				<h2 class="page-title about-page-title">About us</h2>
+			</div>
+			<div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+				<!-- SINGLE-ABOUT-INFO START -->
+				<div class="single-about-info">
+					<div class="our-company">
+						<h3>Our company</h3>
+						<strong>Lorem ipsum dolor sit amet conse ctetur adipisicing elit, sed do eiusmod tempor incididun.</strong>
+						<p>Lorem ipsum dolor sit amet conse ctetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam. Lorem ipsum dolor sit amet conse ctetur adipisicing elit.</p>
+						<div class="company-list-menu">
+							<ul>
+								<li>Top quality products</li>
+								<li>Best customer service</li>
+								<li>30-days money back guarantee</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+				<!-- SINGLE-ABOUT-INFO END -->
+			</div>
+			<div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+				<div class="single-about-info">
+					<!-- OUR-TEAM START -->
+					<div class="our-team">
+						<h3>Our team</h3>
+						<strong>Lorem set sint occaecat cupidatat non </strong>
+						<p>Eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo.</p>
+						<p>Eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo.</p>
+						<p>Eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo.</p>
+					</div>
+					<!-- OUR-TEAM END -->
+				</div>
+			</div>
+			<div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+				<div class="single-about-info">
+					<!-- OUR-TESTIMONIALS START -->
+					<div class="our-testimonials">
+						<h3>Testimonials</h3>
+						<!-- SINGLE-TESTIMONIALS START -->
+						<div class="single-testimonials">
+							<div class="testimonials-text">
+								<span class="before"></span>
+								Lorem ipsum dolor sit amet conse ctetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim.
+								<span class="after"></span>
+							</div>
+						</div>
+						<p>Lorem ipsum dolor sit</p>
+						<!-- SINGLE-TESTIMONIALS END -->
+						<!-- SINGLE-TESTIMONIALS START -->
+						<div class="single-testimonials">
+							<div class="testimonials-text">
+								<span class="before"></span>
+								Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Lorem ipsum dolor sit amet conse ctetur adipisicing elit. Lorem ipsum dolor sit amet conse ctetur adipisicing elit, sed do eiusmod.
+								<span class="after"></span>
+							</div>
+						</div>
+						<p>Ipsum dolor sit</p>
+						<!-- SINGLE-TESTIMONIALS END -->
+					</div>
+					<!-- OUR-TESTIMONIALS END -->
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+<!-- MAIN-CONTENT-SECTION END -->

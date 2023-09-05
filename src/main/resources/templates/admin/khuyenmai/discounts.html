@@ -1,0 +1,118 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="admin/fragment/fragments:: page_head"></head>
+
+<body class="sb-nav-fixed">
+<div th:replace="admin/fragment/navigation:: navbar"></div>
+<div id="layoutSidenav">
+    <div th:replace="admin/fragment/navigation:: menu"></div>
+
+    <div id="layoutSidenav_content">
+        <main style="margin-left: 10px">
+    <div>
+        <h2>Quản lý Danh Mục</h2>
+        <a style="text-decoration: none" th:href="@{/admin/discounts/new}">
+            <i style="color: green" class="fas fa-plus"></i>
+        </a>
+        &nbsp;|&nbsp;
+        <a style="text-decoration: none" th:href="@{/admin/discounts/export/excel}">
+            <i class="far fa-file-excel"></i>
+        </a>
+    </div>
+
+    <div th:if="${message != null}" class="alert alert-success text-center">
+        [[${message}]]
+    </div>
+
+
+    <div>
+        <form th:action="@{/admin/discounts/page/1}" class="form-inline m-3">
+            <div class="d-flex align-items-center">
+                <input type="hidden" name="sortField" th:value="${sortField}" />
+                <input type="hidden" name="sortDir" th:value="${sortDir}" />
+                <label class="sr-only">Tìm Kiếm</label>
+                <input style="width: 250px; margin-right: 10px" type="search" name="keyword" th:value="${keyword}" placeholder="nhập từ khóa tìm kiếm" class="form-control" required />
+                <input style="margin-right: 10px" type="submit" value="Search" class="btn btn-primary ml-2" />
+                <input type="button" value="Clear" class="btn btn-secondary ml-2" onclick="clearFilter()"/>
+            </div>
+        </form>
+
+    </div>
+
+    <div class="full-details">
+        <table class="table table-bordered table-striped table-hover table-responsive-xl">
+            <thead class="thead-dark">
+            <tr>
+                <th th:replace="admin/fragment/fragments::khuyenmai_link('idKhuyenMai', 'ID')"></th>
+                <th th:replace="admin/fragment/fragments::khuyenmai_link('maKhuyenMai', 'Mã Khuyến Mãi')"></th>
+                <th th:replace="admin/fragment/fragments::khuyenmai_link('tenKhuyenMai', 'Tên Khuyến Mãi')"></th>
+                <th th:replace="admin/fragment/fragments::khuyenmai_link('moTaKhuyenMai', 'Mô Tả Khuyến Mãi')"></th>
+                <th th:replace="admin/fragment/fragments::khuyenmai_link('ngayBatDau', 'Ngày Bắt Đầu')"></th>
+                <th th:replace="admin/fragment/fragments::khuyenmai_link('ngayKetThuc', 'Ngày Kết Thúc')"></th>
+                <th th:replace="admin/fragment/fragments::khuyenmai_link('chietKhau', 'ChietKhau')"></th>
+                <th th:replace="admin/fragment/fragments::khuyenmai_link('enabled', 'Enabled')"></th>
+
+                <Th>Action</Th>
+
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="km :${listKhuyenMai}">
+                <td>[[${km.idKhuyenMai}]]</td>
+                <td>[[${km.maKhuyenMai}]]</td>
+                <td>[[${km.tenKhuyenMai}]]</td>
+                <td>[[${km.moTaKhuyenMai}]]</td>
+                <td>[[${km.ngayBatDau}]]</td>
+                <td>[[${km.ngayKetThuc}]]</td>
+                <td>[[${km.chietKhau}]]</td>
+                <td>[[${km.enabled}]]</td>
+                <td>
+                    <a class="icon-green" style="text-decoration: none" th:href="@{'/admin/discounts/edit/' + ${km.idKhuyenMai}}" title="Thay đổi thông tin">
+                        <i style="color: blue" class="fas fa-edit"></i>
+                    </a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="text-center m-1" th:if="${totalItem > 0}">
+        <span>Hiển thị Khuyến Mãi # [[${startCount}]] to [[${endCount}]] of [[${totalItem}]] </span>
+    </div>
+    <div class="text-center m-1" th:unless="${totalItem > 0}">
+        <span>Không có Khuyến Mãi trang này</span>
+    </div>
+
+    <div th:if="${totalPages > 1}">
+        <nav>
+            <ul class="pagination justify-content-center">
+                <li th:class="${currentPage > 1 ?'page-item' : 'page-item disabled'}">
+                    <a th:replace="admin/fragment/fragments::pagesdiscounts_link(1, 'Trang Đầu')" ></a>
+                </li>
+                <li th:class="${currentPage > 1 ?'page-item' : 'page-item disabled'}">
+                    <a th:replace="admin/fragment/fragments::pagesdiscounts_link(${currentPage - 1}, Trước)"></a>
+                </li>
+                <li th:class="${currentPage != i ? 'page-item': 'page-item active' }"
+                    th:each="i : ${#numbers.sequence(1,totalPages)}">
+                    <a th:replace="admin/fragment/fragments::pagesdiscounts_link(${i}, ${i})"></a>
+                </li>
+
+                <li th:class="${currentPage < totalPages ? 'page-item' : 'page-item disabled'}">
+                    <a th:replace="admin/fragment/fragments::pagesdiscounts_link(${currentPage + 1}, Sau)"></a>
+                </li>
+                <li th:class="${currentPage < totalPages ? 'page-item' : 'page-item disabled'}">
+                    <a th:replace="admin/fragment/fragments::pagesdiscounts_link(${totalPages}, 'Trang Cuối')"></a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+
+
+
+        </main>
+        <div th:replace="admin/fragment/fragments::footer"></div>
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,133 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragment/fragments:: page_head(${pageTitle})"/>
+<body>
+<div class="container-fluid">
+    <div th:replace="fragment/navigation:: menu"></div>
+
+
+    <form th:action="@{/account/update}" method="post" style="max-width: 700px;margin: 0 auto"
+          enctype="multipart/form-data"
+        th:object="${nhanVien}">
+        <input type="hidden" th:field="*{id}"/>
+        <div class="text-center">
+            <h2>Tài Khoản Của Tôi</h2>
+        </div>
+
+        <div th:if="${message != null}" class="alert alert-success text-center">
+            [[${message}]]
+        </div>
+
+        <div class="border border-secondary rounded p-3">
+            <div class="form-group-row">
+                <label class="col-sm-4 col-form-label">E-mail:</label>
+                <div class="col-sm-12">
+                    <input style="color: #6c757d" type="email" class="form-control" th:field="*{email}" id="email" readonly="readonly"/>
+                </div>
+            </div>
+
+            <div class="form-group-row">
+                <label class="col-sm-4 col-form-label">Họ:</label>
+                <div class="col-sm-12">
+                    <input type="text" class="form-control" th:field="*{ho}" required minlength="2" maxlength="45"/>
+                </div>
+            </div>
+
+            <div class="form-group-row">
+                <label class="col-sm-4 col-form-label">Tên:</label>
+                <div class="col-sm-12">
+                    <input type="text" class="form-control" th:field="*{ten}" required minlength="2" maxlength="45"/>
+                </div>
+            </div>
+
+            <div class="form-group-row">
+                <label class="col-sm-4 col-form-label">Mật Khẩu:</label>
+                <div class="col-sm-12">
+                    <input type="password" th:field="*{matKhau}" class="form-control"
+                           placeholder="Để Trống nếu không muốn đổi mật khẩu"
+                           minlength="8" maxlength="20"
+                           id="password"
+                           oninput="checkPasswordMatch(document.getElementById('confirmPassword'))"
+
+                    />
+                </div>
+            </div>
+
+            <div class="form-group-row">
+                <label class="col-sm-4 col-form-label"> Xác Nhận Mật Khẩu:</label>
+                <div class="col-sm-12">
+                    <input type="password" id="confirmPassword" class="form-control"
+                           placeholder="Xác nhận mật khẩu"
+                           minlength="8" maxlength="20"
+                           oninput="checkPasswordMatch(confirmPassword)"
+                    />
+                </div>
+            </div>
+
+            <div class="form-group-row">
+                <label class="col-sm-4 col-form-label">Địa Chỉ:</label>
+                <div class="col-sm-12">
+                    <input type="text" class="form-control" th:field="*{diaChi}" required minlength="8" maxlength="128"/>
+                </div>
+            </div>
+
+            <div class="form-group-row">
+                <label class="col-sm-4 col-form-label">Số Điện Thoại:</label>
+                <div class="col-sm-12">
+                    <input type="number" class="form-control" th:field="*{soDienThoai}" required minlength="10" maxlength="12"/>
+                </div>
+            </div>
+
+            <div class="form-group-row">
+                <label class="col-sm-4 col-form-label">Chức Vụ:</label>
+                <div class="col-sm-12">
+                    <span><b>[[${nhanVien.chucVu}]]</b></span>
+                </div>
+            </div>
+
+            <div class="form-group-row">
+                <label class="col-sm-4 col-form-label">Trạng Thái:</label>
+                <div class="col-sm-12">
+                    <input type="checkbox" th:field="*{enabled}">
+                </div>
+            </div>
+
+            <div class="form-group-row">
+                <label class="col-sm-4 col-form-label">Ảnh:</label>
+                <div class="col-sm-12">
+                    <input type="hidden" th:field="*{anh}">
+                    <input type="file" id="fileImage" name="image" accept="image/png, images/jpeg"
+                        class="mb-2"
+                    />
+                    <img id="thumbnail" alt="Photo priview" th:src="@{${nhanVien.getPhotoImagesPath}}"
+                        class="img-fluid"
+                    />
+
+                </div>
+            </div>
+
+            <div class="text-center">
+                <input type="submit" value="Save" class="btn btn-primary m-3" id="submitButton"/>
+                <input type="button" value="Cancel" class="btn btn-secondary" id="buttonCancel">
+            </div>
+        </div>
+    </form>
+
+
+    <div th:replace="fragment/fragments::footer"></div>
+</div>
+
+<script type="text/javascript">
+    moduleURL= "[[@{/}]]";
+        function checkPasswordMatch(confirmPassword) {
+        if (confirmPassword.value !== document.getElementById('password').value) {
+        confirmPassword.setCustomValidity("Xác Nhận Mật Khẩu Sai");
+    } else {
+        confirmPassword.setCustomValidity("");
+    }
+    }
+</script>
+<script th:src="@{/js/index_form.js}"></script>
+
+</body>
+</html>

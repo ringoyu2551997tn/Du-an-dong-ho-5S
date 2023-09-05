@@ -1,0 +1,397 @@
+<!-- MAIN-CONTENT-SECTION START -->
+<header class="main-menu-area" ng-controller="homeCtrl">
+	<div class="container">
+		<div class="row">
+			<!-- SHOPPING-CART START -->
+			<div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 pull-right shopingcartarea">
+				<div class="shopping-cart-out pull-right">
+					<div class="shopping-cart">
+						<a class="shop-link" href="#cart" title="View my shopping cart">
+							<i class="fa fa-shopping-cart cart-icon"></i>
+							<b>Giỏ hàng</b>
+							<span class="ajax-cart-quantity">{{totalSp}}</span>
+						</a>
+
+
+						<div class="shipping-cart-overly" style="overflow: scroll">
+							<div ng-if="cart.length == 0" class="text-center">
+								<span>K có sản phẩm nào</span>
+							</div>
+							<div ng-if="cart.length > 0">
+								<div class="shipping-item" ng-repeat="item in cart" ng-init="setTotals(item)">
+                                        <span class="cross-icon" ng-click="removeSP(item)"><i
+												class="fa fa-times-circle"></i></span>
+									<div class="shipping-item-image" style="width: 30%">
+										<a href="#/chitietsanpham/{{item.chiTietSanPham.sanPham.idSanPham}}"><img
+												src="/assets/images/{{item.chiTietSanPham.sanPham.listAnhSanPham[0].link}}"
+												alt="shopping image"/></a>
+									</div>
+									<div class="shipping-item-text" style="width: 60%; float: right">
+                                            <span>{{item.soLuongSanPham}} <span class="pro-quan-x">x</span> <a href="#"
+																											   class="pro-cat">{{item.chiTietSanPham.sanPham.tenSanPham}} </a></span>
+										<span class="pro-quality"><a href="#sanpham">{{item.chiTietSanPham.kichCo.tenKichCo}},{{item.chiTietSanPham.mauSac.tenMauSac}}</a></span>
+										<span class="pro-quality"><a href="#sanpham">{{item.chiTietSanPham.dayDeo.tenDayDeo}},{{item.chiTietSanPham.vatLieu.tenVatLieu}}</a></span>
+										<p>{{item.giaBan | number}} đ</p>
+									</div>
+								</div>
+								<div class="shipping-total-bill">
+									<div class="cart-prices">
+										<span class="shipping-cost">0.00 đ</span>
+										<span>Vận chuyển(Tạm tính)</span>
+									</div>
+									<div class="total-shipping-prices">
+										<span class="shipping-total">{{total | number}} đ</span>
+										<span>Tổng</span>
+									</div>
+								</div>
+								<div class="shipping-checkout-btn">
+									<a style="cursor: pointer" ng-click="buycart()">Thanh toán  <i class="fa fa-chevron-right"></i></a>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- SHOPPING-CART END -->
+			<!-- MAINMENU START -->
+			<div class="col-lg-9 col-md-9 col-sm-12 col-xs-12 no-padding-right menuarea">
+				<div class="mainmenu">
+					<nav>
+						<ul class="list-inline mega-menu">
+							<li class="active"><a href="#index">Trang chủ</a> </li>
+							<li> <a href="#sanpham">Sản Phẩm</a></li>
+							<li> <a href="#chinhSach">Chính sách bảo hành và đổi trả</a></li>
+							<li><a href="#contact">Liên hệ</a></li>
+							<li><a href="#about">Về chúng tôi</a></li>
+						</ul>
+					</nav>
+				</div>
+			</div>
+			<!-- MAINMENU END -->
+		</div>
+		<div class="row">
+			<!-- MOBILE MENU START -->
+			<div class="col-sm-12 mobile-menu-area">
+				<div class="mobile-menu hidden-md hidden-lg" id="mob-menu">
+					<span class="mobile-menu-title">MENU</span>
+					<nav>
+						<ul>
+							<li><a href="#">Home</a>
+								<ul>
+									<li><a href="index.html">Home variation 1</a></li>
+									<li><a href="index-2.html">Home variation 2</a></li>
+								</ul>
+							</li>
+							<li><a href="shop-gird.html">Women</a>
+								<ul>
+									<li><a href="shop-gird.html">Tops</a>
+										<ul>
+											<li><a href="shop-gird.html">T-Shirts</a></li>
+											<li><a href="shop-gird.html">Blouses</a></li>
+										</ul>
+									</li>
+									<li><a href="shop-gird.html">Dresses</a>
+										<ul>
+											<li><a href="shop-gird.html">Casual Dresses</a></li>
+											<li><a href="shop-gird.html">Summer Dresses</a></li>
+											<li><a href="shop-gird.html">Evening Dresses</a></li>
+										</ul>
+									</li>
+
+								</ul>
+							</li>
+							<li><a href="shop-gird.html">men</a>
+								<ul>
+									<li><a href="shop-gird.html">Tops</a>
+										<ul>
+											<li><a href="shop-gird.html">Sports</a></li>
+											<li><a href="shop-gird.html">Day</a></li>
+											<li><a href="shop-gird.html">Evening</a></li>
+										</ul>
+									</li>
+									<li><a href="shop-gird.html">Blouses</a>
+										<ul>
+											<li><a href="shop-gird.html">Handbag</a></li>
+											<li><a href="shop-gird.html">Headphone</a></li>
+											<li><a href="shop-gird.html">Houseware</a></li>
+										</ul>
+									</li>
+									<li><a href="shop-gird.html">Accessories</a>
+										<ul>
+											<li><a href="shop-gird.html">Houseware</a></li>
+											<li><a href="shop-gird.html">Home</a></li>
+											<li><a href="shop-gird.html">Health & Beauty</a></li>
+										</ul>
+									</li>
+								</ul>
+							</li>
+							<li><a href="shop-gird.html">clothing</a></li>
+							<li><a href="shop-gird.html">tops</a></li>
+							<li><a href="shop-gird.html">T-shirts</a></li>
+							<li><a href="#">Delivery</a></li>
+							<li><a href="#about">About us</a></li>
+						</ul>
+					</nav>
+				</div>
+			</div>
+			<!-- MOBILE MENU END -->
+		</div>
+	</div>
+</header>
+<section class="main-content-section" ng-controller="ThanhToanCtrl">
+	<div class="container">
+		<div class="row">
+			<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+				<!-- BSTORE-BREADCRUMB START -->
+				<div class="bstore-breadcrumb">
+					<a href="#index">HOMe</a>
+					<span><i class="fa fa-caret-right"></i></span>
+					<span>Thanh toán</span>
+				</div>
+				<!-- BSTORE-BREADCRUMB END -->
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+				<!-- ADDRESS AREA START -->
+					<div class="form-group primary-form-group p-info-group deli-address-group">
+						<h2>Thông tin khách hàng</h2>
+						<p>Tên khách hàng: {{diaChiGiaoHang.khachHang.tenKhachHang}}</p>
+						<div>
+						<p>Số điện thoại: {{diaChiGiaoHang.soDienThoai}}</p>
+						<label>Địa chỉ nhận hàng:</label>
+						<p>
+							{{diaChiGiaoHang.diaChi}} , {{diaChiGiaoHang.phuongXa}} - {{diaChiGiaoHang.quanHuyen}} - {{diaChiGiaoHang.thanhPho}}
+						</p>
+						</p>
+							<a type="button"  data-toggle="modal" data-target="#myModal6"
+							   style="position: absolute; left: 350px;top: 5px;color: red; cursor: pointer"  >
+								Đổi địa chỉ
+							</a>
+						<a type="button"  class="btn btn-success" data-toggle="modal" data-target="#myModal5"
+						   style="position: absolute; left: 450px;top: 5px;color: white; cursor: pointer"  >
+							Thêm địa chỉ mới
+						</a>
+						</div>
+						<!-- Modal -->
+						<div class="modal fade" id="myModal5" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+						 >
+							<div class="modal-dialog" role="document">
+								<div class="modal-content" style="top: 100px">
+									<div class="modal-header">
+										<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+												aria-hidden="true">&times;</span></button>
+										<h4 class="modal-title" id="myModalLab">Cập nhập địa chỉ</h4>
+									</div>
+									<!--    modal body-->
+									<div class="modal-body" style=" padding: 20px 45px;">
+
+										<div class=" form-group primary-form-group p-info-group" style="display: flex">
+											<div class="col-4" style="width: 40%">
+												<label>Phường xã <sup>*</sup></label>
+												<select id="input" class="form-select" name="phuongXa" ng-model="phuongXa"  style="width: 97%">
+													<option ng-repeat ="(key,value) in pxMap" ng-value="key">
+														{{value}}
+													</option>
+												</select>
+											</div>
+											<div class="col-4" style="width: 40%">
+												<label >Quận huyện <sup>*</sup></label>
+												<select id="inptQH" class="form-select"  name="quanHuyen"   ng-model="quanHuyen"  style="width: 97%">
+													<option ng-repeat ="(key,value) in qhMap" ng-value="key" >
+														{{value}}
+													</option>
+												</select>
+											</div>
+											<div class="col-3" style="width: 30%">
+												<label>Thành Phố <sup> *</sup></label>
+												<select id="inpuTP" class="form-select" name="thanhPho" ng-model="thanhPho" style="width: 100%">
+													<option ng-repeat ="(key,value) in tpMap" ng-value="key">
+														{{value}}
+													</option>
+												</select>
+											</div>
+
+										</div>
+										<div class="form-group primary-form-group p-info-group">
+											<label > Địa chỉ cụ thể  <sup> *</sup></label>
+											<input type="text"
+												   name="diaChi"
+												   ng-model="diachi.diachiChiTiet"
+												   required id="diahi" class="form-control">
+
+										</div>
+										<div class="form-group primary-form-group p-info-group">
+											<label > Số điện thoại<sup> *</sup></label>
+											<input type="text"
+												   name="sdt"
+												   ng-model="diachi.sdt"
+												   required id="soDieThoai" class="form-control">
+
+										</div>
+										<div class="form-group primary-form-group p-info-group">
+											<label > Ghi chú  <sup> *</sup></label>
+											<input type="text"
+												   name="ghiChu"
+												   ng-model="diachi.ghichu"
+												   required  class="form-control">
+
+										</div>
+										<span class="text-danger" ng-bind="error"></span>
+									</div>
+									<div class="modal-footer">
+										<button type="button" class="btn btn-default" data-dismiss="modal">Close
+										</button>
+										<button type="button" class="btn btn-primary" ng-click="themDiaChi()"
+												style="background: red">Xác nhận
+										</button>
+									</div>
+									<!-- modal body-->
+								</div>
+							</div>
+						</div>
+						<!--     modal-->
+						<!-- Modal -->
+						<div class="modal fade" id="myModal6" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+						>
+							<div class="modal-dialog" role="document">
+								<div class="modal-content" style="top: 100px">
+									<div class="modal-header">
+										<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+												aria-hidden="true">&times;</span></button>
+										<h4 class="modal-title" id="myMdalLab">Thay đổi địa chỉ</h4>
+									</div>
+									<!--    modal body-->
+									<div class="modal-body" style=" padding: 20px 45px;">
+										<div class="shipping-cart"  style=" overflow-x:auto;">
+											<br>
+											<div class="shipping-item" ng-repeat="dc in diaChiGiaoHangs" style="line-height: 22px; padding: 10px; position: relative;color: black; font-size: 13px">
+												<div class="shipping-item-text"  style="width: 100%; float: right">
+													<div>Số điện thoại :{{dc.soDienThoai}}</div>
+													<div> Đia chỉ :{{dc.phuongXa}} , {{dc.quanHuyen}}, {{dc.thanhPho}}  </div>
+													<div> Địa chỉ cụ thể :{{dc.diaChi}}</div>
+													<div ng-show="dc.ghiChu != null">Ghi chú : {{dc.ghiChu}}</div>
+												</div>
+												<a data-toggle="modal" data-target="#myModal3"
+												   style="position: absolute; right: 32px;top: 10px;color: #3ab19c; cursor: pointer"  ng-click="changeDC(dc)" >
+													Chọn
+												</a>
+											</div>
+										</div>
+									</div>
+									<div class="modal-footer">
+										<button type="button" class="btn btn-default" data-dismiss="modal">Close
+										</button>
+
+									</div>
+									<!-- modal body-->
+								</div>
+							</div>
+						</div>
+						<!--     modal-->
+					</div>
+				<br>
+				<!-- CART TABLE_BLOCK START -->
+				<div class="table-responsive">
+					<!-- TABLE START -->
+					<table class="table table-bordered" id="cart-summary">
+						<!-- TABLE HEADER START -->
+						<thead>
+						<tr>
+							<th class="cart-product">Sản phẩm</th>
+							<th class="cart-description">Mô tả</th>
+							<th class="cart-availability text-center">Availability</th>
+							<th class="cart-unit text-right">Giá bán</th>
+							<th class="cart_quantity text-center">Số lượng</th>
+							<th class="cart-total text-right">Tổng tiền</th>
+						</tr>
+						</thead>
+						<!-- TABLE HEADER END -->
+						<!-- TABLE BODY START -->
+						<tbody>
+						<!-- SINGLE CART_ITEM START -->
+						<tr ng-repeat="item in listHoaDonChiTietRequest">
+							<td class="cart-product">
+								<a href="#">
+									<img alt="Faded" src="../assets/images/{{item.chiTietSanPham.sanPham.listAnhSanPham[0].link}}">
+								</a>
+							</td>
+							<td class="cart-description">
+								<p class="product-name"><a href="#">{{item.chiTietSanPham.sanPham.tenSanPham}}</a></p>
+								<small>Vật Liệu : {{item.chiTietSanPham.vatLieu.tenVatLieu}}</small>
+								<small>Dây đeo : {{item.chiTietSanPham.dayDeo.tenDayDeo}}</small>
+								<small><a href="#">Size : {{item.chiTietSanPham.kichCo.tenKichCo}}, Màu : {{item.chiTietSanPham.mauSac.tenMauSac}}</a></small>
+							</td>
+							<td class="cart-avail">
+								<span class="label label-success">In stock</span>
+							</td>
+							<!--Todo xử lý khuyến mại-->
+							<td class="cart-unit" >
+								<ul class="price text-right">
+									<li class="price special-price">{{item.giaSanPham}}</li>
+									<li class="old-price">{{item.giaSanPham}}</li>
+									<li class="price-percent-reduction">{{item.giaBan}}</li>
+								</ul>
+							</td>
+							<td class="cart_quantity text-center">
+								<span>{{item.soLuong}}</span>
+							</td>
+							<td class="cart-total">
+								<span class="price">{{item.giaBan * item.soLuong}}</span>
+							</td>
+						</tr>
+						<!-- SINGLE CART_ITEM END -->
+						</tbody>
+						<!-- TABLE BODY END -->
+						<!-- TABLE FOOTER START -->
+						<tfoot>
+						<tr>
+							<td class="text-right" colspan="4">Tổng tiền sản phẩm</td>
+							<td class="price" colspan="2">{{tongTien}}</td>
+						</tr>
+						<tr>
+							<td class="text-right" colspan="4">Tiền ship</td>
+							<td class="price" colspan="2">{{fee}} đ</td>
+						</tr>
+						<tr>
+							<td class="total-price-container text-right" colspan="4">
+								<span>Tổng thanh toán</span>
+							</td>
+							<td id="total-price-container" class="price" colspan="2">
+								<span id="total-price">{{tongTien + fee}}</span>
+							</td>
+						</tr>
+						</tfoot>
+						<!-- TABLE FOOTER END -->
+					</table>
+					<!-- TABLE END -->
+				</div>
+				<!-- CART TABLE_BLOCK END -->
+			</div>
+			<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+				<!-- FOUR-PAYMENT-METHOD START -->
+				<div class="four-payment-method">
+					<!-- SINGLE-PAYMENT-METHOD START -->
+					<div class="single-payment-method payment-method-two">
+						<a style="cursor: pointer" ng-click="thanhToan(false)">Thanh toán sau<span> (xử lý đơn hàng sẽ lâu hơn)</span><i class="fa fa-chevron-right"></i></a>
+					</div>
+					<!-- SINGLE-PAYMENT-METHOD END -->
+					<!-- SINGLE-PAYMENT-METHOD START -->
+					<div class="single-payment-method payment-method-three">
+						<a style="cursor: pointer" ng-click="thanhToan(true)">Thanh toán VNPay<span> (xử lý đơn hàng sẽ nhanh hơn)</span><i class="fa fa-chevron-right"></i></a>
+					</div>
+					<!-- SINGLE-PAYMENT-METHOD END -->
+				</div>
+				<!-- FOUR-PAYMENT-METHOD END -->
+			</div>
+			<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+				<!-- RETURNE-CONTINUE-SHOP START -->
+				<div class="returne-continue-shop">
+					<a style="cursor: pointer" href="#index" class="continueshoping"><i class="fa fa-chevron-left"></i>Tiếp tục mua hàng</a>
+				</div>
+				<!-- RETURNE-CONTINUE-SHOP END -->
+			</div>
+		</div>
+	</div>
+</section>
+<!-- MAIN-CONTENT-SECTION END -->
